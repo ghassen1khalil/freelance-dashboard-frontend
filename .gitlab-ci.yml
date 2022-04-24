@@ -14,7 +14,7 @@ build:
   image: node:17
   script:
     - echo "Executing 'npm install' ..."
-    - npm install
+    - cd freelance-dashboard && npm install
 sast:
   stage: test
 include:
