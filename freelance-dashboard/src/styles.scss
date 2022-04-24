@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~gridlex/dist/gridlex.min.css';
+
+body {
+  font-family: 'Ramaraja', sans-serif;
+  padding: 2em;
+}
+
+@font-face {
+  font-family: 'Ramaraja', sans-serif;
+}
+
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.show-outline {
+  outline: 1px dashed red;
+}
+
+
+.fd-flex {
+  display: flex;
+}
+
+.fd-flex-column {
+  flex-direction: column;
+}
+
+.fd-flex-row {
+  flex-direction: row;
+}
+
+.fd-space-between {
+  justify-content: space-between;
+}
+
+.fd-full-width {
+  width: 100%;
+}

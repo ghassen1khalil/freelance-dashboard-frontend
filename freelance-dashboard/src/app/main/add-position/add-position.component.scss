@@ -1,0 +1,28 @@
+form {
+  max-width: 700px;
+}
+
+.full-remote{
+  width: max-content;
+}
+
+.address {
+  width: 100%;
+  margin-right: 24px;
+}
+
+.save-btn {
+  //width: 100%;
+}
+
+::ng-deep .p-fieldset {
+  width: 100%;
+}
+
+.p-inputgroup-test {
+  display:flex;align-items:stretch;width:100%
+}
+
+::ng-deep .p-button-label {
+  width: max-content;
+}

@@ -1,0 +1,43 @@
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ButtonModule} from 'primeng/button';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RippleModule} from 'primeng/ripple';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ButtonModule,
+    RippleModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'fr'
+    }),
+  ],
+  providers: [
+    HttpClient,
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+}

@@ -1,0 +1,48 @@
+<p-table #dt [value]="positions" responsiveLayout="scroll" dataKey="client" styleClass="p-datatable-positions"
+         [rowHover]="true" [filterDelay]="0"
+         [globalFilterFields]="['year','client','projectOrEntity','localisation.isFullRemote','localisation.address','intermediary.corporation','intermediary.name','intermediary.email','statusHistory']">
+  <ng-template pTemplate="caption">
+    <div class="table-header fd-flex fd-flex-row positions-table-header">
+      <div class="fd-flex fd-flex-row" style="align-items: center">
+        <span>{{'positions' | translate}}</span>
+        <button pButton icon="pi pi-plus" pRipple type="button"  class="p-button-rounded add-position-btn"
+        (click)="openAddPositionDialog()"></button>
+      </div>
+      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="globalFilter($event)"
+                               placeholder="{{'globalSearch' | translate}}"/>
+                    </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{'year' | translate}}</th>
+      <th>{{'client' | translate}}</th>
+      <th>{{'projectOrEntity' | translate}}</th>
+      <th>{{'localisation' | translate}}</th>
+      <th>{{'intermediary' | translate}}</th>
+      <th>{{'currentStatus' | translate}}</th>
+      <th>{{'remarks' | translate}}</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-position>
+    <tr>
+      <td>{{position.year}}</td>
+      <td>{{position.client}}</td>
+      <td>{{position.projectOrEntity}}</td>
+      <td>{{position.localisation.address}}</td>
+      <td>{{position.intermediary.name}}</td>
+      <td>{{getLatestStatus(position)}}</td>
+      <td>{{position.remarks}}</td>
+      <td class="item-btn-container">
+        <button pButton type="button" class="p-button-secondary" icon="pi pi-eye"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog header="{{'addPosition' | translate}}" [(visible)]="isAddPositionDialogShown" [closable]="isClosable">
+  <app-add-position (closeDialog)="handleCloseDialog()"></app-add-position>
+</p-dialog>
