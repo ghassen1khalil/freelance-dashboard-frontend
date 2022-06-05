@@ -14,7 +14,7 @@ build:
   image: node:17
   script:
     - echo "Executing 'npm install' ..."
-    - cd freelance-dashboard && npm install && npm start
+    - cd freelance-dashboard && npm install && npm openapi-gen && npm start
 #sast:
 #  stage: test
 #include:
