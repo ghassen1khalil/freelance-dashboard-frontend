@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Position} from '../core/domain/models/position';
 import {Table} from 'primeng/table';
+import {Position, PositionsService} from '../../../generated';
 
 @Component({
   selector: 'app-main',
@@ -11,49 +11,15 @@ export class MainComponent implements OnInit {
 
   @ViewChild('dt') table: Table | undefined;
 
-  public positions: Position[] = [
-    {
-      year: 2022,
-      client: 'TDS',
-      projectOrEntity: 'Digital Factory',
-      localisation: {
-        isFullRemote: true,
-        address: '10 avenue Hoche 75008 Paris'
-      },
-      intermediary: {
-        corporation: 'ECONOCOM',
-        name: 'Mariame KARAMA',
-        phones: ['06 01 02 03 04'],
-        email: 'kmaraiame@econocom.fr'
-      },
-      statusHistory: ['Entretien planifié le XX/XX', 'Validated'],
-      remarks: 'GO pour le 11/04'
-    },
-    {
-      year: 2022,
-      client: 'Société Général',
-      projectOrEntity: 'SGCIB',
-      localisation: {
-        isFullRemote: false,
-        address: 'La Défense'
-      },
-      intermediary: {
-        corporation: 'OMICRONE',
-        name: 'Paul PETIT',
-        phones: ['06 66 24 45 88'],
-        email: 'paulpetit@omicrone.fr'
-      },
-      statusHistory: ['Entretien planifié le XX/XX', 'Abandonné'],
-      remarks: 'Le client n a pas donné son retour'
-    },
-  ]
+  public positions: Position[] ;
   public isAddPositionDialogShown: boolean = false;
   public isClosable: boolean = true;
 
-  constructor() {
+  constructor(private positionService: PositionsService) {
   }
 
   ngOnInit(): void {
+    this.positionService.findAll().subscribe(res => this.positions = res);
   }
 
   public globalFilter($event: Event) {
@@ -66,10 +32,7 @@ export class MainComponent implements OnInit {
   }
 
   public getLatestStatus(position: Position) {
-    if (position === null || position === undefined) {
-      return undefined;
-    }
-    return position.statusHistory[position.statusHistory.length - 1];
+    return position?.statuses?[position.statuses.length - 1] : undefined;
   }
 
   public handleCloseDialog() {

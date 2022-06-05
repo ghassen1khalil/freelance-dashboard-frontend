@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
+    "openapi-gen": "openapi-generator-cli generate -i ./openapi/api.yaml -g typescript-angular -o ./generated/ --additional-properties=ngVersion=13.2.0,withInterfaces=true,stringEnums=true",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -21,11 +22,12 @@
     "@angular/router": "~13.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@openapitools/openapi-generator-cli": "^2.5.1",
     "codelyzer": "^6.0.2",
     "gridlex": "^2.7.1",
     "primeflex": "^3.1.3",
     "primeicons": "^5.0.0",
-    "primeng": "^13.2.1",
+    "primeng": "^13.4.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

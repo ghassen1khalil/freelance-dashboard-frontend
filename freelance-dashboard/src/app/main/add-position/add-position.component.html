@@ -1,7 +1,7 @@
 <form [formGroup]="addPositionForm" class="fd-flex fd-flex-column">
   <div class="grid">
     <div class="col-12 fd-flex fd-flex-column">
-      <input formControlName="year" type="text" pInputText placeholder="{{'year' | translate}}">
+      <p-calendar formControlName="date" dateFormat="dd/mm/yy" placeholder="{{'date' | translate}}" [showIcon]="true"></p-calendar>
     </div>
     <div class="col-12 fd-flex fd-flex-column">
       <input formControlName="client" type="text" pInputText placeholder="{{'client' | translate}}">
@@ -54,7 +54,7 @@
       <textarea class="fd-full-width" pInputTextarea placeholder="{{'remarks' | translate}}"></textarea>
     </div>
 
-    <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0px">
+    <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0">
       <button pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}" (click)="cancel()"></button>
       <p-button [disabled]="!addPositionForm.valid" class="save-btn" label="{{'save' | translate}}" (click)="savePosition()"></p-button>
     </div>

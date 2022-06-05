@@ -11,6 +11,7 @@ import {FieldsetModule} from 'primeng/fieldset';
 import {RippleModule} from 'primeng/ripple';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {TimelineModule} from 'primeng/timeline';
+import {CalendarModule} from 'primeng/calendar';
 
 
 
@@ -21,19 +22,20 @@ import {TimelineModule} from 'primeng/timeline';
   exports: [
     AddPositionComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    TranslateModule,
-    ButtonModule,
-    CheckboxModule,
-    ToggleButtonModule,
-    FormsModule,
-    FieldsetModule,
-    RippleModule,
-    InputTextareaModule,
-    TimelineModule
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        TranslateModule,
+        ButtonModule,
+        CheckboxModule,
+        ToggleButtonModule,
+        FormsModule,
+        FieldsetModule,
+        RippleModule,
+        InputTextareaModule,
+        TimelineModule,
+        CalendarModule
+    ]
 })
 export class AddPositionModule { }

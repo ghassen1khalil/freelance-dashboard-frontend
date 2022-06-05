@@ -1,6 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {Position, PositionsService} from '../../../../generated';
+import {HttpClient} from '@angular/common/http';
+import {TranslateService} from '@ngx-translate/core';
+import {PrimeNGConfig} from 'primeng/api';
 
 @Component({
   selector: 'app-add-position',
@@ -10,22 +14,27 @@ import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 export class AddPositionComponent implements OnInit {
 
   public addPositionForm: FormGroup;
+
   /*public statusHistory = ['Entretien planifié le XX/XX', 'Abandonné'];*/
   public statusHistory: any[] = [];
 
   @Output()
   public closeDialog: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
+  constructor(private positionService: PositionsService,
+              private translateService: TranslateService,
+              private config: PrimeNGConfig) {
     this.buildForm();
   }
 
   ngOnInit(): void {
+    this.translateService.use('fr');
+    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
 
   private buildForm() {
     this.addPositionForm = new FormGroup({
-      year: new FormControl('', [Validators.required]),
+      date: new FormControl('', [Validators.required]),
       client: new FormControl('', [Validators.required]),
       projectOrEntity: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
@@ -42,9 +51,20 @@ export class AddPositionComponent implements OnInit {
   }
 
   public savePosition() {
-    if (this.addPositionForm.valid){
-      //TODO : implement save call to backend
-      console.log(JSON.stringify(this.addPositionForm.value));
+    if (this.addPositionForm.valid) {
+      this.positionService.save({
+        date: this.addPositionForm.controls['date'].value,
+        client: this.addPositionForm.controls['client'].value,
+        projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
+        address: this.addPositionForm.controls['address'].value,
+        isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
+        remarks: this.addPositionForm.controls['remarks'].value,
+        intermediary: {
+          corporation: this.addPositionForm.controls['intermediaryCorporation'].value,
+          name: this.addPositionForm.controls['intermediaryName'].value,
+          phones: this.addPositionForm.controls['intermediaryPhones'].value,
+        }
+      }).subscribe(re => console.log(re));
     }
   }
 

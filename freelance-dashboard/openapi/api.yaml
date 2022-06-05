@@ -1,0 +1,159 @@
+openapi: 3.0.0
+info:
+  title: Positions Api
+  description: API to save and retrieve positions
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Local URL
+paths:
+  /position:
+    post:
+      summary: Save a Position
+      description: Save a new position
+      operationId: save
+      tags:
+        - positions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Position'
+      responses:
+        201:
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Return all positions
+      description: Return all position
+      operationId: findAll
+      tags:
+        - positions
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Position'
+  /position/{id}:
+    get:
+      summary: Return a position by ID
+      description: Find a position by ID
+      operationId: getById
+      tags:
+        - positions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of searched position
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+    patch:
+      summary: Update a position by ID
+      description: Update a position by ID
+      operationId: update
+      tags:
+        - positions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of position to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Position'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Position'
+components:
+  schemas:
+    Position:
+      x-java-class-annotations:
+        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "positions")'
+        - '@lombok.Data'
+        - '@lombok.Builder'
+        - '@lombok.AllArgsConstructor'
+        - '@lombok.NoArgsConstructor'
+      type: object
+      properties:
+        id:
+          type: string
+        client:
+          type: string
+        projectOrEntity:
+          type: string
+        address:
+          type: string
+        isFullRemote:
+          type: boolean
+        remarks:
+          type: string
+        date:
+          type: string
+          format: date
+        intermediary:
+          $ref: '#/components/schemas/Intermediary'
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+    Intermediary:
+      type: object
+      properties:
+        corporation:
+          type: string
+        name:
+          type: string
+        phones:
+          type: string
+    Status:
+      type: object
+      properties:
+        label:
+          type: string
+        date:
+          type: string
+          format: date
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

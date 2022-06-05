@@ -17,7 +17,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th>{{'year' | translate}}</th>
+      <th>{{'date' | translate}}</th>
       <th>{{'client' | translate}}</th>
       <th>{{'projectOrEntity' | translate}}</th>
       <th>{{'localisation' | translate}}</th>
@@ -29,10 +29,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-position>
     <tr>
-      <td>{{position.year}}</td>
+      <td>{{position.date}}</td>
       <td>{{position.client}}</td>
       <td>{{position.projectOrEntity}}</td>
-      <td>{{position.localisation.address}}</td>
+      <td>{{position.address}}</td>
       <td>{{position.intermediary.name}}</td>
       <td>{{getLatestStatus(position)}}</td>
       <td>{{position.remarks}}</td>
