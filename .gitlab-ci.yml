@@ -14,7 +14,7 @@ build:
   image: node:17
   script:
     - echo "Executing 'npm install' ..."
-    - cd freelance-dashboard && npm install && ng serve --proxy-config proxy.conf.json
+    - cd freelance-dashboard && npm install && npm start
 #sast:
 #  stage: test
 #include:
