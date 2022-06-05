@@ -14,8 +14,8 @@ build:
   image: node:17
   script:
     - echo "Executing 'npm install' ..."
-    - cd freelance-dashboard && npm install
-sast:
-  stage: test
-include:
-  - template: Security/SAST.gitlab-ci.yml
+    - cd freelance-dashboard && npm install && ng serve --proxy-config proxy.conf.json
+#sast:
+#  stage: test
+#include:
+#  - template: Security/SAST.gitlab-ci.yml
