@@ -1,25 +1,43 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from 'primeng/table';
 import {Position, PositionsService} from '../../../generated';
+import {select, Store} from '@ngrx/store';
+import * as PositionActions from '../core/store/actions/position.action';
+import {Subject, takeUntil} from 'rxjs';
+import * as positionReducer from '../core/store/reducers/position.reducer'
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   @ViewChild('dt') table: Table | undefined;
 
-  public positions: Position[] ;
+  public positions: Position[];
   public isAddPositionDialogShown: boolean = false;
   public isClosable: boolean = true;
 
-  constructor(private positionService: PositionsService) {
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(private positionService: PositionsService,
+              private store: Store<{positions: Position[]}>) {
   }
 
   ngOnInit(): void {
-    this.positionService.findAll().subscribe(res => this.positions = res);
+
+    this.store.dispatch(PositionActions.FetchPositions());
+
+    this.store.pipe(
+      select(positionReducer.getPositions),
+      takeUntil(this.unsubscribe$)
+    ).subscribe((positions) => {
+      if (positions.length > 0) {
+        this.positions = positions;
+      }
+    });
+
   }
 
   public globalFilter($event: Event) {
@@ -32,10 +50,14 @@ export class MainComponent implements OnInit {
   }
 
   public getLatestStatus(position: Position) {
-    return position?.statuses?[position.statuses.length - 1] : undefined;
+    return position?.statuses ? [position.statuses.length - 1] : undefined;
   }
 
   public handleCloseDialog() {
     this.isAddPositionDialogShown = false;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.complete();
   }
 }

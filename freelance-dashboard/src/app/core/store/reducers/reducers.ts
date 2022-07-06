@@ -1,0 +1,8 @@
+import {ActionReducerMap} from '@ngrx/store';
+import {AppState} from '../state/app.states';
+import {positionReducer} from './position.reducer';
+
+export const reducers: ActionReducerMap<AppState> = {
+  positionState: positionReducer,
+}
+

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddPositionComponent } from './add-position.component';
+import {AddPositionComponent} from './add-position.component';
 
 describe('AddPositionComponent', () => {
   let component: AddPositionComponent;
