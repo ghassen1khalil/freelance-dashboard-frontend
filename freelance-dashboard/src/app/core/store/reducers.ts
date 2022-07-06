@@ -6,10 +6,3 @@ export const reducers: ActionReducerMap<AppState> = {
   positionState: positionReducer,
 }
 
-/*
-export const selectPositions = (state: State) => state.positions;
-
-export interface State {
-  positions: fromApis.State;
-}
-*/

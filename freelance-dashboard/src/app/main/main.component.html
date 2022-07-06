@@ -27,15 +27,15 @@
       <th></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-position$>
+  <ng-template pTemplate="body" let-position>
     <tr>
-      <td>{{position$.date}}</td>
-      <td>{{position$.client}}</td>
-      <td>{{position$.projectOrEntity}}</td>
-      <td>{{position$.address}}</td>
-      <td>{{position$.intermediary.name}}</td>
-      <td>{{getLatestStatus(position$)}}</td>
-      <td>{{position$.remarks}}</td>
+      <td>{{position.date}}</td>
+      <td>{{position.client}}</td>
+      <td>{{position.projectOrEntity}}</td>
+      <td>{{position.address}}</td>
+      <td>{{position.intermediary.name}}</td>
+      <td>{{getLatestStatus(position)}}</td>
+      <td>{{position.remarks}}</td>
       <td class="item-btn-container">
         <button pButton type="button" class="p-button-secondary" icon="pi pi-eye"></button>
       </td>

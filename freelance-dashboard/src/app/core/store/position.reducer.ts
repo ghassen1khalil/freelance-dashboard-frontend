@@ -16,7 +16,6 @@ const _positionReducer = createReducer(
 
 export function positionReducer(
   state: PositionState | undefined,
-  // state: any,
   action: Action
 ) {
   return _positionReducer(state, action);

@@ -3,7 +3,7 @@ import {Table} from 'primeng/table';
 import {Position, PositionsService} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import * as PositionActions from '../core/store/position.action';
-import {map, Observable, Subject, Subscription, takeUntil} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../core/store/position.reducer'
 
 @Component({
@@ -21,48 +21,23 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  positions$: Observable<Position[]>;
-  positionSubscription: Subscription;
-
   constructor(private positionService: PositionsService,
               private store: Store<{ positions: Position[] }>) {
-    this.positions$ = store.select(positionReducer.getPositions);
-    //store.pipe(select('positions')).subscribe(positions => console.log(positions));
   }
 
   ngOnInit(): void {
 
-    /*this.store.pipe(
-      select(selectApis),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(state => {
-      this.apis = state.apis;
-    });*/
-
-
     this.store.dispatch(PositionActions.FetchPositions());
+
     this.store.pipe(
-      select('positions'),
+      select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
-    ).subscribe(positions => console.log(positions));
-    /*this.store.pipe(
-      select('positions'),
-      takeUntil(this.unsubscribe$)
-    ).subscribe((positions: Position[]) => {
-      /!*console.log(positions);
-      console.log(JSON.stringify(positions));*!/
-      if (isNotNullOrUndefined(positions)) {
+    ).subscribe((positions) => {
+      if (positions.length > 0) {
         this.positions = positions;
       }
-    });*/
+    });
 
-
-    /*this.positionSubscription = this.positions$
-      .pipe(
-        map(x => {
-          this.positions = x.Positions;
-        })
-      ).subscribe();*/
   }
 
   public globalFilter($event: Event) {
