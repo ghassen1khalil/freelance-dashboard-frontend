@@ -22,7 +22,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(private positionService: PositionsService,
-              private store: Store<{ positions: Position[] }>) {
+              private store: Store<{positions: Position[]}>) {
   }
 
   ngOnInit(): void {

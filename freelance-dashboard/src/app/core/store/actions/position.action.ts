@@ -20,3 +20,13 @@ export const SetPositions = createAction(
   '[POSITION] - Set Positions',
   props<{ payload: Position[] }>()
 );
+
+export const SaveNewPosition = createAction(
+  '[POSITION] - Save new position',
+  props<{ position: Position }>()
+);
+
+export const SaveNewPositionFailure = createAction(
+  '[POSITION] - Save New Position Failure',
+  props<{ error: HttpErrorResponse }>()
+);

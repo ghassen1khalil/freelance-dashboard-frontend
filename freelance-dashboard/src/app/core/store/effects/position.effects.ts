@@ -27,4 +27,20 @@ export class PositionEffects {
       )
     )
   );
+
+  SavePosition$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(PositionActions.SaveNewPosition),
+      mergeMap(action =>
+        this.positionService.save(action.position).pipe(
+          map(() => {
+            return PositionActions.FetchPositions();
+          }),
+          catchError((err: HttpErrorResponse) => {
+            return of(PositionActions.SaveNewPositionFailure({error: err}));
+          })
+        )
+      )
+    )
+  );
 }

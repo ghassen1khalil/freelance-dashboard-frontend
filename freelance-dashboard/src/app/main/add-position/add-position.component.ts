@@ -1,8 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PositionsService} from '../../../../generated';
+import {Position, PositionsService} from '../../../../generated';
 import {TranslateService} from '@ngx-translate/core';
 import {PrimeNGConfig} from 'primeng/api';
+import {Store} from '@ngrx/store';
+import * as PositionActions from '../../core/store/actions/position.action';
+import {PositionState} from '../../core/store/state/app.states';
+
 
 @Component({
   selector: 'app-add-position',
@@ -21,7 +25,8 @@ export class AddPositionComponent implements OnInit {
 
   constructor(private positionService: PositionsService,
               private translateService: TranslateService,
-              private config: PrimeNGConfig) {
+              private config: PrimeNGConfig,
+              private store: Store<{ positions: Position[] }>) {
     this.buildForm();
   }
 
@@ -50,20 +55,24 @@ export class AddPositionComponent implements OnInit {
 
   public savePosition() {
     if (this.addPositionForm.valid) {
-      this.positionService.save({
-        date: this.addPositionForm.controls['date'].value,
-        client: this.addPositionForm.controls['client'].value,
-        projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
-        address: this.addPositionForm.controls['address'].value,
-        isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
-        remarks: this.addPositionForm.controls['remarks'].value,
-        intermediary: {
-          corporation: this.addPositionForm.controls['intermediaryCorporation'].value,
-          name: this.addPositionForm.controls['intermediaryName'].value,
-          phones: this.addPositionForm.controls['intermediaryPhones'].value,
-        }
-      }).subscribe(re => console.log(re));
+      this.store.dispatch(PositionActions.SaveNewPosition({position: this.createPositionFromForm()}));
     }
+  }
+
+  private createPositionFromForm(): Position {
+    return {
+      date: this.addPositionForm.controls['date'].value,
+      client: this.addPositionForm.controls['client'].value,
+      projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
+      address: this.addPositionForm.controls['address'].value,
+      isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
+      remarks: this.addPositionForm.controls['remarks'].value,
+      intermediary: {
+        corporation: this.addPositionForm.controls['intermediaryCorporation'].value,
+        name: this.addPositionForm.controls['intermediaryName'].value,
+        phones: this.addPositionForm.controls['intermediaryPhones'].value,
+      }
+    };
   }
 
   public cancel() {
