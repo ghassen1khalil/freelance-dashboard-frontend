@@ -10,6 +10,13 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BasePathProviderService} from '../services/base-path-provider.service';
+import {environment} from '../environments/environment';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {PositionEffects} from './core/store/position.effects';
+import {reducers} from './core/store/reducers';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,6 +41,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'fr'
     }),
+    StoreModule.forRoot(reducers),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([PositionEffects]),
   ],
   providers: [
     HttpClient,
