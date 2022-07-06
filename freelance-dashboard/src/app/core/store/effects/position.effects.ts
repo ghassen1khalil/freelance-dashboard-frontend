@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Position, PositionsService} from '../../../../generated';
+import {Position, PositionsService} from '../../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap, Observable, of, retry} from 'rxjs';
+import {catchError, map, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
-import * as PositionActions from './position.action';
+import * as PositionActions from '../actions/position.action';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()

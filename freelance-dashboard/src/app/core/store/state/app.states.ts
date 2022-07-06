@@ -1,4 +1,4 @@
-import {Position} from '../../../../generated';
+import {Position} from '../../../../../generated';
 
 export interface AppState {
   positionState: PositionState;

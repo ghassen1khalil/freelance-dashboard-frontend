@@ -1,7 +1,6 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import * as PositionActions from './position.action';
-import {PositionState} from './app.states';
-import {state} from '@angular/animations';
+import * as PositionActions from '../actions/position.action';
+import {PositionState} from '../state/app.states';
 
 export const initialPositionState: PositionState = {positions: []};
 

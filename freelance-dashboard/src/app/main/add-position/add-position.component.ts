@@ -1,8 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
-import {Position, PositionsService} from '../../../../generated';
-import {HttpClient} from '@angular/common/http';
+import {PositionsService} from '../../../../generated';
 import {TranslateService} from '@ngx-translate/core';
 import {PrimeNGConfig} from 'primeng/api';
 

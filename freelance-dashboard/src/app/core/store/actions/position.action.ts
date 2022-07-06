@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Position} from '../../../../generated';
+import {Position} from '../../../../../generated';
 import {HttpErrorResponse} from '@angular/common/http';
 
 export const FetchPositions = createAction(

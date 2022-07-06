@@ -14,8 +14,8 @@ import {environment} from '../environments/environment';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
-import {PositionEffects} from './core/store/position.effects';
-import {reducers} from './core/store/reducers';
+import {PositionEffects} from './core/store/effects/position.effects';
+import {reducers} from './core/store/reducers/reducers';
 
 
 export function HttpLoaderFactory(http: HttpClient) {

@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Table} from 'primeng/table';
 import {Position, PositionsService} from '../../../generated';
 import {select, Store} from '@ngrx/store';
-import * as PositionActions from '../core/store/position.action';
+import * as PositionActions from '../core/store/actions/position.action';
 import {Subject, takeUntil} from 'rxjs';
-import * as positionReducer from '../core/store/position.reducer'
+import * as positionReducer from '../core/store/reducers/position.reducer'
 
 @Component({
   selector: 'app-main',
