@@ -43,6 +43,6 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="{{'addPosition' | translate}}" [(visible)]="isAddPositionDialogShown" [closable]="isClosable">
+<p-dialog header="{{'addPosition' | translate}}" [(visible)]="isAddPositionDialogShown" [closable]="isClosable" class="fd-rounded-edge">
   <app-add-position (closeDialog)="handleCloseDialog()"></app-add-position>
 </p-dialog>

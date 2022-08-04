@@ -1,18 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Position, PositionsService} from '../../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap, Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, Observable, of, switchMap} from 'rxjs';
 import {Action} from '@ngrx/store';
 import * as PositionActions from '../actions/position.action';
+import * as EventActions from '../actions/event.actions';
 import {HttpErrorResponse} from '@angular/common/http';
+import {EventType} from '../models/models';
 
 @Injectable()
 export class PositionEffects {
-  constructor(private positionService: PositionsService, private action$: Actions) {
+  constructor(private positionService: PositionsService,
+              private action$: Actions) {
   }
 
 
-  FetchPositions$: Observable<Action> = createEffect(() =>
+  /*FetchPositions$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
       mergeMap(action =>
@@ -20,6 +23,30 @@ export class PositionEffects {
           map((positions: Position[]) => {
             return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
+          catchError((error: HttpErrorResponse) => {
+            return of(PositionActions.FetchPositionsFailure({payload: error}));
+          })
+        )
+      )
+    )
+  );*/
+
+
+  FetchPositions$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(PositionActions.FetchPositions),
+      mergeMap(action =>
+        this.positionService.findAll().pipe(
+          switchMap((positions: Position[]) => of(
+            PositionActions.FetchPositionsSuccess({payload: positions}),
+            EventActions.LaunchEvent({
+              'event': {
+                'type': EventType.SUCCESS,
+                'title': 'Success',
+                'body': 'Positionnement ajouté avec succès'
+              }
+            })
+          )),
           catchError((error: HttpErrorResponse) => {
             return of(PositionActions.FetchPositionsFailure({payload: error}));
           })
@@ -34,6 +61,7 @@ export class PositionEffects {
       mergeMap(action =>
         this.positionService.save(action.position).pipe(
           map(() => {
+            //this.messageService.add({severity:'success', summary: 'Success', detail: 'Positionnement ajouté avec succès'});
             return PositionActions.FetchPositions();
           }),
           catchError((err: HttpErrorResponse) => {

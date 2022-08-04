@@ -40,3 +40,10 @@ body {
 .fd-full-width {
   width: 100%;
 }
+
+.fd-rounded-edge {
+  border: 1px lightgray solid;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,.15);
+}

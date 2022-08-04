@@ -16,6 +16,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {PositionEffects} from './core/store/effects/position.effects';
 import {reducers} from './core/store/reducers/reducers';
+/*import {MessageService} from 'primeng/api';*/
+import {ToastModule} from 'primeng/toast';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,10 +46,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PositionEffects]),
+    ToastModule,
   ],
   providers: [
     HttpClient,
-    BasePathProviderService
+    BasePathProviderService,
+    /*MessageService*/
   ],
   bootstrap: [AppComponent]
 })
