@@ -9,22 +9,30 @@ import {InputTextModule} from 'primeng/inputtext';
 import {RippleModule} from 'primeng/ripple';
 import {DialogModule} from 'primeng/dialog';
 import {AddPositionModule} from './add-position/add-position.module';
+import { PositionCardComponent } from './position-card/position-card.component';
+import {CardModule} from 'primeng/card';
+import {AccordionModule} from 'primeng/accordion';
+import {DashboardAccordionModule} from '../../shared/accordion/dashboard-accordion.module';
 
 
 @NgModule({
   declarations: [
-    MainComponent
+    MainComponent,
+    PositionCardComponent
   ],
-  imports: [
-    CommonModule,
-    MainRoutingModule,
-    TableModule,
-    TranslateModule,
-    ButtonModule,
-    InputTextModule,
-    RippleModule,
-    DialogModule,
-    AddPositionModule
-  ]
+    imports: [
+        CommonModule,
+        MainRoutingModule,
+        TableModule,
+        TranslateModule,
+        ButtonModule,
+        InputTextModule,
+        RippleModule,
+        DialogModule,
+        AddPositionModule,
+        CardModule,
+        DashboardAccordionModule,
+        DashboardAccordionModule
+    ]
 })
 export class MainModule { }

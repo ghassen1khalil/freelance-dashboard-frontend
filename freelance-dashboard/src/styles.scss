@@ -1,9 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~gridlex/dist/gridlex.min.css';
+@import "~primeflex/primeflex.scss";
 
 body {
   font-family: 'Ramaraja', sans-serif;
-  padding: 2em;
+  padding: 1em 20rem;
+  background: #EFF3F8;
+  color: var(--text-color);
+
 }
 
 @font-face {
@@ -12,7 +16,7 @@ body {
 
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Ramaraja', sans-serif;
 }
 
 
