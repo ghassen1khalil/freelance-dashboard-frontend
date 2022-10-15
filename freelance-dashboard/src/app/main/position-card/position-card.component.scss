@@ -2,10 +2,38 @@
   max-width: 800px;
   background: #ffffff;
   color: #495057;
-  //box-shadow: 0 4px 30px rgba(221, 224, 255, .54);
   box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
   border-radius: 1rem;
 
   padding: 2rem;
   margin: 2rem auto;
 }
+
+.card-header-text {
+  margin-left: 6px;
+}
+
+.card-header-client {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.card-header-address {
+  margin: 0;
+}
+
+.card-header-edit {
+  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 25px;
+}
+
+::ng-deep .p-menu.p-menu-overlay {
+  box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
+}
+
+/*::ng-deep .p-button {
+  background: var(--very_light_blue);
+  border: 1px solid var(--very_light_blue);
+}*/

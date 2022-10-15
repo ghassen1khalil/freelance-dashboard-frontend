@@ -13,26 +13,32 @@ import { PositionCardComponent } from './position-card/position-card.component';
 import {CardModule} from 'primeng/card';
 import {AccordionModule} from 'primeng/accordion';
 import {DashboardAccordionModule} from '../../shared/accordion/dashboard-accordion.module';
+import {AngularEmojisModule} from 'angular-emojis';
+import {MenuModule} from 'primeng/menu';
+import { CardLineComponent } from './position-card/card-line/card-line.component';
 
 
 @NgModule({
   declarations: [
     MainComponent,
-    PositionCardComponent
+    PositionCardComponent,
+    CardLineComponent
   ],
-    imports: [
-        CommonModule,
-        MainRoutingModule,
-        TableModule,
-        TranslateModule,
-        ButtonModule,
-        InputTextModule,
-        RippleModule,
-        DialogModule,
-        AddPositionModule,
-        CardModule,
-        DashboardAccordionModule,
-        DashboardAccordionModule
-    ]
+  imports: [
+    CommonModule,
+    MainRoutingModule,
+    TableModule,
+    TranslateModule,
+    ButtonModule,
+    InputTextModule,
+    RippleModule,
+    DialogModule,
+    AddPositionModule,
+    CardModule,
+    DashboardAccordionModule,
+    DashboardAccordionModule,
+    AngularEmojisModule,
+    MenuModule
+  ]
 })
 export class MainModule { }

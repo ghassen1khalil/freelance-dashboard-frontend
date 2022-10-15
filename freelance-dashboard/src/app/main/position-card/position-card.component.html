@@ -1,10 +1,49 @@
 <div class="card">
   <div class="fd-flex fd-flex-column">
-    <p>{{position?.client}}</p>
-    <p>{{position?.creationDate}}</p>
-    <p>{{position?.mission?.project}}</p>
-    <p>{{position?.address}}</p>
-    <p>{{position?.intermediary.name}}</p>
-    <p>{{position?.remarks}}</p>
+    <div #actionPanel class="fd-flex fd-flex-row-reverse">
+      <p class="card-header-edit" (click)="menu.toggle($event)">...</p>
+    </div>
+    <div #header class="fd-flex fd-flex-row fd-space-between">
+      <div class="fd-flex fd-flex-row">
+        <angular-emojis [name]="'office'" size="50"></angular-emojis>
+        <div class="fd-flex fd-flex-column card-header-text">
+          <p class="text-xl font-bold card-header-client">{{position?.client}}</p>
+          <p class="card-header-address">{{position?.address}}</p>
+        </div>
+      </div>
+
+      <div class="fd-flex fd-flex-row" style="align-items: center;">
+        <angular-emojis [name]="'moneybag'" size="30"></angular-emojis>
+        <p class="text-xl font-bold fd-flex-row">
+          {{position?.dailyRate?.amount}}
+          {{getCurrency()}}
+        </p>
+      </div>
+    </div>
+
+    <div #body class="fd-flex fd-flex-column" style="padding-left: 2rem; padding-top: 1rem">
+      <div class="fd-flex fd-flex-row">
+        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [size]="'30'" [text]="'Full Remote'"></app-card-line>
+        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [size]="'30'" [text]="'Remote Partiel'"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'checkered_flag'" [size]="'30'" [text]="getLatestStatus()"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'date'" [size]="'30'" [text]="position?.startingDate"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'rocket'" [size]="'30'" [text]="position?.mission?.project"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'cityscape'" [size]="'30'" [text]="position?.intermediary.corporation"></app-card-line>
+      </div>
+    </div>
+
+    <div #footer class="fd-flex fd-flex-row-reverse">
+      <button pButton type="button" icon="pi pi-search" iconPos="left" label="Détails"></button>
+    </div>
   </div>
 </div>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

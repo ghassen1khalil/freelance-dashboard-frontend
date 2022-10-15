@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~gridlex/dist/gridlex.min.css';
-@import "~primeflex/primeflex.scss";
-
+@import '~primeflex/primeflex.scss';
+@import 'assets/fonts/spoof/stylesheet.css';
+@import 'colors.scss';
 body {
-  font-family: 'Ramaraja', sans-serif;
+  font-family: 'Spoof', sans-serif;
   padding: 1em 20rem;
   background: #EFF3F8;
   color: var(--text-color);
@@ -11,12 +12,12 @@ body {
 }
 
 @font-face {
-  font-family: 'Ramaraja', sans-serif;
+  font-family: 'Spoof', sans-serif;
 }
 
 
 * {
-  font-family: 'Ramaraja', sans-serif;
+  font-family: 'Spoof', sans-serif;
 }
 
 
@@ -33,8 +34,16 @@ body {
   flex-direction: column;
 }
 
+.fd-flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
 .fd-flex-row {
   flex-direction: row;
+}
+
+.fd-flex-row-reverse {
+  flex-direction: row-reverse;
 }
 
 .fd-space-between {
