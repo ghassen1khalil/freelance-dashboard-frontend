@@ -12,8 +12,8 @@
         </div>
       </div>
 
-      <div class="fd-flex fd-flex-row" style="align-items: center;">
-        <angular-emojis [name]="'moneybag'" size="30"></angular-emojis>
+      <div class="fd-flex fd-flex-row align-items-center">
+        <angular-emojis [name]="'moneybag'" size="25"></angular-emojis>
         <p class="text-xl font-bold fd-flex-row">
           {{position?.dailyRate?.amount}}
           {{getCurrency()}}
@@ -21,22 +21,22 @@
       </div>
     </div>
 
-    <div #body class="fd-flex fd-flex-column" style="padding-left: 2rem; padding-top: 1rem">
+     <div #body class="fd-flex fd-flex-column card-body-container">
       <div class="fd-flex fd-flex-row">
-        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [size]="'30'" [text]="'Full Remote'"></app-card-line>
-        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [size]="'30'" [text]="'Remote Partiel'"></app-card-line>
+        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'Full Remote'"></app-card-line>
+        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Remote Partiel'"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'checkered_flag'" [size]="'30'" [text]="getLatestStatus()"></app-card-line>
+        <app-card-line [emojiName]="'checkered_flag'" [text]="getLatestStatus()"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'date'" [size]="'30'" [text]="position?.startingDate"></app-card-line>
+        <app-card-line [emojiName]="'date'" [text]="position?.startingDate"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'rocket'" [size]="'30'" [text]="position?.mission?.project"></app-card-line>
+        <app-card-line [emojiName]="'rocket'" [text]="position?.mission?.project"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'cityscape'" [size]="'30'" [text]="position?.intermediary.corporation"></app-card-line>
+        <app-card-line [emojiName]="'cityscape'" [text]="position?.intermediary.corporation"></app-card-line>
       </div>
     </div>
 

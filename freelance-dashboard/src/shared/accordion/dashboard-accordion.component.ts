@@ -27,9 +27,10 @@ export class DashboardAccordionComponent implements OnInit {
 
   @ContentChildren(AccordionItem) items: QueryList<AccordionItem>;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
+    this.expanded.add(0);
   }
 
   toggleState = (index: number) => {

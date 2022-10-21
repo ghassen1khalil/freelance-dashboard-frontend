@@ -46,11 +46,9 @@
 <p-dialog header="{{'addPosition' | translate}}" [(visible)]="isAddPositionDialogShown" [closable]="isClosable" class="fd-rounded-edge">
   <app-add-position (closeDialog)="handleCloseDialog()"></app-add-position>
 </p-dialog>-->
-
-
 <div>
   <div *ngFor="let year of positionsYears">
-    <g-accordion collapsing="true" style="">
+    <g-accordion collapsing="false" style="">
       <accordion-item [title]="year.toString()" class="fd-flex fd-flex-column">
         <ng-template accordionContent>
           <app-position-card *ngFor="let position of getPositionsByYear(year)" [position]="position"></app-position-card>

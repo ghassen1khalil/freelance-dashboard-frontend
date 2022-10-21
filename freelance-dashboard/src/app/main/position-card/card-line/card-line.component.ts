@@ -18,6 +18,9 @@ export class CardLineComponent implements OnInit {
 
 
   constructor() {
+    if (this.size === null || this.size === undefined) {
+      this.size = '20';
+    }
   }
 
   ngOnInit(): void {

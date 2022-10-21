@@ -29,6 +29,10 @@
   height: 25px;
 }
 
+.card-body-container {
+  padding: 1rem 2rem 0
+}
+
 ::ng-deep .p-menu.p-menu-overlay {
   box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
 }
