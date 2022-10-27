@@ -1,5 +1,16 @@
+@media(min-width: 1480px) {
+  .card-width {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 1479px) {
+  .card-width {
+    max-width: available;
+  }
+}
+
 .card {
-  max-width: 800px;
   background: #ffffff;
   color: #495057;
   box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
@@ -41,3 +52,7 @@
   background: var(--very_light_blue);
   border: 1px solid var(--very_light_blue);
 }*/
+
+.p-button {
+  border-radius: 1rem!important;
+}

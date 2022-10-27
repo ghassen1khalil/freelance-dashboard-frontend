@@ -5,7 +5,6 @@
 @import 'colors.scss';
 body {
   font-family: 'Spoof', sans-serif;
-  padding: 1em 20rem;
   background: #EFF3F8;
   color: var(--text-color);
 
@@ -59,4 +58,8 @@ body {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0,0,0,.15);
+}
+
+.p-button {
+  border-radius: 1rem!important;
 }

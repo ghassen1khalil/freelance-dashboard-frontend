@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Position} from '../../../../generated';
-import {MenuItem} from 'primeng/api';
+import {MenuItem, PrimeIcons} from 'primeng/api';
 import {Currency} from '../../core/domain/models/models';
 
 @Component({
@@ -14,7 +14,8 @@ export class PositionCardComponent implements OnInit {
 
   public items: MenuItem[];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.initMenuItems();
@@ -22,19 +23,12 @@ export class PositionCardComponent implements OnInit {
 
   private initMenuItems() {
     this.items = [{
-      label: 'File',
+      label: 'Gérer',
       items: [
-        {label: 'New', icon: 'pi pi-fw pi-plus'},
-        {label: 'Download', icon: 'pi pi-fw pi-download'}
+        {label: 'Éditer', icon: PrimeIcons.PENCIL},
+        {label: 'Supprimer', icon: PrimeIcons.TRASH}
       ]
-    },
-      {
-        label: 'Edit',
-        items: [
-          {label: 'Add User', icon: 'pi pi-fw pi-user-plus'},
-          {label: 'Remove User', icon: 'pi pi-fw pi-user-minus'}
-        ]
-      }];
+    }];
   }
 
   public getLatestStatus() {

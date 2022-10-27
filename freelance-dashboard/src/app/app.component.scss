@@ -1,5 +1,11 @@
-.p-datatable-positions {
-  padding: 1rem;
-  text-align: left;
-  font-size: 1.5rem;
+@media(min-width: 1480px) {
+  .layout-content {
+    padding: 1em 20rem!important;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 1479px) {
+  .layout-content {
+    padding: 0!important;
+  }
 }

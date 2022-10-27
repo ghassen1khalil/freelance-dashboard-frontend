@@ -24,12 +24,70 @@
   "addStatus": "Ajouter un statut",
   "initialStatus": "Statut initial",
   "primeng": {
-    "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-    "dayNamesMin": ["Di","Lu","Ma","Me","Je","Ve","Sa"],
-    "monthNames": ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
-    "monthNamesShort": ["Jan", "Fév", "Mar", "Avr", "Mai", "Jui","Jui", "Aoû", "Sep", "Oct", "Nov", "Dec"],
+    "dayNames": [
+      "Dimanche",
+      "Lundi",
+      "Mardi",
+      "Mercredi",
+      "Jeudi",
+      "Vendredi",
+      "Samedi"
+    ],
+    "dayNamesShort": [
+      "Dim",
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+    ],
+    "dayNamesMin": [
+      "Di",
+      "Lu",
+      "Ma",
+      "Me",
+      "Je",
+      "Ve",
+      "Sa"
+    ],
+    "monthNames": [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Jui",
+      "Aoû",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
     "today": "Aujourd'hui",
     "weekHeader": "Wk"
+  },
+  "view": "Consulter",
+  "position": {
+    "contextual-menu": {
+      "title": "Gérer",
+      "edit": "Éditer",
+      "remove": "Supprimer"
+    }
   }
 }

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-width">
   <div class="fd-flex fd-flex-column">
     <div #actionPanel class="fd-flex fd-flex-row-reverse">
       <p class="card-header-edit" (click)="menu.toggle($event)">...</p>
@@ -41,7 +41,7 @@
     </div>
 
     <div #footer class="fd-flex fd-flex-row-reverse">
-      <button pButton type="button" icon="pi pi-search" iconPos="left" label="Détails"></button>
+      <button pButton type="button" iconPos="left" label="{{'view' | translate}}"></button>
     </div>
   </div>
 </div>
