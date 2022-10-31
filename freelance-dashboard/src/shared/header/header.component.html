@@ -1,0 +1,27 @@
+<div class="fd-flex fd-flex-row fd-space-between layout-topbar">
+  <div class="fd-flex fd-flex-row" style="width: fit-content">
+    <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
+    <p class="text-xl font-bold header-title">Freelance Dashboard</p>
+  </div>
+
+  <div *ngIf="user" class="fd-flex fd-flex-column fd-justify-content-center" (click)="menu.toggle($event)">
+    <div class="fd-flex fd-flex-row align-items-center connected-user-container">
+      <p-avatar class="avatar"
+                icon="pi pi-user"
+                pBadge
+                severity="success"
+                styleClass="p-mr-2"
+                shape="circle"
+                size="large">
+      </p-avatar>
+      <p class="connected-user-name">{{user.firstname}}</p>
+    </div>
+
+  </div>
+  <div *ngIf="!user" class="fd-flex fd-flex-column fd-justify-content-center">
+    <p-button label="{{'login' | translate}}" styleClass="p-button-link" class="login-button"
+              (click)="login()"></p-button>
+  </div>
+</div>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

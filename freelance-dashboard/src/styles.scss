@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~gridlex/dist/gridlex.min.css';
+//@import '~gridlex/dist/gridlex.min.css';
 @import '~primeflex/primeflex.scss';
 @import 'assets/fonts/spoof/stylesheet.css';
 @import 'colors.scss';
@@ -7,7 +7,7 @@ body {
   font-family: 'Spoof', sans-serif;
   background: #EFF3F8;
   color: var(--text-color);
-
+  margin: 0!important;
 }
 
 @font-face {
@@ -53,6 +53,9 @@ body {
   width: 100%;
 }
 
+.fd-justify-content-center {
+  justify-content: center;
+}
 .fd-rounded-edge {
   border: 1px lightgray solid;
   background-color: #fff;
