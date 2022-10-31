@@ -6,6 +6,7 @@ import {PrimeNGConfig} from 'primeng/api';
 import {Store} from '@ngrx/store';
 import * as PositionActions from '../../core/store/actions/position.action';
 import {PositionState} from '../../core/store/state/app.states';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 
 @Component({
@@ -37,9 +38,9 @@ export class AddPositionComponent implements OnInit {
 
   private buildForm() {
     this.addPositionForm = new FormGroup({
-      date: new FormControl('', [Validators.required]),
+      creationDate: new FormControl('', [Validators.required]),
       client: new FormControl('', [Validators.required]),
-      projectOrEntity: new FormControl('', [Validators.required]),
+      //projectOrEntity: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
       isFullRemote: new FormControl(),
       intermediaryCorporation: new FormControl('', [Validators.required]),
@@ -61,9 +62,9 @@ export class AddPositionComponent implements OnInit {
 
   private createPositionFromForm(): Position {
     return {
-      date: this.addPositionForm.controls['date'].value,
+      creationDate: this.addPositionForm.controls['creationDate'].value,
       client: this.addPositionForm.controls['client'].value,
-      projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
+      //projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
       address: this.addPositionForm.controls['address'].value,
       isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
       remarks: this.addPositionForm.controls['remarks'].value,

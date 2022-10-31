@@ -1,0 +1,49 @@
+<div class="card card-width">
+  <div class="fd-flex fd-flex-column">
+    <div #actionPanel class="fd-flex fd-flex-row-reverse">
+      <p class="card-header-edit" (click)="menu.toggle($event)">...</p>
+    </div>
+    <div #header class="fd-flex fd-flex-row fd-space-between">
+      <div class="fd-flex fd-flex-row">
+        <angular-emojis [name]="'office'" size="50"></angular-emojis>
+        <div class="fd-flex fd-flex-column card-header-text">
+          <p class="text-xl font-bold card-header-client">{{position?.client}}</p>
+          <p class="card-header-address">{{position?.address}}</p>
+        </div>
+      </div>
+
+      <div class="fd-flex fd-flex-row align-items-center">
+        <angular-emojis [name]="'moneybag'" size="25"></angular-emojis>
+        <p class="text-xl font-bold fd-flex-row">
+          {{position?.dailyRate?.amount}}
+          {{getCurrency()}}
+        </p>
+      </div>
+    </div>
+
+     <div #body class="fd-flex fd-flex-column card-body-container">
+      <div class="fd-flex fd-flex-row">
+        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'Full Remote'"></app-card-line>
+        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Remote Partiel'"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'checkered_flag'" [text]="getLatestStatus()"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'date'" [text]="position?.startingDate"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'rocket'" [text]="position?.mission?.project"></app-card-line>
+      </div>
+      <div class="fd-flex fd-flex-row">
+        <app-card-line [emojiName]="'cityscape'" [text]="position?.intermediary.corporation"></app-card-line>
+      </div>
+    </div>
+
+    <div #footer class="fd-flex fd-flex-row-reverse">
+      <button pButton type="button" iconPos="left" label="{{'view' | translate}}"></button>
+    </div>
+  </div>
+</div>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

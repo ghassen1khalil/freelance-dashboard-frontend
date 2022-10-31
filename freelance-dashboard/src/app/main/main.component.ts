@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import * as PositionActions from '../core/store/actions/position.action';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../core/store/reducers/position.reducer'
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-main',
@@ -17,12 +18,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public positions: Position[];
   public isAddPositionDialogShown: boolean = false;
-  public isClosable: boolean = true;
+  public positionsYears: Set<number>;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(private positionService: PositionsService,
-              private store: Store<{positions: Position[]}>) {
+              private store: Store<{ positions: Position[] }>) {
+    this.positionsYears = new Set;
   }
 
   ngOnInit(): void {
@@ -35,9 +37,20 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe((positions) => {
       if (positions.length > 0) {
         this.positions = positions;
+        this.extractYearsFromPositions();
       }
     });
+  }
 
+  private extractYearsFromPositions() {
+    this.positions.map(position => {
+      let year = moment(position.creationDate, "YYYY-MM-DD").year();
+      this.positionsYears.add(year);
+    })
+  }
+
+  public getPositionsByYear(year: number) {
+    return this.positions.filter(position => moment(position.creationDate, "YYYY-MM-DD").year() === year);
   }
 
   public globalFilter($event: Event) {

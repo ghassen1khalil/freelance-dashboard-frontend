@@ -18,6 +18,8 @@ import {PositionEffects} from './core/store/effects/position.effects';
 import {reducers} from './core/store/reducers/reducers';
 /*import {MessageService} from 'primeng/api';*/
 import {ToastModule} from 'primeng/toast';
+import {DashboardAccordionModule} from '../shared/accordion/dashboard-accordion.module';
+import {HeaderModule} from '../shared/header/header.module';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -26,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PositionEffects]),
     ToastModule,
+    DashboardAccordionModule,
+    HeaderModule
   ],
   providers: [
     HttpClient,

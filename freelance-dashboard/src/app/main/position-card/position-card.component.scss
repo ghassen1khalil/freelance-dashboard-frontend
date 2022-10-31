@@ -1,0 +1,58 @@
+@media(min-width: 1480px) {
+  .card-width {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 1479px) {
+  .card-width {
+    max-width: available;
+  }
+}
+
+.card {
+  background: #ffffff;
+  color: #495057;
+  box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
+  border-radius: 1rem;
+
+  padding: 2rem;
+  margin: 2rem auto;
+}
+
+.card-header-text {
+  margin-left: 6px;
+}
+
+.card-header-client {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.card-header-address {
+  margin: 0;
+}
+
+.card-header-edit {
+  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 25px;
+}
+
+.card-body-container {
+  padding: 1rem 2rem 0
+}
+
+::ng-deep .p-menu.p-menu-overlay {
+  box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
+}
+
+/*::ng-deep .p-button {
+  background: var(--very_light_blue);
+  border: 1px solid var(--very_light_blue);
+}*/
+
+.p-button {
+  border-radius: 1rem!important;
+}

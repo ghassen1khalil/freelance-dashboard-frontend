@@ -1,18 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~gridlex/dist/gridlex.min.css';
-
+//@import '~gridlex/dist/gridlex.min.css';
+@import '~primeflex/primeflex.scss';
+@import 'assets/fonts/spoof/stylesheet.css';
+@import 'colors.scss';
 body {
-  font-family: 'Ramaraja', sans-serif;
-  padding: 2em;
+  font-family: 'Spoof', sans-serif;
+  background: #EFF3F8;
+  color: var(--text-color);
+  margin: 0!important;
 }
 
 @font-face {
-  font-family: 'Ramaraja', sans-serif;
+  font-family: 'Spoof', sans-serif;
 }
 
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Spoof', sans-serif;
 }
 
 
@@ -29,8 +33,16 @@ body {
   flex-direction: column;
 }
 
+.fd-flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
 .fd-flex-row {
   flex-direction: row;
+}
+
+.fd-flex-row-reverse {
+  flex-direction: row-reverse;
 }
 
 .fd-space-between {
@@ -41,9 +53,16 @@ body {
   width: 100%;
 }
 
+.fd-justify-content-center {
+  justify-content: center;
+}
 .fd-rounded-edge {
   border: 1px lightgray solid;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0,0,0,.15);
+}
+
+.p-button {
+  border-radius: 1rem!important;
 }

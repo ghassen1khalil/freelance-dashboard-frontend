@@ -116,23 +116,39 @@ components:
           type: string
         client:
           type: string
-        projectOrEntity:
-          type: string
+        mission:
+          $ref: '#/components/schemas/Mission'
         address:
           type: string
         isFullRemote:
           type: boolean
         remarks:
           type: string
-        date:
+        creationDate:
+          type: string
+          format: date
+        startingDate:
           type: string
           format: date
         intermediary:
           $ref: '#/components/schemas/Intermediary'
+        dailyRate:
+          $ref: '#/components/schemas/DailyRate'
         statuses:
           type: array
           items:
             $ref: '#/components/schemas/Status'
+    Mission:
+      type: object
+      properties:
+        role:
+          type: string
+        project:
+          type: string
+        tribe:
+          type: string
+        manager:
+          type: string
     Intermediary:
       type: object
       properties:
@@ -150,6 +166,13 @@ components:
         date:
           type: string
           format: date
+    DailyRate:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
     Error:
       type: object
       properties:
