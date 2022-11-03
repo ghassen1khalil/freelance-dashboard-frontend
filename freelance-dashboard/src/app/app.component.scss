@@ -1,15 +1,30 @@
-@media(min-width: 1480px) {
+
+@media (min-width: 0px) and (max-width: 640px) {
   .layout-content {
-    padding: 1em 20rem!important;
+    padding: 24px!important;
   }
 }
 
-@media (min-width: 320px) and (max-width: 1479px) {
+@media (min-width: 641px) and (max-width: 1007px) {
   .layout-content {
-    padding: 0!important;
+    padding: 24px!important;
   }
 }
 
+@media(min-width: 1008px) {
+  .layout-content {
+    padding: 3.5rem 20rem!important;
+  }
+}
+
+
+/*
 .layout-content {
   margin: 32px 16px 0 16px;
+}
+*/
+
+:host {
+  display: block;
+  height: 100%;
 }

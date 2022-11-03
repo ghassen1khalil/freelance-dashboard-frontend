@@ -1,0 +1,67 @@
+<div class="fd-full-width fd-full-height fd-flex fd-flex-column align-items-center">
+  <div class="grid " style="max-width: 400px">
+    <div class="col-12 fd-flex fd-flex-row justify-content-center align-items-center "  style="padding-bottom: 40px">
+      <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
+      <div class="divider">
+        <p-divider layout="vertical"></p-divider>
+      </div>
+      <p class="text-xl font-bold app-title">{{'app-title' | translate}}</p>
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column" style="padding-bottom: 30px">
+      <div>
+        <p class="text-3xl font-bold no-margin" [innerHTML]="'connect' | translate"></p>
+        <p class="no-margin" [innerHTML]="'orCreateAccount' | translate: {url: 'signin'}"></p>
+      </div>
+    </div>
+
+
+    <form [formGroup]="logInForm" class=" fd-full-width">
+      <div class="col-12 fd-flex fd-flex-row justify-content-center">
+        <input class="fd-full-width" id="username" type="text" pInputText formControlName="usernameOrEmail"
+               placeholder="{{'username' | translate}}">
+      </div>
+      <div class="col-12 fd-flex fd-flex-row justify-content-center fd-full-width ">
+        <p-password class="fd-full-width" formControlName="password" [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                    placeholder="{{'password' | translate}}">
+          <ng-template pTemplate="header">
+            <h6>{{'password' | translate}}</h6>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p class="mt-2">{{'suggestions' | translate}}</p>
+            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+              <li>{{'atLeastOneLowercase' | translate}}</li>
+              <li>{{'atLeastOneUppercase' | translate}}</li>
+              <li>{{'atLeastOneDigit' | translate}}</li>
+              <li>{{'min8chars' | translate}}</li>
+            </ul>
+          </ng-template>
+        </p-password>
+      </div>
+    </form>
+
+    <div class="col-6 fd-flex fd-flex-column">
+      <button pButton pRipple type="button"  label="{{'login' | translate}}"></button>
+    </div>
+    <div class="col-6 fd-flex fd-flex-column">
+      <p-button label="{{'passwordForgotten?' | translate}}" styleClass="p-button-link" class="login-button"></p-button>
+    </div>
+
+
+    <div class="col-12 ">
+      <p-divider></p-divider>
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column">
+      <button pButton pRipple type="button"  label="{{'connectViaLinkedIn' | translate}}" icon="pi pi-linkedin" class="p-button-outlined"></button>
+
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column">
+      <button pButton pRipple type="button"  label="{{'connectViaGoogle' | translate}}" icon="pi pi-google" class="p-button-outlined"></button>
+    </div>
+
+  </div>
+</div>

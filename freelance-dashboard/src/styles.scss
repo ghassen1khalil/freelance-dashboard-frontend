@@ -3,11 +3,14 @@
 @import '~primeflex/primeflex.scss';
 @import 'assets/fonts/spoof/stylesheet.css';
 @import 'colors.scss';
+
+html,
 body {
   font-family: 'Spoof', sans-serif;
   background: #EFF3F8;
   color: var(--text-color);
-  margin: 0!important;
+  margin: 0 !important;
+  height: 100%;
 }
 
 @font-face {
@@ -53,16 +56,21 @@ body {
   width: 100%;
 }
 
+.fd-full-height {
+  height: 100%;
+}
+
 .fd-justify-content-center {
   justify-content: center;
 }
+
 .fd-rounded-edge {
   border: 1px lightgray solid;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,.15);
+  box-shadow: 0 0 15px rgba(0, 0, 0, .15);
 }
 
 .p-button {
-  border-radius: 1rem!important;
+  border-radius: 1rem !important;
 }

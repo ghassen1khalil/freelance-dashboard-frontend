@@ -4,6 +4,10 @@ import {RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    loadChildren: () => import('./log-sign-in/log-sign-in.module').then(m => m.LogSignInModule)
+  },
+  {
+    path: 'main',
     loadChildren: () => import('./main/main.module').then(m => m.MainModule)
   }
 ];
@@ -12,4 +16,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
