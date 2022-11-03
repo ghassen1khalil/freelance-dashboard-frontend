@@ -10,13 +10,16 @@ import * as eventReducer from './core/store/reducers/event.reducer'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
+
+  public isHeaderShown: boolean;
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private store: Store<{event: Event}>,
+  constructor(private store: Store<{ event: Event }>,
               /*private messageService: MessageService,*/
               /*private primengConfig: PrimeNGConfig*/) {
+    this.isHeaderShown = !(window.location.href.includes('login') || window.location.href.includes('signin'))
   }
 
   ngOnInit() {

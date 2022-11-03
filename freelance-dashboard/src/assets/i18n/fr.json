@@ -1,4 +1,7 @@
 {
+  "app-title": "Freelance Dashboard",
+  "connect": "Connecte-toi",
+  "orCreateAccount": "ou <a href={{url}}> Crée ton compte</a>",
   "positions": "Positionnements",
   "globalSearch": "Recherche générale",
   "year": "Année",
@@ -90,5 +93,22 @@
       "remove": "Supprimer"
     }
   },
-  "login": "Se connecter"
+  "login": "Se connecter",
+  "usernameOrPassword": "Nom d'utilisateur ou mot de passe",
+  "username": "Nom d'utilisateur",
+  "password": "Mot de passe",
+  "pickPwd": "Tape ton mot de passe",
+  "suggestions": "Suggestions",
+  "atLeastOneLowercase": "Au moins une lettre en minuscule",
+  "atLeastOneUppercase": "Au moins une lettre en majuscule",
+  "atLeastOneDigit": "Au moins un chiffre",
+  "min8chars": "Au moins 8 caractères",
+  "passwordForgotten?": "Mot de passe oublié ?",
+  "connectViaLinkedIn": "Se connecter avec Linkedin",
+  "connectViaGoogle": "Se connecter avec Google",
+  "signInViaLinkedIn": "S'inscrire' avec Linkedin",
+  "signInViaGoogle": "S'inscrire avec Google",
+  "createMyAccount": "Créer mon compte",
+  "createYourAccount": "Crée ton compte",
+  "orConnect": "ou <a href={{url}}> Connecte toi</a>"
 }
