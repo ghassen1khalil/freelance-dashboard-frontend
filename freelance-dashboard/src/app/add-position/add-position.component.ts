@@ -1,8 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Currency, Position, PositionsService} from '../../../generated';
-import {TranslateService} from '@ngx-translate/core';
-import {PrimeNGConfig} from 'primeng/api';
 import {Store} from '@ngrx/store';
 import * as PositionActions from '../core/store/actions/position.action';
 import {Router} from '@angular/router';
@@ -21,13 +19,13 @@ export class AddPositionComponent implements OnInit {
 
 
   constructor(private positionService: PositionsService,
-              private config: PrimeNGConfig,
               private store: Store<{ positions: Position[] }>,
               private router: Router) {
     this.buildForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   private buildForm() {
     this.addPositionForm = new FormGroup({

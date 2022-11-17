@@ -6,6 +6,7 @@ import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from './core/store/reducers/event.reducer'
 import * as PositionActions from './core/store/actions/position.action';
 import {TranslateService} from '@ngx-translate/core';
+import {PrimeNGConfig} from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
+              private config: PrimeNGConfig,
               /*private messageService: MessageService,*/
               /*private primengConfig: PrimeNGConfig*/) {
     this.translateService.use('fr');
