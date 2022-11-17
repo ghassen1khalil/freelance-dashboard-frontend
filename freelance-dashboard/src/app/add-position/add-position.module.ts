@@ -12,6 +12,8 @@ import {RippleModule} from 'primeng/ripple';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {TimelineModule} from 'primeng/timeline';
 import {CalendarModule} from 'primeng/calendar';
+import {AddPositionRoutingModule} from './add-position-routing.module';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
@@ -21,20 +23,23 @@ import {CalendarModule} from 'primeng/calendar';
   exports: [
     AddPositionComponent
   ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        TranslateModule,
-        ButtonModule,
-        CheckboxModule,
-        ToggleButtonModule,
-        FormsModule,
-        FieldsetModule,
-        RippleModule,
-        InputTextareaModule,
-        TimelineModule,
-        CalendarModule
-    ]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    TranslateModule,
+    ButtonModule,
+    CheckboxModule,
+    ToggleButtonModule,
+    FormsModule,
+    FieldsetModule,
+    RippleModule,
+    InputTextareaModule,
+    TimelineModule,
+    CalendarModule,
+    AddPositionRoutingModule,
+    DropdownModule
+  ]
 })
-export class AddPositionModule { }
+export class AddPositionModule {
+}

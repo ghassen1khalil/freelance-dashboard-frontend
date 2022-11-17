@@ -1,0 +1,60 @@
+form {
+  max-width: 700px;
+}
+
+.full-remote{
+  width: max-content;
+}
+
+.address {
+  width: 100%;
+  margin-right: 24px;
+}
+
+::ng-deep .p-fieldset {
+  width: 100%;
+}
+
+::ng-deep .p-button-label {
+  width: max-content;
+}
+
+::ng-deep .p-calendar {
+  width: 100%;
+}
+
+::ng-deep .p-calendar-w-btn .p-datepicker-trigger {
+  border-top-left-radius: 0!important;
+  border-bottom-left-radius: 0!important;
+}
+
+::ng-deep .p-fieldset {
+  border-radius: 1rem;
+}
+
+::ng-deep .p-fieldset .p-fieldset-legend {
+  border-radius: 1rem;
+}
+
+::ng-deep .p-inputtext {
+  border-radius: 1rem;
+}
+
+
+::ng-deep .p-calendar .p-datepicker {
+  border-radius: 1rem;
+}
+
+::ng-deep .p-dropdown .p-dropdown-panel {
+  border-radius: 1rem;
+}
+
+::ng-deep .p-dropdown {
+  border-radius: 1rem;
+  width: 100%;
+}
+
+
+::ng-deep .p-dropdown-items .p-dropdown-item.p-highlight {
+  border-radius: 1rem;
+}

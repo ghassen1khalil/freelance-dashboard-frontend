@@ -6,7 +6,6 @@ export const initialPositionState: PositionState = {positions: []};
 
 const _positionReducer = createReducer(
   initialPositionState,
-  on(PositionActions.FetchPositions, state => state),
   on(PositionActions.FetchPositionsSuccess, (state, {payload}) => {
     return {...state, positions: payload}
   })

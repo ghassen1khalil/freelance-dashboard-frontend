@@ -1,16 +1,18 @@
-import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MainComponent} from './main.component';
+import {AddPositionComponent} from './add-position.component';
+import {NgModule} from '@angular/core';
 
 const routes: Routes = [
+
   {
     path: '',
-    component: MainComponent,
-  },
+    component: AddPositionComponent
+  }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MainRoutingModule { }
+export class AddPositionRoutingModule { }

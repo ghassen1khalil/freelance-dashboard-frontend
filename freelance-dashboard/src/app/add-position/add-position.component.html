@@ -1,19 +1,37 @@
-<form [formGroup]="addPositionForm" class="fd-flex fd-flex-column">
+<form [formGroup]="addPositionForm" class="fd-flex fd-flex-column fd-margin-auto">
   <div class="grid">
     <div class="col-12 fd-flex fd-flex-column">
-      <p-calendar formControlName="date" dateFormat="dd/mm/yy" placeholder="{{'date' | translate}}" [showIcon]="true"></p-calendar>
+      <p-calendar formControlName="startingDate" dateFormat="dd/mm/yy" placeholder="{{'startingDate' | translate}}" [showIcon]="true"></p-calendar>
     </div>
     <div class="col-12 fd-flex fd-flex-column">
       <input formControlName="client" type="text" pInputText placeholder="{{'client' | translate}}">
-    </div>
-    <div class="col-12 fd-flex fd-flex-column">
-      <input formControlName="projectOrEntity" type="text" pInputText placeholder="{{'projectOrEntity' | translate}}">
     </div>
     <div class="col-12 fd-flex fd-flex-row">
       <input class="address" formControlName="address" type="text" pInputText placeholder="{{'address' | translate}}">
       <p-toggleButton class="" onLabel="{{'fullRemote' | translate}}" offLabel="{{'partialRemote' | translate}}"
                       onIcon="pi pi-check" offIcon="pi pi-times"
                       [formControl]="$any(addPositionForm).controls['isFullRemote']"></p-toggleButton>
+    </div>
+    <div class="col-8 fd-flex fd-flex-column">
+      <input formControlName="dailyRate" type="number" pInputText placeholder="{{'dailyRate' | translate}}">
+    </div>
+    <div class="col-4 fd-flex fd-flex-column">
+      <p-dropdown formControlName="currency" [options]="currencies" placeholder="{{'currency' | translate}}"></p-dropdown>
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-row ">
+      <p-fieldset legend="{{'mission' | translate}}" class="fd-flex fd-flex-row fd-full-width">
+        <div class="col-12 ">
+          <input class="fd-full-width" formControlName="role" type="text" pInputText
+                 placeholder="{{'role' | translate}}">
+        </div>
+        <div class="col-12"><input class="fd-full-width" formControlName="project" type="text" pInputText
+                                   placeholder="{{'project' | translate}}"></div>
+        <div class="col-12"><input class="fd-full-width" formControlName="tribe" type="text" pInputText
+                                   placeholder="{{'tribe' | translate}}"></div>
+        <div class="col-12"><input class="fd-full-width" formControlName="manager" type="text" pInputText
+                                   placeholder="{{'manager' | translate}}"></div>
+      </p-fieldset>
     </div>
 
     <div class="col-12 fd-flex fd-flex-row ">

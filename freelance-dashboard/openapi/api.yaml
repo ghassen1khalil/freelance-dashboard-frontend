@@ -172,7 +172,12 @@ components:
         amount:
           type: number
         currency:
-          type: string
+          type: object
+          $ref: '#/components/schemas/Currency'
+    Currency:
+      type: string
+      enum: ['€', '$', '£']
+      x-enum-varnames: ['EURO','DOLLAR','POUND']
     Error:
       type: object
       properties:
