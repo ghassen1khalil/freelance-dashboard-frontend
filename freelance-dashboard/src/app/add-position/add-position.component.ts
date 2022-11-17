@@ -4,7 +4,7 @@ import {Currency, Position, PositionsService} from '../../../generated';
 import {Store} from '@ngrx/store';
 import * as PositionActions from '../core/store/actions/position.action';
 import {Router} from '@angular/router';
-import * as moment from 'moment';
+import {DateService} from '../../services/date.service';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class AddPositionComponent implements OnInit {
 
 
   constructor(private positionService: PositionsService,
+              private dateService: DateService,
               private store: Store<{ positions: Position[] }>,
               private router: Router) {
     this.buildForm();
@@ -57,7 +58,7 @@ export class AddPositionComponent implements OnInit {
 
   private createPositionFromForm(): Position {
     return {
-      startingDate: this.addPositionForm.controls['startingDate'].value,
+      startingDate: this.dateService.formatAndUtc(this.addPositionForm.controls['startingDate'].value, DateService.YYYY_MM_DD_FORMAT),
       client: this.addPositionForm.controls['client'].value,
       address: this.addPositionForm.controls['address'].value,
       isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
@@ -79,7 +80,7 @@ export class AddPositionComponent implements OnInit {
       remarks: this.addPositionForm.controls['remarks'].value,
       statuses: [{
         label: this.addPositionForm.controls['initialStatus'].value,
-        date: moment().format("YYYY-MM-DD")
+        date: this.dateService.today(DateService.YYYY_MM_DD_FORMAT)
       }]
     };
   }
