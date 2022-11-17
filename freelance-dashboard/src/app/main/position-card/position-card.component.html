@@ -16,18 +16,18 @@
         <angular-emojis [name]="'moneybag'" size="25"></angular-emojis>
         <p class="text-xl font-bold fd-flex-row">
           {{position?.dailyRate?.amount}}
-          {{getCurrency()}}
+          {{currency}}
         </p>
       </div>
     </div>
 
      <div #body class="fd-flex fd-flex-column card-body-container">
       <div class="fd-flex fd-flex-row">
-        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'Full Remote'"></app-card-line>
-        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Remote Partiel'"></app-card-line>
+        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'100% Télétravail'"></app-card-line>
+        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Télétravail partiel'"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'checkered_flag'" [text]="getLatestStatus()"></app-card-line>
+        <app-card-line [emojiName]="'checkered_flag'" [text]="latestStatus"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
         <app-card-line [emojiName]="'date'" [text]="position?.startingDate"></app-card-line>

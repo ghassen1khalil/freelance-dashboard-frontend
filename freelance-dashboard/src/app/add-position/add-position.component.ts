@@ -1,12 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Position, PositionsService} from '../../../../generated';
+import {Currency, Position, PositionsService} from '../../../generated';
 import {TranslateService} from '@ngx-translate/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {Store} from '@ngrx/store';
-import * as PositionActions from '../../core/store/actions/position.action';
-import {PositionState} from '../../core/store/state/app.states';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import * as PositionActions from '../core/store/actions/position.action';
+import {Router} from '@angular/router';
+import * as moment from 'moment';
 
 
 @Component({
@@ -17,67 +17,77 @@ import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 export class AddPositionComponent implements OnInit {
 
   public addPositionForm: FormGroup;
+  public currencies: string[] = Object.values(Currency);
 
-  /*public statusHistory = ['Entretien planifié le XX/XX', 'Abandonné'];*/
-  public statusHistory: any[] = [];
-
-  @Output()
-  public closeDialog: EventEmitter<any> = new EventEmitter();
 
   constructor(private positionService: PositionsService,
-              private translateService: TranslateService,
               private config: PrimeNGConfig,
-              private store: Store<{ positions: Position[] }>) {
+              private store: Store<{ positions: Position[] }>,
+              private router: Router) {
     this.buildForm();
   }
 
-  ngOnInit(): void {
-    this.translateService.use('fr');
-    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
-  }
+  ngOnInit(): void {}
 
   private buildForm() {
     this.addPositionForm = new FormGroup({
-      creationDate: new FormControl('', [Validators.required]),
+      startingDate: new FormControl('', [Validators.required]),
       client: new FormControl('', [Validators.required]),
-      //projectOrEntity: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
       isFullRemote: new FormControl(),
+      dailyRate: new FormControl('', [Validators.required]),
+      currency: new FormControl('', [Validators.required]),
+      role: new FormControl(''),
+      project: new FormControl(''),
+      tribe: new FormControl(''),
+      manager: new FormControl(''),
       intermediaryCorporation: new FormControl('', [Validators.required]),
       intermediaryName: new FormControl('', [Validators.required]),
-      intermediaryPhones: new FormControl('', [Validators.required]),
-      intermediaryEmail: new FormControl('', [Validators.required]),
-      /*statusHistory: new FormControl(),
-      newStatus: new FormControl(),*/
-      initialStatus: new FormControl('', [Validators.required]),
+      intermediaryPhones: new FormControl(''),
+      intermediaryEmail: new FormControl(''),
       remarks: new FormControl(),
+      initialStatus: new FormControl('', [Validators.required]),
     });
   }
 
   public savePosition() {
     if (this.addPositionForm.valid) {
       this.store.dispatch(PositionActions.SaveNewPosition({position: this.createPositionFromForm()}));
+      this.router.navigate(['/main']);
     }
   }
 
   private createPositionFromForm(): Position {
     return {
-      creationDate: this.addPositionForm.controls['creationDate'].value,
+      startingDate: this.addPositionForm.controls['startingDate'].value,
       client: this.addPositionForm.controls['client'].value,
-      //projectOrEntity: this.addPositionForm.controls['projectOrEntity'].value,
       address: this.addPositionForm.controls['address'].value,
       isFullRemote: this.addPositionForm.controls['isFullRemote'].value !== null,
-      remarks: this.addPositionForm.controls['remarks'].value,
+      dailyRate: {
+        amount: this.addPositionForm.controls['dailyRate'].value,
+        currency: this.addPositionForm.controls['currency'].value
+      },
+      mission: {
+        role: this.addPositionForm.controls['role'].value,
+        project: this.addPositionForm.controls['project'].value,
+        tribe: this.addPositionForm.controls['tribe'].value,
+        manager: this.addPositionForm.controls['manager'].value,
+      },
       intermediary: {
         corporation: this.addPositionForm.controls['intermediaryCorporation'].value,
         name: this.addPositionForm.controls['intermediaryName'].value,
         phones: this.addPositionForm.controls['intermediaryPhones'].value,
-      }
+      },
+      remarks: this.addPositionForm.controls['remarks'].value,
+      statuses: [{
+        label: this.addPositionForm.controls['initialStatus'].value,
+        date: moment().format("YYYY-MM-DD")
+      }]
     };
   }
 
   public cancel() {
-    this.closeDialog.emit();
+    this.router.navigate(['/main']);
   }
 
   /*public addStatus() {

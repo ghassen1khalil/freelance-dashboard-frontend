@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Position} from '../../../../generated';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {Currency} from '../../core/domain/models/models';
 
 @Component({
   selector: 'app-position-card',
@@ -11,14 +10,17 @@ import {Currency} from '../../core/domain/models/models';
 export class PositionCardComponent implements OnInit {
 
   @Input() public position: Position;
-
   public items: MenuItem[];
+  public currency: string| undefined;
+  public latestStatus: string| undefined;
 
   constructor() {
   }
 
   ngOnInit(): void {
     this.initMenuItems();
+    this.currency = this.getCurrency();
+    this.latestStatus = this.getLatestStatus();
   }
 
   private initMenuItems() {
@@ -31,12 +33,13 @@ export class PositionCardComponent implements OnInit {
     }];
   }
 
-  public getLatestStatus() {
+  private getLatestStatus(): string| undefined {
     return this.position.statuses?.slice(-1)[0].label
   }
 
-  public getCurrency() {
-    let index = Object.keys(Currency).indexOf(this.position.dailyRate?.currency as unknown as Currency);
-    return Object.values(Currency)[index];
+  private getCurrency(): string| undefined {
+    /*let index = Object.keys(Currency).indexOf(this.position.dailyRate?.currency as unknown as Currency);
+    return Object.values(Currency)[index];*/
+    return this.position.dailyRate?.currency;
   }
 }

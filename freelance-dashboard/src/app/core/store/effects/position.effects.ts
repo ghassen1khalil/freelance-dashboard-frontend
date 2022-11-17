@@ -15,7 +15,7 @@ export class PositionEffects {
   }
 
 
-  /*FetchPositions$: Observable<Action> = createEffect(() =>
+  FetchPositions$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
       mergeMap(action =>
@@ -29,23 +29,16 @@ export class PositionEffects {
         )
       )
     )
-  );*/
+  );
 
 
-  FetchPositions$: Observable<Action> = createEffect(() =>
+  /*FetchPositions$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
       mergeMap(action =>
         this.positionService.findAll().pipe(
           switchMap((positions: Position[]) => of(
-            PositionActions.FetchPositionsSuccess({payload: positions}),
-            EventActions.LaunchEvent({
-              'event': {
-                'type': EventType.SUCCESS,
-                'title': 'Success',
-                'body': 'Positionnement ajouté avec succès'
-              }
-            })
+            PositionActions.FetchPositionsSuccess({payload: positions})
           )),
           catchError((error: HttpErrorResponse) => {
             return of(PositionActions.FetchPositionsFailure({payload: error}));
@@ -53,7 +46,7 @@ export class PositionEffects {
         )
       )
     )
-  );
+  );*/
 
   SavePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
@@ -62,6 +55,13 @@ export class PositionEffects {
         this.positionService.save(action.position).pipe(
           map(() => {
             //this.messageService.add({severity:'success', summary: 'Success', detail: 'Positionnement ajouté avec succès'});
+            /*return EventActions.LaunchEvent({
+              event: {
+                type: EventType.SUCCESS,
+                'title': 'Success',
+                'body': 'Positionnement ajouté avec succès'
+              }
+            });*/
             return PositionActions.FetchPositions();
           }),
           catchError((err: HttpErrorResponse) => {
