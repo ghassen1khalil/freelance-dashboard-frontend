@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem, PrimeIcons} from 'primeng/api';
+import {AuthService} from '@auth0/auth0-angular';
+import {Router, RouterModule} from '@angular/router';
+import {Freelancer} from '../../../generated';
 
 @Component({
   selector: 'app-header',
@@ -8,15 +11,32 @@ import {MenuItem, PrimeIcons} from 'primeng/api';
 })
 export class HeaderComponent implements OnInit {
 
-  public user: any = undefined;
+  public freelancer: Freelancer | undefined;
   public items: MenuItem[];
 
-  constructor() {
-
+  constructor(public auth: AuthService, private router: Router) {
+    this.freelancer = undefined;
   }
 
   ngOnInit(): void {
     this.initMenuItems();
+    this.auth.user$.subscribe(profile => {
+      if (profile?.name) {
+        this.freelancer = {
+          name: profile?.name,
+          email: profile?.email,
+          picture: profile?.picture
+        }
+      } else {
+        this.freelancer = {
+          firstname: profile?.given_name,
+          lastname: profile?.family_name,
+          email: profile?.email,
+          picture: profile?.picture
+        }
+      }
+
+    });
   }
 
   private initMenuItems() {
@@ -24,20 +44,26 @@ export class HeaderComponent implements OnInit {
       label: 'Compte',
       items: [
         {label: 'Profile', icon: PrimeIcons.USER_EDIT},
-        {label: 'Se déconnecter', icon: PrimeIcons.SIGN_OUT, command: event => {this.logout()}}
+        {
+          label: 'Se déconnecter', icon: PrimeIcons.SIGN_OUT, command: event => {
+            this.logout()
+          }
+        }
       ]
     }];
   }
 
   private logout() {
-    this.user = undefined;
+    this.router.navigateByUrl('login').then(() => this.auth.logout());
   }
 
   public login() {
-    this.user = {
-      firstname: 'Ghassen Khalil',
-      lastname: 'Ati',
-      email: 'ghassen1khalil@gmail.com'
-    }
+    /*this.auth.loginWithRedirect();
+    this.auth.user$.subscribe(profile => {
+      this.user = {
+        firstname: profile?.name,
+        email: profile?.email
+      }
+    });*/
   }
 }

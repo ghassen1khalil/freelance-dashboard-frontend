@@ -1,0 +1,59 @@
+<div class="fd-full-width fd-full-height fd-flex fd-flex-column align-items-center">
+  <div class="grid " style="max-width: 400px">
+    <div class="col-12 fd-flex fd-flex-row justify-content-center align-items-center " style="padding-bottom: 40px">
+      <img class="logo" src="assets/icons/freelance_dashboard_logo.svg">
+      <div class="divider">
+        <p-divider layout="vertical"></p-divider>
+      </div>
+      <p class="text-xl font-bold app-title">{{'app-title' | translate}}</p>
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column" style="padding-bottom: 30px">
+      <div>
+        <p [innerHTML]="'connect' | translate" class="text-3xl font-bold no-margin"></p>
+        <p [innerHTML]="'orCreateAccount' | translate: {url: 'signup   '}" class="no-margin"></p>
+      </div>
+    </div>
+
+
+    <form [formGroup]="logInForm" class=" fd-full-width">
+      <div class="col-12 fd-flex fd-flex-row justify-content-center">
+        <input class="fd-full-width" formControlName="email" id="username" pInputText
+               placeholder="{{'email' | translate}}"
+               type="text">
+      </div>
+      <div class="col-12 fd-flex fd-flex-row justify-content-center fd-full-width ">
+        <p-password [feedback]="false" [toggleMask]="true" class="fd-full-width"
+                    formControlName="password" placeholder="{{'password' | translate}}"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right">
+        </p-password>
+      </div>
+    </form>
+
+    <div class="col-6 fd-flex fd-flex-column">
+      <button pButton pRipple type="button" (click)="login()" [disabled]="logInForm.invalid" label="{{'login' | translate}}"></button>
+    </div>
+    <div class="col-6 fd-flex fd-flex-column">
+      <p-button class="login-button" label="{{'passwordForgotten?' | translate}}" styleClass="p-button-link"></p-button>
+    </div>
+
+
+    <div class="col-12 ">
+      <p-divider></p-divider>
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column">
+      <button (click)="connectViaSocial()" class="p-button-outlined" icon="pi pi-linkedin"
+              label="{{'connectViaLinkedIn' | translate}}" pButton
+              pRipple type="button"></button>
+
+    </div>
+
+    <div class="col-12 fd-flex fd-flex-column">
+      <button (click)="connectViaSocial()" class="p-button-outlined" icon="pi pi-google"
+              label="{{'connectViaGoogle' | translate}}" pButton
+              pRipple type="button"></button>
+    </div>
+
+  </div>
+</div>

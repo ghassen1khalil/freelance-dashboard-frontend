@@ -1,12 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Table} from 'primeng/table';
 import {Position, PositionsService} from '../../../generated';
 import {select, Store} from '@ngrx/store';
-import * as PositionActions from '../core/store/actions/position.action';
 import {Subject, takeUntil} from 'rxjs';
-import * as positionReducer from '../core/store/reducers/position.reducer'
-import * as moment from 'moment';
+import * as positionReducer from '../../core/store/reducers/position.reducer'
+import moment from 'moment';
 import {Router} from '@angular/router';
+import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-main',
@@ -22,12 +21,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private positionService: PositionsService,
-              private store: Store<{ positions: Position[] }>) {
+              private store: Store<{ positions: Position[] }>,
+              private authService: AuthService) {
     this.positionsYears = new Set;
   }
 
   ngOnInit(): void {
-
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
