@@ -23,7 +23,8 @@ export const Login = createAction(
 );
 
 export const LoginSuccess = createAction(
-  '[AUTH] - Login Success'
+  '[AUTH] - Login Success',
+  props<{ freelancer: Freelancer }>()
 );
 
 export const LoginFailure = createAction(

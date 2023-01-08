@@ -168,7 +168,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: "#/components/schemas/Freelancer"
         401:
           $ref: '#/components/responses/UnauthorizedError'
 

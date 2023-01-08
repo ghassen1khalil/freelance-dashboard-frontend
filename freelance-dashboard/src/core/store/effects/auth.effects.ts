@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FreelancerService} from '../../../../generated';
+import {Freelancer, FreelancerService} from '../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
@@ -17,13 +17,24 @@ export class AuthEffects {
   Login$: Observable<Action> = createEffect(() => this.action$.pipe(
     ofType(AuthActions.Login),
     mergeMap(action => this.freelancerService.login(action.email, action.password).pipe(
-      map(() => {
+      map((freelancer) => {
         this.router.navigate(['main']);
-        return AuthActions.LoginSuccess();
+        return AuthActions.LoginSuccess({freelancer: freelancer});
       }),
       catchError((error: HttpErrorResponse) => {
         return of(AuthActions.LoginFailure({error: error}));
       })
     ))
+  ));
+
+
+  OnLoginSuccess$: Observable<Action> = createEffect(() => this.action$.pipe(
+    ofType(AuthActions.LoginSuccess),
+    mergeMap(freelancer => {
+      return [
+        AuthActions.SetAuthStatus({isAuthenticated: true}),
+        AuthActions.SetFreelancer(freelancer)
+      ];
+    })
   ));
 }

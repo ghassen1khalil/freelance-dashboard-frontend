@@ -5,6 +5,8 @@ import {Location} from '@angular/common';
 import {FreelancerService} from '../../../../generated';
 import {AuthService} from '@auth0/auth0-angular';
 import {EncryptionService} from '../../../core/services/encryption.service';
+import {Store} from '@ngrx/store';
+import {SetFreelancer} from '../../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +23,8 @@ export class SignupComponent implements OnInit {
               private location: Location,
               private freelancerService: FreelancerService,
               private authService: AuthService,
-              private encryptionService: EncryptionService) {
+              private encryptionService: EncryptionService,
+              private store: Store) {
   }
 
   ngOnInit(): void {
@@ -33,6 +36,7 @@ export class SignupComponent implements OnInit {
 
   }
 
+  //TODO user store (actions, effects) to signup user and detect errors
   public signUpUser() {
     this.authService.user$.subscribe(user => {
       this.freelancerService.signUp({
@@ -42,7 +46,7 @@ export class SignupComponent implements OnInit {
         email: this.encryptionService.encrypt(<string>user?.email),
         password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
         picture: user?.picture
-      }).subscribe(saveUser => {});
+      }).subscribe(savedUser => {this.store.dispatch(SetFreelancer({freelancer: savedUser}))});
     });
   }
 

@@ -3,6 +3,8 @@ import {AuthService, User} from '@auth0/auth0-angular';
 import {FreelancerService} from '../../../../generated';
 import {Router} from '@angular/router';
 import {EncryptionService} from '../../../core/services/encryption.service';
+import {Store} from '@ngrx/store';
+import {SetAuthStatus, SetFreelancer} from '../../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-authentication',
@@ -15,15 +17,18 @@ export class AuthenticationComponent implements OnInit {
   constructor(private authService: AuthService,
               private freelancerService: FreelancerService,
               private router: Router,
-              private encryptionService: EncryptionService) {
+              private encryptionService: EncryptionService,
+              private store: Store) {
   }
 
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(isAuth => {
       if (isAuth) {
+        this.store.dispatch(SetAuthStatus({isAuthenticated: true}));
         this.authService.user$.subscribe(user => {
-          this.freelancerService.checkFreelancer(this.constructFreelancer(user)).subscribe(isAlreadyRegistered => {
+          this.freelancerService.checkFreelancer(this.constructFreelancer(user, true)).subscribe(isAlreadyRegistered => {
             if (isAlreadyRegistered) {
+              this.store.dispatch(SetFreelancer({freelancer: this.constructFreelancer(user, false)}));
               this.router.navigate(['main']);
             } else {
               this.router.navigateByUrl('signup', {
@@ -37,12 +42,12 @@ export class AuthenticationComponent implements OnInit {
           });
         });
       } else {
-        this.router.navigate(['login'])
+        this.router.navigate(['login']);
       }
     });
   }
 
-  private constructFreelancer(user: User | null | undefined) {
+  private constructFreelancer(user: User | null | undefined, withSensitiveData: boolean) {
     if (user === null || user === undefined) {
       throw new Error('Required parameter freelancer was null or undefined when calling checkFreelancer.');
     }
@@ -50,7 +55,7 @@ export class AuthenticationComponent implements OnInit {
       name: user?.name,
       firstname: user?.given_name,
       lastname: user?.family_name,
-      email: this.encryptionService.encrypt(<string>user?.email),
+      email: withSensitiveData ? this.encryptionService.encrypt(<string>user?.email) : user?.email,
       picture: user?.picture
     }
   }
