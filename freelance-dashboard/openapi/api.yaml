@@ -101,7 +101,85 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Position'
+  /freelancer:
+    post:
+      summary: Check freelancer
+      description: Check if freelancer exists in database
+      operationId: checkFreelancer
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Freelancer'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /freelancer/signup:
+    post:
+      summary: SignUp
+      description: Sign up a user to save it in the database
+      operationId: signUp
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Freelancer'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+  /freelancer/authenticate:
+    post:
+      summary: Login
+      description: Login a user with his email and password
+      operationId: login
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
 components:
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
   schemas:
     Position:
       x-java-class-annotations:
@@ -176,8 +254,31 @@ components:
           $ref: '#/components/schemas/Currency'
     Currency:
       type: string
-      enum: ['€', '$', '£']
-      x-enum-varnames: ['EURO','DOLLAR','POUND']
+      enum: [ '€', '$', '£' ]
+      x-enum-varnames: [ 'EURO','DOLLAR','POUND' ]
+    Freelancer:
+      x-java-class-annotations:
+        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "freelancers")'
+        - '@lombok.Data'
+        - '@lombok.Builder'
+        - '@lombok.AllArgsConstructor'
+        - '@lombok.NoArgsConstructor'
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        picture:
+          type: string
     Error:
       type: object
       properties:

@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Table} from 'primeng/table';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Position, PositionsService} from '../../../generated';
 import {select, Store} from '@ngrx/store';
-import * as PositionActions from '../core/store/actions/position.action';
 import {Subject, takeUntil} from 'rxjs';
-import * as positionReducer from '../core/store/reducers/position.reducer'
-import * as moment from 'moment';
+import * as positionReducer from '../../core/store/reducers/position.reducer'
+import moment from 'moment';
 import {Router} from '@angular/router';
 
 @Component({
@@ -27,7 +25,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)

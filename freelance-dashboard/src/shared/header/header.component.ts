@@ -1,22 +1,48 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem, PrimeIcons} from 'primeng/api';
+import {AuthService} from '@auth0/auth0-angular';
+import {Router, RouterModule} from '@angular/router';
+import {Freelancer} from '../../../generated';
+import {select, Store} from '@ngrx/store';
+import {Subject, takeUntil} from 'rxjs';
+import {getAuth} from '../../core/store/reducers/auth.reducers';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {Logout, SetAuthStatus, SetFreelancer} from '../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  public user: any = undefined;
+  public freelancer: Freelancer | undefined;
   public items: MenuItem[];
 
-  constructor() {
+  private unsubscribe$ = new Subject<void>();
 
+  constructor(public auth: AuthService,
+              private router: Router,
+              private store: Store) {
+    this.freelancer = undefined;
   }
 
   ngOnInit(): void {
     this.initMenuItems();
+    this.store.pipe(
+      select(getAuth),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(authState => {
+      if (isNotNullOrUndefined(authState.freelancer)) {
+        this.freelancer = {
+          name: authState.freelancer?.name,
+          firstname: authState.freelancer?.firstname,
+          lastname: authState.freelancer?.lastname,
+          email: authState.freelancer?.email,
+          picture: authState.freelancer?.picture
+        }
+      }
+    });
   }
 
   private initMenuItems() {
@@ -24,20 +50,26 @@ export class HeaderComponent implements OnInit {
       label: 'Compte',
       items: [
         {label: 'Profile', icon: PrimeIcons.USER_EDIT},
-        {label: 'Se déconnecter', icon: PrimeIcons.SIGN_OUT, command: event => {this.logout()}}
+        {
+          label: 'Se déconnecter', icon: PrimeIcons.SIGN_OUT, command: event => {
+            this.logout()
+          }
+        }
       ]
     }];
   }
 
   private logout() {
-    this.user = undefined;
+    localStorage.clear();
+
+    /*this.router.navigate(['login']).then(() => {
+      this.store.dispatch(Logout());
+    });*/
+
+    this.store.dispatch(Logout());
   }
 
-  public login() {
-    this.user = {
-      firstname: 'Ghassen Khalil',
-      lastname: 'Ati',
-      email: 'ghassen1khalil@gmail.com'
-    }
+  ngOnDestroy(): void {
+    this.unsubscribe$.complete();
   }
 }

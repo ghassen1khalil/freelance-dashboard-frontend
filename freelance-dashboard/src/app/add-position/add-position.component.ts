@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Currency, Position, PositionsService} from '../../../generated';
 import {Store} from '@ngrx/store';
-import * as PositionActions from '../core/store/actions/position.action';
+import * as PositionActions from '../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
-import {DateService} from '../../services/date.service';
+import {DateService} from '../../core/services/date.service';
 
 
 @Component({

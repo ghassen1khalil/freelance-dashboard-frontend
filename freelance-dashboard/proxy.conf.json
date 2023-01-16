@@ -1,9 +1,10 @@
-[
-    {
-        "context": ["/api/position"],
-        "target": "http://localhost:8080",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": false
-    }
-]
+{
+  "/api/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": "true",
+    "pathRewrite": {"^/api": "/api"}
+  }
+}
+

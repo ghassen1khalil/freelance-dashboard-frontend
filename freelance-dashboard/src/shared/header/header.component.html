@@ -4,9 +4,9 @@
     <p class="text-xl font-bold header-title">{{'app-title' | translate}}</p>
   </div>
 
-  <div *ngIf="user" class="fd-flex fd-flex-column fd-justify-content-center" (click)="menu.toggle($event)">
+  <div *ngIf="freelancer" class="fd-flex fd-flex-column fd-justify-content-center" (click)="menu.toggle($event)">
     <div class="fd-flex fd-flex-row align-items-center connected-user-container">
-      <p-avatar class="avatar"
+      <p-avatar *ngIf="!freelancer?.picture" class="avatar"
                 icon="pi pi-user"
                 pBadge
                 severity="success"
@@ -14,14 +14,32 @@
                 shape="circle"
                 size="large">
       </p-avatar>
-      <p class="connected-user-name">{{user.firstname}}</p>
+      <p-avatar *ngIf="freelancer?.picture" class="avatar"
+                [image]="freelancer?.picture"
+                pBadge
+                severity="success"
+                styleClass="p-mr-2"
+                shape="circle"
+                size="large">
+      </p-avatar>
+
+      <!--<div *ngIf="!freelancer.name && freelancer.firstname && freelancer.lastname">-->
+      <!--<div>
+        <p class="connected-user-name">{{freelancer.firstname}}</p>
+        <p class="connected-user-name">{{freelancer.lastname}}</p>
+      </div>-->
+      <!--<div *ngIf="freelancer.name && !freelancer.firstname && !freelancer.lastname">-->
+      <div *ngIf="freelancer.name">
+        <p class="connected-user-name">{{freelancer.name}}</p>
+      </div>
+
     </div>
 
   </div>
-  <div *ngIf="!user" class="fd-flex fd-flex-column fd-justify-content-center">
+  <!--<div *ngIf="!freelancer" class="fd-flex fd-flex-column fd-justify-content-center">
     <p-button label="{{'login' | translate}}" styleClass="p-button-link" class="login-button"
               (click)="login()"></p-button>
-  </div>
+  </div>-->
 </div>
 
 <p-menu #menu [popup]="true" [model]="items"></p-menu>
