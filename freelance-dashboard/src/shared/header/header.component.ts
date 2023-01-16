@@ -1,41 +1,47 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {AuthService} from '@auth0/auth0-angular';
 import {Router, RouterModule} from '@angular/router';
 import {Freelancer} from '../../../generated';
+import {select, Store} from '@ngrx/store';
+import {Subject, takeUntil} from 'rxjs';
+import {getAuth} from '../../core/store/reducers/auth.reducers';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {Logout, SetAuthStatus, SetFreelancer} from '../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   public freelancer: Freelancer | undefined;
   public items: MenuItem[];
 
-  constructor(public auth: AuthService, private router: Router) {
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(public auth: AuthService,
+              private router: Router,
+              private store: Store) {
     this.freelancer = undefined;
   }
 
   ngOnInit(): void {
     this.initMenuItems();
-    this.auth.user$.subscribe(profile => {
-      if (profile?.name) {
+    this.store.pipe(
+      select(getAuth),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(authState => {
+      if (isNotNullOrUndefined(authState.freelancer)) {
         this.freelancer = {
-          name: profile?.name,
-          email: profile?.email,
-          picture: profile?.picture
-        }
-      } else {
-        this.freelancer = {
-          firstname: profile?.given_name,
-          lastname: profile?.family_name,
-          email: profile?.email,
-          picture: profile?.picture
+          name: authState.freelancer?.name,
+          firstname: authState.freelancer?.firstname,
+          lastname: authState.freelancer?.lastname,
+          email: authState.freelancer?.email,
+          picture: authState.freelancer?.picture
         }
       }
-
     });
   }
 
@@ -54,16 +60,16 @@ export class HeaderComponent implements OnInit {
   }
 
   private logout() {
-    this.router.navigateByUrl('login').then(() => this.auth.logout());
+    localStorage.clear();
+
+    /*this.router.navigate(['login']).then(() => {
+      this.store.dispatch(Logout());
+    });*/
+
+    this.store.dispatch(Logout());
   }
 
-  public login() {
-    /*this.auth.loginWithRedirect();
-    this.auth.user$.subscribe(profile => {
-      this.user = {
-        firstname: profile?.name,
-        email: profile?.email
-      }
-    });*/
+  ngOnDestroy(): void {
+    this.unsubscribe$.complete();
   }
 }

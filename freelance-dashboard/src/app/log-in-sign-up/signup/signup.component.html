@@ -45,7 +45,7 @@
     </form>
 
     <div class="col-12 fd-flex fd-flex-column">
-      <button (click)="signUpUser()" [disabled]="signUpForm.invalid" label="{{'createMyAccount' | translate}}" pButton
+      <button (click)="signupUser()" [disabled]="signUpForm.invalid" label="{{'createMyAccount' | translate}}" pButton
               pRipple type="button"></button>
     </div>
 
@@ -58,13 +58,15 @@
       <div class="col-12 fd-flex fd-flex-column">
         <button class="p-button-outlined" icon="pi pi-linkedin" label="{{'signInViaLinkedIn' | translate}}" pButton
                 pRipple
-                type="button"></button>
+                type="button"
+                (click)="signupViaSocial()"></button>
 
       </div>
 
       <div class="col-12 fd-flex fd-flex-column">
         <button class="p-button-outlined" icon="pi pi-google" label="{{'signInViaGoogle' | translate}}" pButton
-                pRipple type="button"></button>
+                pRipple type="button"
+                (click)="signupViaSocial()"></button>
       </div>
     </div>
 

@@ -1,11 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Position, PositionsService} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import moment from 'moment';
 import {Router} from '@angular/router';
-import {AuthService} from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-main',
@@ -21,8 +20,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private positionService: PositionsService,
-              private store: Store<{ positions: Position[] }>,
-              private authService: AuthService) {
+              private store: Store<{ positions: Position[] }>) {
     this.positionsYears = new Set;
   }
 

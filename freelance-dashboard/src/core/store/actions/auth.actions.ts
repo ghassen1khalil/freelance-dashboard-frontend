@@ -4,7 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 export const SetFreelancer = createAction(
   '[AUTH] - Set Freelancer',
-  props<{ freelancer: Freelancer }>()
+  props<{ freelancer: Freelancer | undefined }>()
 );
 
 export const SetAuthStatus = createAction(
@@ -23,11 +23,34 @@ export const Login = createAction(
 );
 
 export const LoginSuccess = createAction(
-  '[AUTH] - Login Success',
-  props<{ freelancer: Freelancer }>()
+  '[AUTH] - Login success'
+);
+
+
+export const LoginViaSocial = createAction(
+  '[AUTH] - Login via social'
 );
 
 export const LoginFailure = createAction(
   '[AUTH] - Login Failure',
   props<{ error: HttpErrorResponse }>()
+);
+
+
+export const Signup = createAction(
+  '[AUTH] - Signup',
+  props<{ freelancer: Freelancer}>()
+);
+
+export const SignupViaSocial = createAction(
+  '[AUTH] - Signup'
+);
+
+export const SignupFailure = createAction(
+  '[AUTH] - Signup Failure',
+  props<{ error: HttpErrorResponse }>()
+);
+
+export const Logout = createAction(
+  '[AUTH] - Logout',
 );

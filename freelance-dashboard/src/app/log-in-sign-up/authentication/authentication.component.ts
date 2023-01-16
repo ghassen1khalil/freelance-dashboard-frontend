@@ -1,18 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, User} from '@auth0/auth0-angular';
 import {FreelancerService} from '../../../../generated';
 import {Router} from '@angular/router';
 import {EncryptionService} from '../../../core/services/encryption.service';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {SetAuthStatus, SetFreelancer} from '../../../core/store/actions/auth.actions';
+import {FetchPositions} from '../../../core/store/actions/position.actions';
+import {Subject, takeUntil} from 'rxjs';
+import * as authReducer from '../../../core/store/reducers/auth.reducers';
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.scss']
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationComponent implements OnInit, OnDestroy {
 
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private authService: AuthService,
               private freelancerService: FreelancerService,
@@ -23,12 +27,13 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(isAuth => {
-      if (isAuth) {
+      if (!!isAuth) {
         this.store.dispatch(SetAuthStatus({isAuthenticated: true}));
         this.authService.user$.subscribe(user => {
           this.freelancerService.checkFreelancer(this.constructFreelancer(user, true)).subscribe(isAlreadyRegistered => {
             if (isAlreadyRegistered) {
               this.store.dispatch(SetFreelancer({freelancer: this.constructFreelancer(user, false)}));
+              this.store.dispatch(FetchPositions());
               this.router.navigate(['main']);
             } else {
               this.router.navigateByUrl('signup', {
@@ -58,6 +63,10 @@ export class AuthenticationComponent implements OnInit {
       email: withSensitiveData ? this.encryptionService.encrypt(<string>user?.email) : user?.email,
       picture: user?.picture
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.complete();
   }
 
 }

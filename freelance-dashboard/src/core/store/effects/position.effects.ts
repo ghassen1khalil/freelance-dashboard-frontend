@@ -3,7 +3,7 @@ import {Position, PositionsService} from '../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, Observable, of, switchMap} from 'rxjs';
 import {Action} from '@ngrx/store';
-import * as PositionActions from '../actions/position.action';
+import * as PositionActions from '../actions/position.actions';
 import * as EventActions from '../actions/event.actions';
 import {HttpErrorResponse} from '@angular/common/http';
 import {EventType} from '../models/models';

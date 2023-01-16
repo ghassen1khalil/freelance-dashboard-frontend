@@ -4,10 +4,12 @@ import {select, Store} from '@ngrx/store';
 import {Event} from '../core/store/models/models';
 import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
-import * as PositionActions from '../core/store/actions/position.action';
+import * as PositionActions from '../core/store/actions/position.actions';
 import {TranslateService} from '@ngx-translate/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {AuthService} from '@auth0/auth0-angular';
+import {getAuth} from '../core/store/reducers/auth.reducers';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 @Component({
   selector: 'app-root',
@@ -29,21 +31,26 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translateService.use('fr');
     this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
 
-    this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+    /*this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isHeaderShown = isAuthenticated && (!window.location.href.includes('login') || !window.location.href.includes('signup'));
-    });
+    });*/
   }
 
   ngOnInit() {
     //this.primengConfig.ripple = true;
-    //TODO change this at main component
-    this.store.dispatch(PositionActions.FetchPositions());
     this.store.pipe(
       select(eventReducer.getEvent),
       takeUntil(this.unsubscribe$)
     ).subscribe(event => {
       //console.log(event?.body);
       //this.messageService.add({severity:'success', summary: event?.title, detail: event?.body});
+    });
+
+    this.store.pipe(
+      select(getAuth),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(authState => {
+      this.isHeaderShown = authState.isAuthenticated && (!window.location.href.includes('login') || !window.location.href.includes('signup'));
     });
   }
 

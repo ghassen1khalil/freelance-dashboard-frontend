@@ -13,7 +13,7 @@ export const environment = {
     redirectUri: window.location.origin + '/auth',
   },
   encryption: {
-    key: "MySecretKey12345"
+    key: "MySecretKey1234"
   }
 };
 

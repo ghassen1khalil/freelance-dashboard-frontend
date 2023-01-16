@@ -15,13 +15,14 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {PositionEffects} from '../core/store/effects/position.effects';
-import {reducers} from '../core/store/reducers/reducers';
+import {metaReducers, reducers} from '../core/store/reducers/reducers';
 /*import {MessageService} from 'primeng/api';*/
 import {ToastModule} from 'primeng/toast';
 import {DashboardAccordionModule} from '../shared/accordion/dashboard-accordion.module';
 import {HeaderModule} from '../shared/header/header.module';
 import {AuthModule} from '@auth0/auth0-angular';
 import {AuthEffects} from '../core/store/effects/auth.effects';
+import {HydrationEffects} from '../core/store/effects/hydration.effects';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -46,9 +47,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
       defaultLanguage: 'fr'
     }),
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, /*{ metaReducers }*/),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PositionEffects, AuthEffects]),
+    EffectsModule.forRoot([PositionEffects, AuthEffects, /*HydrationEffects*/]),
     ToastModule,
     DashboardAccordionModule,
     HeaderModule,

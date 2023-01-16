@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '@auth0/auth0-angular';
 import {Store} from '@ngrx/store';
-import {Login} from '../../../core/store/actions/auth.actions';
+import {Login, LoginViaSocial} from '../../../core/store/actions/auth.actions';
 import {EncryptionService} from '../../../core/services/encryption.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   public connectViaSocial() {
-    this.authService.loginWithRedirect();
+    this.store.dispatch(LoginViaSocial());
   }
 
   private buildForm() {

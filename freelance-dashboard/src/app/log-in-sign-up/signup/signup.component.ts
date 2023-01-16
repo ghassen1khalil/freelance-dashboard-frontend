@@ -6,7 +6,7 @@ import {FreelancerService} from '../../../../generated';
 import {AuthService} from '@auth0/auth0-angular';
 import {EncryptionService} from '../../../core/services/encryption.service';
 import {Store} from '@ngrx/store';
-import {SetFreelancer} from '../../../core/store/actions/auth.actions';
+import {LoginViaSocial, Signup} from '../../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-signup',
@@ -37,17 +37,23 @@ export class SignupComponent implements OnInit {
   }
 
   //TODO user store (actions, effects) to signup user and detect errors
-  public signUpUser() {
+  public signupUser() {
     this.authService.user$.subscribe(user => {
-      this.freelancerService.signUp({
-        name: user?.name,
-        firstname: user?.given_name,
-        lastname: user?.family_name,
-        email: this.encryptionService.encrypt(<string>user?.email),
-        password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
-        picture: user?.picture
-      }).subscribe(savedUser => {this.store.dispatch(SetFreelancer({freelancer: savedUser}))});
+      this.store.dispatch(Signup({
+        freelancer: {
+          name: user?.name,
+          firstname: user?.given_name,
+          lastname: user?.family_name,
+          email: this.encryptionService.encrypt(this.signUpForm.controls['email'].value),
+          password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
+          picture: user?.picture
+        }
+      }));
     });
+  }
+
+  public signupViaSocial() {
+    this.store.dispatch(LoginViaSocial());
   }
 
   private buildForm(userMail: string) {

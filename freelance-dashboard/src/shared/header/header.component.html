@@ -22,21 +22,24 @@
                 shape="circle"
                 size="large">
       </p-avatar>
-      <div *ngIf="!freelancer.name && freelancer.firstname && freelancer.lastname">
+
+      <!--<div *ngIf="!freelancer.name && freelancer.firstname && freelancer.lastname">-->
+      <!--<div>
         <p class="connected-user-name">{{freelancer.firstname}}</p>
         <p class="connected-user-name">{{freelancer.lastname}}</p>
-      </div>
-      <div *ngIf="freelancer.name && !freelancer.firstname && !freelancer.lastname">
+      </div>-->
+      <!--<div *ngIf="freelancer.name && !freelancer.firstname && !freelancer.lastname">-->
+      <div *ngIf="freelancer.name">
         <p class="connected-user-name">{{freelancer.name}}</p>
       </div>
 
     </div>
 
   </div>
-  <div *ngIf="!freelancer" class="fd-flex fd-flex-column fd-justify-content-center">
+  <!--<div *ngIf="!freelancer" class="fd-flex fd-flex-column fd-justify-content-center">
     <p-button label="{{'login' | translate}}" styleClass="p-button-link" class="login-button"
               (click)="login()"></p-button>
-  </div>
+  </div>-->
 </div>
 
 <p-menu #menu [popup]="true" [model]="items"></p-menu>

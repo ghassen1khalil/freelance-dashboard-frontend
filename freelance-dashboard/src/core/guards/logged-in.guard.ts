@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanLoad, Route, Router, UrlSegment, UrlTree} from '@angular/router';
-import {Observable, of, Subject, switchMap, takeUntil} from 'rxjs';
+import {Observable, of, switchMap} from 'rxjs';
 import {AuthService} from '@auth0/auth0-angular';
 import {select, Store} from '@ngrx/store';
 import * as authReducer from '../store/reducers/auth.reducers';
@@ -14,7 +14,6 @@ export class LoggedInGuard implements CanLoad {
                      private store: Store,
                      private router: Router) {
   }
-
 
   canLoad(
     route: Route,
