@@ -5,6 +5,7 @@ export interface AppState {
   positionState: PositionState;
   eventState: EventState;
   authState: AuthState;
+  loaderState: LoaderState;
 }
 
 export interface PositionState {
@@ -19,4 +20,8 @@ export interface AuthState {
   freelancer: Freelancer | undefined;
   isAuthenticated: boolean;
   token: string | undefined;
+}
+
+export interface LoaderState {
+  isLoaderShown: boolean;
 }

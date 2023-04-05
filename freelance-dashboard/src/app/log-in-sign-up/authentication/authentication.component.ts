@@ -3,11 +3,11 @@ import {AuthService, User} from '@auth0/auth0-angular';
 import {FreelancerService} from '../../../../generated';
 import {Router} from '@angular/router';
 import {EncryptionService} from '../../../core/services/encryption.service';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {SetAuthStatus, SetFreelancer} from '../../../core/store/actions/auth.actions';
 import {FetchPositions} from '../../../core/store/actions/position.actions';
-import {Subject, takeUntil} from 'rxjs';
-import * as authReducer from '../../../core/store/reducers/auth.reducers';
+import {Subject} from 'rxjs';
+import {LoaderManagerService} from '../../../core/services/loader-manager.service';
 
 @Component({
   selector: 'app-authentication',
@@ -22,10 +22,12 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
               private freelancerService: FreelancerService,
               private router: Router,
               private encryptionService: EncryptionService,
-              private store: Store) {
+              private store: Store,
+              private loaderManager: LoaderManagerService) {
   }
 
   ngOnInit(): void {
+    this.loaderManager.handleLoader(true);
     this.authService.isAuthenticated$.subscribe(isAuth => {
       if (!!isAuth) {
         this.store.dispatch(SetAuthStatus({isAuthenticated: true}));
@@ -66,6 +68,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.loaderManager.handleLoader(false);
     this.unsubscribe$.complete();
   }
 

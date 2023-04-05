@@ -7,7 +7,7 @@ import {ButtonModule} from 'primeng/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RippleModule} from 'primeng/ripple';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BasePathProviderService} from '../core/services/base-path-provider.service';
 import {environment, environment as env} from '../environments/environment';
@@ -23,6 +23,8 @@ import {HeaderModule} from '../shared/header/header.module';
 import {AuthModule} from '@auth0/auth0-angular';
 import {AuthEffects} from '../core/store/effects/auth.effects';
 import {HydrationEffects} from '../core/store/effects/hydration.effects';
+import {LoaderComponent} from '../shared/loader/loader.component';
+import {LoaderInterceptor} from '../core/interceptors/loader.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -32,30 +34,36 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ButtonModule,
-    RippleModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'fr'
-    }),
-    StoreModule.forRoot(reducers, /*{ metaReducers }*/),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PositionEffects, AuthEffects, /*HydrationEffects*/]),
-    ToastModule,
-    DashboardAccordionModule,
-    HeaderModule,
-    AuthModule.forRoot({...env.auth}),
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ButtonModule,
+        RippleModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            },
+            defaultLanguage: 'fr'
+        }),
+        StoreModule.forRoot(reducers, /*{ metaReducers }*/),
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
+        EffectsModule.forRoot([PositionEffects, AuthEffects, /*HydrationEffects*/]),
+        ToastModule,
+        DashboardAccordionModule,
+        HeaderModule,
+        AuthModule.forRoot({...env.auth}),
+        LoaderComponent,
+    ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    },
     HttpClient,
     BasePathProviderService,
     /*MessageService*/
