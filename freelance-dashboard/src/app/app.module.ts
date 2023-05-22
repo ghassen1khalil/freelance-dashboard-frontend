@@ -25,6 +25,7 @@ import {AuthEffects} from '../core/store/effects/auth.effects';
 import {HydrationEffects} from '../core/store/effects/hydration.effects';
 import {LoaderComponent} from '../shared/loader/loader.component';
 import {LoaderInterceptor} from '../core/interceptors/loader.interceptor';
+import {MessageService} from 'primeng/api';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -65,9 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
     },
     HttpClient,
-    BasePathProviderService,
-    /*MessageService*/
-  ],
+    BasePathProviderService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

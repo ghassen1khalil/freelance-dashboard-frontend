@@ -6,9 +6,11 @@ import {Action} from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import {LoginFailure, SetFreelancer, SignupFailure} from '../actions/auth.actions';
 import * as PositionActions from '../actions/position.actions';
+import * as EventActions from '../actions/event.actions';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AuthService} from '@auth0/auth0-angular';
+import {EventType} from '../models/models';
 
 @Injectable()
 export class AuthEffects {
@@ -29,7 +31,14 @@ export class AuthEffects {
         ]
       }),
       catchError((error: HttpErrorResponse) => {
-        return of(AuthActions.LoginFailure({error: error}));
+        return of(AuthActions.LoginFailure({error: error}), EventActions.LaunchEvent({
+          event: {
+            type: EventType.ERROR,
+            title: 'Login Error',
+            //body: error.error.message
+            body: 'Please verify your credentials' //TODO find a solution for the error (whether use the one from backend or create frontend custom ones to hide the error details)
+          }
+        }));
       }),
       tap(() => this.router.navigate(['main']))
     ))

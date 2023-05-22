@@ -1,8 +1,8 @@
 export enum EventType {
-  INFO = 'INFO',
-  WARNING = 'WARNING',
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
+  INFO = 'info',
+  WARNING = 'warn',
+  SUCCESS = 'success',
+  ERROR = 'error',
 }
 export interface Event {
   type: EventType,
