@@ -14,7 +14,8 @@ export class AccordionComponent implements OnInit, AfterViewInit {
 
   contentHeight: string;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) {
+  }
 
   ngOnInit(): void {
   }
@@ -23,13 +24,19 @@ export class AccordionComponent implements OnInit, AfterViewInit {
     this.calculateContentHeight();
   }
 
-  toggleAccordion() {
+  public toggleAccordion() {
     this.expanded = !this.expanded;
   }
 
-  calculateContentHeight() {
+  private calculateContentHeight() {
     const contentElement = this.elementRef.nativeElement.querySelector('.accordion-content');
     this.contentHeight = contentElement.scrollHeight + 'px';
   }
+
+  public sortByStartingDate(positions: Position[]): Position[] {
+    return positions.sort((a, b) =>
+      new Date((b.startingDate) as string).getTime() - new Date((a.startingDate) as string).getTime());
+  }
+
 
 }
