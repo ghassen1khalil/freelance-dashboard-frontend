@@ -21,7 +21,7 @@
       </div>
     </div>
 
-     <div #body class="fd-flex fd-flex-column card-body-container">
+    <div #body class="fd-flex fd-flex-column card-body-container">
       <div class="fd-flex fd-flex-row">
         <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'100% Télétravail'"></app-card-line>
         <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Télétravail partiel'"></app-card-line>

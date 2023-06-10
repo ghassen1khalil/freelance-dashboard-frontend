@@ -51,7 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
       select(eventReducer.getEvent),
       takeUntil(this.unsubscribe$)
     ).subscribe(event => {
-      console.log(event?.body);
       this.messageService.add({severity: event?.type, summary: event?.title, detail: event?.body});
     });
   }

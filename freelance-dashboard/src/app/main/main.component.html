@@ -2,14 +2,8 @@
   <button style="" pButton pRipple type="button"
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
-  <g-accordion *ngFor="let year of positionsYears" collapsing="false">
-    <accordion-item [title]="year.toString()" class="fd-flex fd-flex-column">
-      <ng-template accordionContent>
-        <app-position-card *ngFor="let position of getPositionsByYear(year)"
-                           [position]="position"></app-position-card>
-      </ng-template>
-    </accordion-item>
-  </g-accordion>
+  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)" [expanded]="isExpanded(year)">
+  </app-accordion>
 
   <ng-template [ngIf]="positions === undefined">
     <p class="text-4xl font-bold no-positions-yet">{{'noPositionsYet' | translate}}</p>

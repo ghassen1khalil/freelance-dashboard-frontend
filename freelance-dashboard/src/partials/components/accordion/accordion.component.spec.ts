@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardLineComponent } from './card-line.component';
+import { AccordionComponent } from './accordion.component';
 
-describe('CardLineComponent', () => {
-  let component: CardLineComponent;
-  let fixture: ComponentFixture<CardLineComponent>;
+describe('AccordComponent', () => {
+  let component: AccordionComponent;
+  let fixture: ComponentFixture<AccordionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardLineComponent ]
+      declarations: [ AccordionComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CardLineComponent);
+    fixture = TestBed.createComponent(AccordionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

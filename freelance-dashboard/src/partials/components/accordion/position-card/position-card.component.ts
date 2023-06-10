@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Position} from '../../../../generated';
 import {MenuItem, PrimeIcons} from 'primeng/api';
+import {Position} from '../../../../../generated';
 
 @Component({
   selector: 'app-position-card',
@@ -14,8 +14,8 @@ export class PositionCardComponent implements OnInit {
   public currency: string| undefined;
   public latestStatus: string| undefined;
 
-  constructor() {
-  }
+
+  constructor() { }
 
   ngOnInit(): void {
     this.initMenuItems();
@@ -42,4 +42,6 @@ export class PositionCardComponent implements OnInit {
     return Object.values(Currency)[index];*/
     return this.position.dailyRate?.currency;
   }
+
+
 }
