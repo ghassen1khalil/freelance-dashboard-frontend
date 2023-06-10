@@ -43,6 +43,13 @@ export class MainComponent implements OnInit, OnDestroy {
     })
   }
 
+  /**
+   * return True is year is the biggest one
+   */
+  public isExpanded(year: any): boolean {
+    return year === Math.max(...Array.from(this.positionsYears).map(Number));
+  }
+
   public getPositionsByYear(year: number) {
     return this.positions.filter(position => moment(position.startingDate, "YYYY-MM-DD").year() === year);
   }

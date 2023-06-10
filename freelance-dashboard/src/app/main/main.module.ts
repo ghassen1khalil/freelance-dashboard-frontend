@@ -9,21 +9,16 @@ import {InputTextModule} from 'primeng/inputtext';
 import {RippleModule} from 'primeng/ripple';
 import {DialogModule} from 'primeng/dialog';
 import {AddPositionModule} from '../add-position/add-position.module';
-import { PositionCardComponent } from './position-card/position-card.component';
 import {CardModule} from 'primeng/card';
-import {AccordionModule} from 'primeng/accordion';
-import {DashboardAccordionModule} from '../../shared/accordion/dashboard-accordion.module';
-import {AngularEmojisModule} from 'angular-emojis';
 import {MenuModule} from 'primeng/menu';
-import { CardLineComponent } from './position-card/card-line/card-line.component';
+import {AccordionModule} from '../../partials/components/accordion/accordion.module';
 
 
 @NgModule({
   declarations: [
     MainComponent,
-    PositionCardComponent,
-    CardLineComponent
   ],
+  exports: [],
   imports: [
     CommonModule,
     MainRoutingModule,
@@ -35,10 +30,9 @@ import { CardLineComponent } from './position-card/card-line/card-line.component
     DialogModule,
     AddPositionModule,
     CardModule,
-    DashboardAccordionModule,
-    DashboardAccordionModule,
-    AngularEmojisModule,
-    MenuModule
+    MenuModule,
+    AccordionModule
   ]
 })
-export class MainModule { }
+export class MainModule {
+}
