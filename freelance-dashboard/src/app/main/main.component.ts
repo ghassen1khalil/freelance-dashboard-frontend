@@ -46,7 +46,7 @@ export class MainComponent implements OnInit, OnDestroy {
   /**
    * return True is year is the biggest one
    */
-  public isExpanded(year: any): boolean {
+  public isLatestYear(year: any): boolean {
     return year === Math.max(...Array.from(this.positionsYears).map(Number));
   }
 

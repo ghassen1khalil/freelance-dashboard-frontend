@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit,} from '@angular/core';
 import {Position} from '../../../../generated';
 
 @Component({
@@ -9,23 +9,29 @@ import {Position} from '../../../../generated';
 export class AccordionComponent implements OnInit, AfterViewInit {
 
   @Input() title: string;
-  @Input() expanded: boolean;
+  @Input() isLatestYear: boolean;
   @Input() positions: Position[];
+
+  expanded = false;
 
   contentHeight: string;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
-    this.calculateContentHeight();
-  }
-
   public toggleAccordion() {
     this.expanded = !this.expanded;
+  }
+
+  ngAfterViewInit() {
+    if (this.isLatestYear) {
+      this.expanded = true;
+      this.calculateContentHeight();
+      this.cdRef.detectChanges();
+    }
   }
 
   private calculateContentHeight() {
