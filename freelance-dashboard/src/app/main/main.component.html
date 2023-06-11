@@ -2,7 +2,7 @@
   <button style="" pButton pRipple type="button"
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
-  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)" [expanded]="isExpanded(year)">
+  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)" [isLatestYear]="isLatestYear(year)">
   </app-accordion>
 
   <ng-template [ngIf]="positions === undefined">
