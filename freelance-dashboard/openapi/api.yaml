@@ -254,8 +254,8 @@ components:
           $ref: '#/components/schemas/Currency'
     Currency:
       type: string
-      enum: [ '€', '$', '£' ]
-      x-enum-varnames: [ 'EURO','DOLLAR','POUND' ]
+      enum: [ 'CHF','€', '$', '£' ]
+      x-enum-varnames: [ 'SWISS_FRANC','EURO','DOLLAR','POUND' ]
     Freelancer:
       x-java-class-annotations:
         - '@org.springframework.data.mongodb.core.mapping.Document(collection = "freelancers")'

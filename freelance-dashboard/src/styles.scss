@@ -54,11 +54,11 @@ body {
 }
 
 .fd-full-width {
-  width: 100%;
+  width: 100%!important;
 }
 
 .fd-full-height {
-  height: 100%;
+  height: 100%!important;
 }
 
 .fd-justify-content-center {
@@ -78,6 +78,22 @@ body {
 
 .p-button {
   border-radius: 1rem !important;
+  height: 45px;
+}
+
+input {
+  height: 45px;
+  padding-left: 15px!important;
+  border-radius: 1rem!important;
+}
+
+textarea {
+  padding-left: 15px!important;
+  border-radius: 1rem!important;
+}
+
+p-dropdown {
+  height: 45px!important;
 }
 
 

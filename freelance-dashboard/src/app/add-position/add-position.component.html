@@ -8,7 +8,7 @@
     </div>
     <div class="col-12 fd-flex fd-flex-row">
       <input class="address" formControlName="address" type="text" pInputText placeholder="{{'address' | translate}}">
-      <p-toggleButton class="" onLabel="{{'fullRemote' | translate}}" offLabel="{{'partialRemote' | translate}}"
+      <p-toggleButton onLabel="{{'fullRemote' | translate}}" offLabel="{{'partialRemote' | translate}}"
                       onIcon="pi pi-check" offIcon="pi pi-times"
                       [formControl]="$any(addPositionForm).controls['isFullRemote']"></p-toggleButton>
     </div>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="col-12 fd-flex fd-flex-row">
-      <textarea class="fd-full-width" pInputTextarea placeholder="{{'remarks' | translate}}"></textarea>
+      <textarea class="fd-full-width"  style="height: 100px" pInputTextarea placeholder="{{'remarks' | translate}}"></textarea>
     </div>
 
     <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0">
