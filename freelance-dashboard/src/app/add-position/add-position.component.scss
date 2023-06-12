@@ -28,6 +28,11 @@ form {
   border-bottom-left-radius: 0!important;
 }
 
+::ng-deep .p-calendar-w-btn .p-inputtext {
+  border-top-right-radius: 0!important;
+  border-bottom-right-radius: 0!important;
+}
+
 ::ng-deep .p-fieldset {
   border-radius: 1rem;
 }
@@ -37,7 +42,7 @@ form {
 }
 
 ::ng-deep .p-inputtext {
-  border-radius: 1rem;
+  //border-radius: 1rem;
 }
 
 
@@ -47,6 +52,21 @@ form {
 
 ::ng-deep .p-dropdown .p-dropdown-panel {
   border-radius: 1rem;
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  border-radius: 1rem;
+}
+
+::ng-deep .p-dropdown {
+  height: 45px;
+}
+
+::ng-deep .p-dropdown-label {
+  align-self: center!important;
+  display: flex!important;
+  flex-direction: row!important;
+  padding-left: 15px;
 }
 
 ::ng-deep .p-dropdown {
