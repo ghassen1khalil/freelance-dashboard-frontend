@@ -26,7 +26,8 @@
       <div class="col-12 fd-flex fd-flex-row justify-content-center fd-full-width ">
         <p-password [toggleMask]="true" class="fd-full-width" formControlName="password"
                     placeholder="{{'password' | translate}}"
-                    styleClass="p-password p-component p-inputwrapper p-input-icon-right">
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                    (keyup.enter)="signupWhenEnterPushed()">
           <ng-template pTemplate="header">
             <h6>{{'password' | translate}}</h6>
           </ng-template>

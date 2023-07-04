@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initMenuItems();
     this.store.pipe(
       select(getAuth),
       takeUntil(this.unsubscribe$)
@@ -41,13 +40,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
           email: authState.freelancer?.email,
           picture: authState.freelancer?.picture
         }
+        this.initMenuItems();
       }
     });
   }
 
   private initMenuItems() {
     this.items = [{
-      label: 'Compte',
+      label: this.freelancer?.name,
       items: [
         {label: 'Profile', icon: PrimeIcons.USER_EDIT},
         {

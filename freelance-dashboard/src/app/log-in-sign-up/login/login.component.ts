@@ -34,6 +34,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  public loginWhenEnterPushed() {
+    if (this.logInForm.valid) {
+      this.login();
+    }
+  }
+
   public login() {
     this.store.dispatch(Login({
       email: this.encryptionService.encrypt(this.logInForm.controls['email'].value),
