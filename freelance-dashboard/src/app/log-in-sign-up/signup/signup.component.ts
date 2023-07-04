@@ -52,6 +52,12 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  public signupWhenEnterPushed() {
+    if (this.signUpForm.valid) {
+      this.signupUser();
+    }
+  }
+
   public signupViaSocial() {
     this.store.dispatch(LoginViaSocial());
   }
