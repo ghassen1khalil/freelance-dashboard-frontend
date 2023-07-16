@@ -120,5 +120,6 @@
   "tribe": "Tribu",
   "manager": "Manager",
   "startingDate": "Date de commencement*",
-  "noPositionsYet": "Vous n'avez pas encore créé des positionnements !"
+  "noPositionsYet": "Vous n'avez pas encore créé des positionnements !",
+  "search": "Rechercher des positionnements"
 }

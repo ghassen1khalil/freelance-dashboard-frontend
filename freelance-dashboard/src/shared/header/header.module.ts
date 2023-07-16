@@ -6,10 +6,13 @@ import {TranslateModule} from '@ngx-translate/core';
 import {AvatarModule} from 'primeng/avatar';
 import {BadgeModule} from 'primeng/badge';
 import {MenuModule} from 'primeng/menu';
+import {InputTextModule} from 'primeng/inputtext';
+import {DropdownModule} from 'primeng/dropdown';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [HeaderComponent],
-    imports: [CommonModule, ButtonModule, TranslateModule, AvatarModule, BadgeModule, MenuModule],
+    imports: [CommonModule, ButtonModule, TranslateModule, AvatarModule, BadgeModule, MenuModule, InputTextModule, DropdownModule, FormsModule],
   exports: [HeaderComponent]
 })
 export class HeaderModule {

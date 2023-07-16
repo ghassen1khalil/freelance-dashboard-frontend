@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {AuthService} from '@auth0/auth0-angular';
-import {Router, RouterModule} from '@angular/router';
 import {Freelancer} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
-import {Logout, SetAuthStatus, SetFreelancer} from '../../core/store/actions/auth.actions';
+import {Logout} from '../../core/store/actions/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -18,11 +17,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public freelancer: Freelancer | undefined;
   public items: MenuItem[];
+  public filteringTerms: string;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(public auth: AuthService,
-              private router: Router,
               private store: Store) {
     this.freelancer = undefined;
   }
@@ -61,15 +60,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private logout() {
     localStorage.clear();
-
-    /*this.router.navigate(['login']).then(() => {
-      this.store.dispatch(Logout());
-    });*/
-
     this.store.dispatch(Logout());
+  }
+
+  public filter() {
+    //console.log("search for " + this.filteringTerms);
+    if (this.filteringTerms === '' || this.filteringTerms === undefined) {
+      // TODO reload inital list
+    } else {
+      // TODO filter positions list
+    }
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.complete();
   }
+
 }
