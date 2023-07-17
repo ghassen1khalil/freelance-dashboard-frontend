@@ -23,23 +23,12 @@ body {
     display: none;
   }
 }
-/*.hide-for-mobile {
-  @media (min-width: 0) and (max-width: 1479px) {
-    display: none;
-  }
-}*/
 
 @media (min-width: 1480px) {
   .hide-for-desktop {
     display: none;
   }
 }
-/*.hide-for-desktop {
-  @media (min-width: 1480px) {
-    display: none;
-  }
-}*/
-
 
 * {
   font-family: 'Spoof', sans-serif;
