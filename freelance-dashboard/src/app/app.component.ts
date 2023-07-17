@@ -5,7 +5,6 @@ import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService, PrimeNGConfig} from 'primeng/api';
-import {AuthService} from '@auth0/auth0-angular';
 import {getAuth} from '../core/store/reducers/auth.reducers';
 
 @Component({
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
               private config: PrimeNGConfig,
-              private authService: AuthService,
               private messageService: MessageService,
               private primengConfig: PrimeNGConfig) {
     this.translateService.use('fr');

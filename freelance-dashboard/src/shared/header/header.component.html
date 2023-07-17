@@ -1,11 +1,17 @@
-<div class="fd-flex fd-flex-row fd-space-between layout-topbar">
-  <div class="fd-flex fd-flex-row" style="width: fit-content">
-    <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
-    <p class="text-xl font-bold header-title">{{'app-title' | translate}}</p>
+<div class="fd-flex fd-flex-row fd-align-items-center layout-topbar fd-space-between">
+  <div class="fd-flex fd-flex-row fd-align-items-center ">
+    <div class="fd-flex fd-flex-row">
+      <img alt="freelance dashboard logo" src="assets/icons/freelance_dashboard_logo.svg" class="logo">
+      <p class="text-xl font-bold hide-for-mobile">{{'app-title' | translate}}</p>
+    </div>
+  </div>
+  <div class="fd-flex fd-flex-row fd-align-items-center  fd-full-width search-bar-container">
+    <input type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
+           [(ngModel)]="filteringTerms" (keyup)="filter()"/>
   </div>
 
-  <div *ngIf="freelancer" class="fd-flex fd-flex-column fd-justify-content-center" (click)="menu.toggle($event)">
-    <div class="fd-flex fd-flex-row align-items-center connected-user-container">
+  <div class="fd-flex fd-flex-row-reverse fd-align-items-center ">
+    <div *ngIf="freelancer" class="connected-user-container" (click)="menu.toggle($event)">
       <p-avatar *ngIf="!freelancer?.picture" class="avatar"
                 icon="pi pi-user"
                 pBadge
@@ -22,24 +28,8 @@
                 shape="circle"
                 size="large">
       </p-avatar>
-
-      <!--<div *ngIf="!freelancer.name && freelancer.firstname && freelancer.lastname">-->
-      <!--<div>
-        <p class="connected-user-name">{{freelancer.firstname}}</p>
-        <p class="connected-user-name">{{freelancer.lastname}}</p>
-      </div>-->
-      <!--<div *ngIf="freelancer.name && !freelancer.firstname && !freelancer.lastname">-->
-      <!--<div *ngIf="freelancer.name">
-        <p class="connected-user-name">{{freelancer.name}}</p>
-      </div>-->
-
     </div>
-
   </div>
-  <!--<div *ngIf="!freelancer" class="fd-flex fd-flex-column fd-justify-content-center">
-    <p-button label="{{'login' | translate}}" styleClass="p-button-link" class="login-button"
-              (click)="login()"></p-button>
-  </div>-->
 </div>
 
 <p-menu #menu [popup]="true" [model]="items"></p-menu>

@@ -21,30 +21,22 @@
   cursor: pointer;
 }
 
-.connected-user-name {
-  margin: 0 10px 0 0;
-
+.search-bar-container {
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-@media (min-width: 320px) and (max-width: 1479px) {
-  .connected-user-name {
-    display: none;
-  }
-
-  ::ng-deep p-avatar {
-    margin-right: 0!important;
-  }
-}
-
-.login-button {
-}
-
-@media (min-width: 320px) and (max-width: 1479px) {
-  .header-title {
-    display: none;
+@media (min-width: 1480px) {
+  .search-bar-container {
+    max-width: 680px;
   }
 }
 
 p-avatar {
   margin-right: 8px;
+}
+
+.search-field {
+  border: 0 !important;
+  background: #F7F8FC;
 }
