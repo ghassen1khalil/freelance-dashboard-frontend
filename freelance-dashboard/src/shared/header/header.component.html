@@ -1,33 +1,65 @@
-<div class="grid grid-nogutter layout-topbar">
-  <div class="col fd-flex fd-flex-row fd-align-items-center">
-    <div class="fd-flex fd-flex-row" style="width: fit-content">
-      <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
-      <p class="text-xl font-bold header-title">{{'app-title' | translate}}</p>
+<div class="grid grid-nogutter layout-topbar show-outline">
+  <div class="hide-for-mobile">
+    <div class="col fd-flex fd-flex-row fd-align-items-center">
+      <div class="fd-flex fd-flex-row" style="width: fit-content">
+        <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
+        <p class="text-xl font-bold header-title">{{'app-title' | translate}}</p>
+      </div>
+    </div>
+    <div class="col fd-flex fd-flex-row fd-align-items-center">
+      <input type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
+             [(ngModel)]="filteringTerms" (keyup)="filter()"/>
+    </div>
+
+    <div class="col fd-flex fd-flex-row-reverse fd-align-items-center">
+      <div *ngIf="freelancer" class="connected-user-container" (click)="menu.toggle($event)">
+        <p-avatar *ngIf="!freelancer?.picture" class="avatar"
+                  icon="pi pi-user"
+                  pBadge
+                  severity="success"
+                  styleClass="p-mr-2"
+                  shape="circle"
+                  size="large">
+        </p-avatar>
+        <p-avatar *ngIf="freelancer?.picture" class="avatar"
+                  [image]="freelancer?.picture"
+                  pBadge
+                  severity="success"
+                  styleClass="p-mr-2"
+                  shape="circle"
+                  size="large">
+        </p-avatar>
+      </div>
     </div>
   </div>
-  <div class="col fd-flex fd-flex-row fd-align-items-center">
-    <input type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
-           [(ngModel)]="filteringTerms" (keyup)="filter()"/>
-  </div>
 
-  <div class="col fd-flex fd-flex-row-reverse fd-align-items-center">
-    <div *ngIf="freelancer" class="connected-user-container" (click)="menu.toggle($event)">
-      <p-avatar *ngIf="!freelancer?.picture" class="avatar"
-                icon="pi pi-user"
-                pBadge
-                severity="success"
-                styleClass="p-mr-2"
-                shape="circle"
-                size="large">
-      </p-avatar>
-      <p-avatar *ngIf="freelancer?.picture" class="avatar"
-                [image]="freelancer?.picture"
-                pBadge
-                severity="success"
-                styleClass="p-mr-2"
-                shape="circle"
-                size="large">
-      </p-avatar>
+  <div class="hide-for-desktop">
+    <div class="col-12 fd-flex fd-flex-row fd-align-items-center">
+      <div class="fd-flex fd-flex-row" style="width: fit-content">
+        <img src="assets/icons/freelance_dashboard_logo.svg" class="logo">
+      </div>
+
+      <input type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
+             [(ngModel)]="filteringTerms" (keyup)="filter()"/>
+
+      <div *ngIf="freelancer" class="connected-user-container" (click)="menu.toggle($event)">
+        <p-avatar *ngIf="!freelancer?.picture" class="avatar"
+                  icon="pi pi-user"
+                  pBadge
+                  severity="success"
+                  styleClass="p-mr-2"
+                  shape="circle"
+                  size="large">
+        </p-avatar>
+        <p-avatar *ngIf="freelancer?.picture" class="avatar"
+                  [image]="freelancer?.picture"
+                  pBadge
+                  severity="success"
+                  styleClass="p-mr-2"
+                  shape="circle"
+                  size="large">
+        </p-avatar>
+      </div>
     </div>
   </div>
 </div>

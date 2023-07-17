@@ -8,7 +8,7 @@ html,
 body {
   font-family: 'Spoof', sans-serif;
   //background: #EFF3F8;
-  background:#F7F8FC;
+  background: #F7F8FC;
   color: var(--text-color);
   margin: 0 !important;
   height: 100%;
@@ -17,6 +17,28 @@ body {
 @font-face {
   font-family: 'Spoof', sans-serif;
 }
+
+@media (min-width: 0) and (max-width: 1479px) {
+  .hide-for-mobile {
+    display: none;
+  }
+}
+/*.hide-for-mobile {
+  @media (min-width: 0) and (max-width: 1479px) {
+    display: none;
+  }
+}*/
+
+@media (min-width: 1480px) {
+  .hide-for-desktop {
+    display: none;
+  }
+}
+/*.hide-for-desktop {
+  @media (min-width: 1480px) {
+    display: none;
+  }
+}*/
 
 
 * {
@@ -58,11 +80,11 @@ body {
 }
 
 .fd-full-width {
-  width: 100%!important;
+  width: 100% !important;
 }
 
 .fd-full-height {
-  height: 100%!important;
+  height: 100% !important;
 }
 
 .fd-justify-content-center {
@@ -87,17 +109,17 @@ body {
 
 input {
   height: 45px;
-  padding-left: 15px!important;
-  border-radius: 1rem!important;
+  padding-left: 15px !important;
+  border-radius: 1rem !important;
 }
 
 textarea {
-  padding-left: 15px!important;
-  border-radius: 1rem!important;
+  padding-left: 15px !important;
+  border-radius: 1rem !important;
 }
 
 p-dropdown {
-  height: 45px!important;
+  height: 45px !important;
 }
 
 

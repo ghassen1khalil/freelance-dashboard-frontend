@@ -21,39 +21,11 @@
   cursor: pointer;
 }
 
-.connected-user-name {
-  margin: 0 10px 0 0;
-
-}
-
-@media (min-width: 320px) and (max-width: 1479px) {
-  .connected-user-name {
-    display: none;
-  }
-
-  ::ng-deep p-avatar {
-    margin-right: 0!important;
-  }
-}
-
-.login-button {
-}
-
-@media (min-width: 320px) and (max-width: 1479px) {
-  .header-title {
-    display: none;
-  }
-}
-
 p-avatar {
   margin-right: 8px;
 }
 
-::ng-deep .p-inputtext {
-  border: 0!important;
-  background: #F7F8FC;
-}
-
 .search-field {
-  #background: #F7F8FC;
+  border: 0 !important;
+  background: #F7F8FC;
 }
