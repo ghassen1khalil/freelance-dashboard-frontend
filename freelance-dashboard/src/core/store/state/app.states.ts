@@ -9,7 +9,9 @@ export interface AppState {
 }
 
 export interface PositionState {
-  positions: Position[];
+  positions: Position[] | undefined;
+  filter: string | undefined;
+  filteredPositions: Position[] | undefined;
 }
 
 export interface EventState {

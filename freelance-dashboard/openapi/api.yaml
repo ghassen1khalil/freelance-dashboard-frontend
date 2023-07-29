@@ -4,7 +4,7 @@ info:
   description: API to save and retrieve positions
   version: 0.0.1
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/api
     description: Local URL
 paths:
   /position:
@@ -101,6 +101,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Position'
+  /position/filter/{keyword}:
+    get:
+      summary: Return a position by keyword
+      description: Find a position by keyword matching one of its attributes values
+      operationId: filterByKeyword
+      tags:
+        - positions
+      parameters:
+        - in: path
+          name: keyword
+          schema:
+            type: string
+          required: true
+          description: Keyword matching one of attributes values
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Position'
   /freelancer:
     post:
       summary: Check freelancer
@@ -188,6 +211,8 @@ components:
         - '@lombok.Builder'
         - '@lombok.AllArgsConstructor'
         - '@lombok.NoArgsConstructor'
+        - |
+          @org.springframework.data.mongodb.core.index.CompoundIndexes({@org.springframework.data.mongodb.core.index.CompoundIndex(name = "text_idx", def = "{'client': 'text', 'address': 'text', 'isFullRemote': 'text', 'remarks': 'text', 'mission.role': 'text', 'mission.project': 'text', 'mission.tribe': 'text', 'mission.manager': 'text', 'intermediary.corporation': 'text', 'intermediary.name': 'text', 'dailyRate.amount': text}")})
       type: object
       properties:
         id:

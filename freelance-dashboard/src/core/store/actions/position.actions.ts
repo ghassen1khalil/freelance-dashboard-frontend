@@ -30,3 +30,13 @@ export const SaveNewPositionFailure = createAction(
   '[POSITION] - Save New Position Failure',
   props<{ error: HttpErrorResponse }>()
 );
+
+export const FilterPositions = createAction(
+  '[POSITION] – Filter positions by keyword',
+  props<{ keyword: string }>()
+);
+
+export const SetFilteredPositions = createAction(
+  '[POSITION] - Set Filtered Positions',
+  props<{ positions: Position[] }>()
+);

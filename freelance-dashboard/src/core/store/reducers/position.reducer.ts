@@ -1,13 +1,27 @@
-import {Action, createFeatureSelector, createReducer, createSelector, on, select} from '@ngrx/store';
+import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
 import {PositionState} from '../state/app.states';
 
-export const initialPositionState: PositionState = {positions: []};
+export const initialPositionState: PositionState =
+  {
+    positions: undefined,
+    filter: undefined,
+    filteredPositions: undefined,
+  };
 
 const _positionReducer = createReducer(
   initialPositionState,
   on(PositionActions.FetchPositionsSuccess, (state, {payload}) => {
     return {...state, positions: payload}
+  }),
+  on(PositionActions.SetPositions, (state, {payload}) => {
+    return {...state, positions: payload}
+  }),
+  on(PositionActions.FilterPositions, (state, {keyword}) => {
+    return {...state, filter: keyword}
+  }),
+  on(PositionActions.SetFilteredPositions, (state, {positions}) => {
+    return {...state, filteredPositions: positions}
   })
 );
 
@@ -23,4 +37,14 @@ export const getPositionState = createFeatureSelector<PositionState>('positionSt
 export const getPositions = createSelector(
   getPositionState,
   (state: PositionState) => state.positions
+);
+
+export const getFilter = createSelector(
+  getPositionState,
+  (state: PositionState) => state.filter
+);
+
+export const getFilteredPositions = createSelector(
+  getPositionState,
+  (state: PositionState) => state.filteredPositions
 );

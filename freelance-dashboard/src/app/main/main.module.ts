@@ -12,7 +12,7 @@ import {AddPositionModule} from '../add-position/add-position.module';
 import {CardModule} from 'primeng/card';
 import {MenuModule} from 'primeng/menu';
 import {AccordionModule} from '../../partials/components/accordion/accordion.module';
-
+import {AngularEmojisModule} from 'angular-emojis';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import {AccordionModule} from '../../partials/components/accordion/accordion.mod
     AddPositionModule,
     CardModule,
     MenuModule,
-    AccordionModule
+    AccordionModule,
+    AngularEmojisModule
   ]
 })
 export class MainModule {

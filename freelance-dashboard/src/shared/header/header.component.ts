@@ -3,10 +3,13 @@ import {MenuItem, PrimeIcons} from 'primeng/api';
 import {AuthService} from '@auth0/auth0-angular';
 import {Freelancer} from '../../../generated';
 import {select, Store} from '@ngrx/store';
-import {Subject, takeUntil} from 'rxjs';
+import {debounceTime, Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {Logout} from '../../core/store/actions/auth.actions';
+import {FetchPositions, FilterPositions} from '../../core/store/actions/position.actions';
+import {FormControl} from '@angular/forms';
+import {distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -17,14 +20,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public freelancer: Freelancer | undefined;
   public items: MenuItem[];
-  public filteringTerms: string;
+  public searchControl = new FormControl();
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(public auth: AuthService,
               private store: Store) {
     this.freelancer = undefined;
+    this.setupSearchDebouncing();
   }
+
+
+  private setupSearchDebouncing() {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((searchKeyword: string) => {
+        if (searchKeyword.length === 0) {
+          this.store.dispatch(FetchPositions());
+
+        } else {
+          this.store.dispatch(FilterPositions({keyword: searchKeyword}));
+        }
+      });
+  }
+
 
   ngOnInit(): void {
     this.store.pipe(
@@ -61,15 +83,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private logout() {
     localStorage.clear();
     this.store.dispatch(Logout());
-  }
-
-  public filter() {
-    //console.log("search for " + this.filteringTerms);
-    if (this.filteringTerms === '' || this.filteringTerms === undefined) {
-      // TODO reload inital list
-    } else {
-      // TODO filter positions list
-    }
   }
 
   ngOnDestroy(): void {

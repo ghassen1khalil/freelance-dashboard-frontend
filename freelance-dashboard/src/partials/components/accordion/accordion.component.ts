@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
 import {Position} from '../../../../generated';
 
 @Component({
@@ -6,13 +6,13 @@ import {Position} from '../../../../generated';
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.scss']
 })
-export class AccordionComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AccordionComponent implements OnInit, AfterViewChecked {
 
   @Input() title: string;
   @Input() isLatestYear: boolean;
   @Input() positions: Position[];
 
-  expanded = false;
+  expanded = true;
 
   contentHeight: string;
 
@@ -20,18 +20,12 @@ export class AccordionComponent implements OnInit, AfterViewInit, AfterViewCheck
   }
 
   ngOnInit(): void {
+    this.calculateContentHeight();
+    this.cdRef.detectChanges();
   }
 
   public toggleAccordion() {
     this.expanded = !this.expanded;
-  }
-
-  ngAfterViewInit() {
-    if (this.isLatestYear) {
-      this.expanded = true;
-      this.calculateContentHeight();
-      this.cdRef.detectChanges();
-    }
   }
 
   ngAfterViewChecked() {
@@ -47,7 +41,6 @@ export class AccordionComponent implements OnInit, AfterViewInit, AfterViewCheck
   public sortByStartingDate(positions: Position[]): Position[] {
     return positions.sort((a, b) =>
       new Date((b.startingDate) as string).getTime() - new Date((a.startingDate) as string).getTime());
-    ;
   }
 
 

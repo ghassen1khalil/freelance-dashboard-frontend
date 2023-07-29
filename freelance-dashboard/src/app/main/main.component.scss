@@ -2,6 +2,7 @@
   position: fixed;
   right: 50px;
   bottom: 50px;
+  z-index: 99;
 }
 
 .add-btn {
@@ -10,7 +11,3 @@
   height: 50px !important;
 }
 
-.no-positions-yet {
-  margin-top: 50%;
-  text-align: center;
-}
