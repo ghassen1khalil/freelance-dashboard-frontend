@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Position, PositionsService} from '../../../generated';
+import {Position} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import moment from 'moment';
 import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-main',
@@ -15,11 +16,11 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public positions: Position[];
   public positionsYears: Set<number>;
+  public isFilterSet: boolean;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(private router: Router,
-              private positionService: PositionsService,
               private store: Store<{ positions: Position[] }>) {
     this.positionsYears = new Set;
   }
@@ -29,18 +30,45 @@ export class MainComponent implements OnInit, OnDestroy {
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      if (positions.length > 0) {
-        this.positions = positions;
-        this.extractYearsFromPositions();
+      if (positions && positions.length > 0) {
+        this.updatePositionsData(positions);
+      }
+    });
+
+    this.store.pipe(
+      select(positionReducer.getFilter),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(filter => {
+      if (filter !== undefined && filter.length > 0) {
+        this.isFilterSet = true;
+      }
+    });
+
+    this.store.pipe(
+      select(positionReducer.getFilteredPositions),
+      takeUntil(this.unsubscribe$)
+    ).subscribe((filteredPositions) => {
+      if (filteredPositions !== undefined) {
+        this.updatePositionsData(filteredPositions);
       }
     });
   }
 
+  private updatePositionsData(positions: Position[]) {
+    this.positions = positions;
+    this.extractYearsFromPositions();
+  }
+
   private extractYearsFromPositions() {
+    this.positionsYears = new Set;
     this.positions.map(position => {
       let year = moment(position.startingDate, "YYYY-MM-DD").year();
       this.positionsYears.add(year);
-    })
+    });
+    this.positionsYears = new Set(
+      Array.from(this.positionsYears)
+        .sort((a, b) => b - a) // sort in descending order
+    );
   }
 
   /**
@@ -54,14 +82,8 @@ export class MainComponent implements OnInit, OnDestroy {
     return this.positions.filter(position => moment(position.startingDate, "YYYY-MM-DD").year() === year);
   }
 
-  /*public globalFilter($event: Event) {
-    const target = $event.target as HTMLInputElement;
-    this.table?.filterGlobal(target.value, 'contains');
-  }*/
-
-
   public goToAddPosition() {
-    this.router.navigate(['/','add-position']);
+    this.router.navigate(['/', 'add-position']);
   }
 
   /*public getLatestStatus(position: Position) {

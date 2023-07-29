@@ -2,10 +2,22 @@
   <button style="" pButton pRipple type="button"
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
-  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)" [isLatestYear]="isLatestYear(year)">
+
+  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)"
+                 [isLatestYear]="isLatestYear(year)">
   </app-accordion>
 
-  <ng-template [ngIf]="positions === undefined">
-    <p class="text-4xl font-bold no-positions-yet">{{'noPositionsYet' | translate}}</p>
+  <ng-template [ngIf]="positions.length === 0">
+    <div *ngIf="isFilterSet === undefined && positions.length === 0">
+      <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
+        <p class="text-4xl font-bold">{{'noPositionsYet' | translate}}</p>
+      </div>
+    </div>
+    <div *ngIf="isFilterSet !== undefined && positions.length === 0">
+      <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
+        <p class="text-4xl font-bold margin-left-right-8">{{'noResult' | translate}}</p>
+        <angular-emojis class="margin-left-right-8" [name]="'eyes'" size="50"></angular-emojis>
+      </div>
+    </div>
   </ng-template>
 </div>
