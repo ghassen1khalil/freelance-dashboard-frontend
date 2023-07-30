@@ -5,6 +5,7 @@ import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import moment from 'moment';
 import {Router} from '@angular/router';
+import {SetFilteredPositions} from '../../core/store/actions/position.actions';
 
 
 @Component({
@@ -91,6 +92,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }*/
 
   ngOnDestroy(): void {
+    this.store.dispatch(SetFilteredPositions({positions: undefined}))
     this.unsubscribe$.complete();
   }
 }
