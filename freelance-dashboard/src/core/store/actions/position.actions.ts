@@ -38,5 +38,5 @@ export const FilterPositions = createAction(
 
 export const SetFilteredPositions = createAction(
   '[POSITION] - Set Filtered Positions',
-  props<{ positions: Position[] }>()
+  props<{ positions: Position[] | undefined}>()
 );

@@ -10,6 +10,7 @@ import {Logout} from '../../core/store/actions/auth.actions';
 import {FetchPositions, FilterPositions} from '../../core/store/actions/position.actions';
 import {FormControl} from '@angular/forms';
 import {distinctUntilChanged} from 'rxjs/operators';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -25,9 +26,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(public auth: AuthService,
-              private store: Store) {
+              private store: Store,
+              private router: Router) {
     this.freelancer = undefined;
     this.setupSearchDebouncing();
+    this.resetSearchFieldWhenNavigationChange();
   }
 
 
@@ -38,13 +41,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe((searchKeyword: string) => {
-        if (searchKeyword.length === 0) {
-          this.store.dispatch(FetchPositions());
-
-        } else {
-          this.store.dispatch(FilterPositions({keyword: searchKeyword}));
+        if (isNotNullOrUndefined(searchKeyword)) {
+          if (searchKeyword.length === 0) {
+            this.store.dispatch(FetchPositions());
+          } else {
+            this.store.dispatch(FilterPositions({keyword: searchKeyword}));
+          }
         }
       });
+  }
+
+  private resetSearchFieldWhenNavigationChange() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.searchControl.reset();
+      }
+    })
   }
 
 
@@ -85,8 +97,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(Logout());
   }
 
+  public isMainPage() {
+    return window.location.href.includes('main')
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.complete();
   }
-
 }

@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="fd-flex fd-flex-row fd-align-items-center  fd-full-width search-bar-container">
-    <input type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
+    <input *ngIf="isMainPage()" type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
            [formControl]="searchControl"/>
   </div>
 
