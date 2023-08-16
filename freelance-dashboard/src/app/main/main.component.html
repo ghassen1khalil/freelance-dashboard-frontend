@@ -3,21 +3,29 @@
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
 
-  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()" [positions]="getPositionsByYear(year)"
+  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()"
+                 [positions]="getPositionsByYear(year)"
+                 [isArchive]="false" [isNoActivePositions]="activePositions.length === 0"
                  [isLatestYear]="isLatestYear(year)">
   </app-accordion>
 
-  <ng-template [ngIf]="positions.length === 0">
-    <div *ngIf="isFilterSet === undefined && positions.length === 0">
+  <app-accordion *ngIf="archivedPositions.length > 0" title="{{'archived' | translate}}"
+                 [positions]="archivedPositions"
+                 [isArchive]="true" [isNoActivePositions]="activePositions.length === 0"
+                 [isLatestYear]="false">
+  </app-accordion>
+
+  <!--<ng-template [ngIf]="activePositions.length > 0">-->
+    <div *ngIf="isNoPositionsYet()">
       <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
         <p class="text-4xl font-bold">{{'noPositionsYet' | translate}}</p>
       </div>
     </div>
-    <div *ngIf="isFilterSet !== undefined && positions.length === 0">
+    <div *ngIf="isNoResultForFilter()">
       <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
         <p class="text-4xl font-bold margin-left-right-8">{{'noResult' | translate}}</p>
         <angular-emojis class="margin-left-right-8" [name]="'eyes'" size="50"></angular-emojis>
       </div>
     </div>
-  </ng-template>
+  <!--</ng-template>-->
 </div>

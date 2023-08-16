@@ -69,4 +69,18 @@ export class PositionEffects {
     )
   );
 
+  //TODO Refactor
+  UpdatePosition$: Observable<Action> = createEffect(() =>
+  this.action$.pipe(
+    ofType(PositionActions.UpdatePosition),
+    mergeMap(action =>
+    this.positionService.update(action.position.id ? action.position.id : '', action.position).pipe(
+      map(() => {
+        return PositionActions.FetchPositions();
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return of(PositionActions.FetchPositionsFailure({ payload: err}))
+      })
+    ))
+  ));
 }

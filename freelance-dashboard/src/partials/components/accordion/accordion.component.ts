@@ -9,10 +9,12 @@ import {Position} from '../../../../generated';
 export class AccordionComponent implements OnInit, AfterViewChecked {
 
   @Input() title: string;
-  @Input() isLatestYear: boolean;
+  @Input() isLatestYear: boolean; /*DEPRECATED*/
   @Input() positions: Position[];
+  @Input() isArchive: boolean;
+  @Input() isNoActivePositions: boolean;
 
-  expanded = true;
+  expanded: boolean;
 
   contentHeight: string;
 
@@ -20,8 +22,13 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.calculateContentHeight();
-    this.cdRef.detectChanges();
+    if (this.isArchive) {
+      this.expanded = this.isNoActivePositions;
+    } else {
+      this.expanded = true;
+      this.calculateContentHeight();
+      this.cdRef.detectChanges();
+    }
   }
 
   public toggleAccordion() {
