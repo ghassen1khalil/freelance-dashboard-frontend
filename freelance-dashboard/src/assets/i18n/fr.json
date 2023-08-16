@@ -88,12 +88,12 @@
     "weekHeader": "Wk"
   },
   "view": "Consulter",
-  "position": {
-    "contextual-menu": {
-      "title": "Gérer",
-      "edit": "Éditer",
-      "remove": "Supprimer"
-    }
+  "position-contextual-menu": {
+    "title": "Gérer",
+    "edit": "Éditer",
+    "remove": "Supprimer",
+    "archive": "Archiver",
+    "enable": "Activer"
   },
   "login": "Se connecter",
   "usernameOrPassword": "Nom d'utilisateur ou mot de passe",
@@ -122,5 +122,6 @@
   "startingDate": "Date de commencement*",
   "noPositionsYet": "Vous n'avez pas encore créé des positionnements !",
   "search": "Rechercher des positionnements",
-  "noResult": "Pas de résultat "
+  "noResult": "Pas de résultat ",
+  "archived": "Archivés"
 }
