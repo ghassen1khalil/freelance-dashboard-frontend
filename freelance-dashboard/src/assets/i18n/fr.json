@@ -123,5 +123,17 @@
   "noPositionsYet": "Vous n'avez pas encore créé des positionnements !",
   "search": "Rechercher des positionnements",
   "noResult": "Pas de résultat ",
-  "archived": "Archivés"
+  "archived": "Archivés",
+  "delete-position-modal": {
+    "areYouSure": "Êtes-vous sûrs de vouloir supprimer le positionnement ?",
+    "confirmation": "Confirmation de suppression",
+    "confirmed": "Confirmé",
+    "youHaveConfirmed": "Positionnement supprimé",
+    "rejected": "Rejeté",
+    "youHaveRejected": "Vous avez rejeté la suppression",
+    "cancelled": "Vous avez annulé la suppression",
+    "youHaveCancelled": "Vous avez annulé la suppression"
+  },
+  "yes": "Oui",
+  "no": "Non"
 }
