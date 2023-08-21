@@ -16,7 +16,7 @@
     </div>
 
 
-    <form [formGroup]="logInForm" class=" fd-full-width">
+    <form [formGroup]="logInForm" (keyup.enter)="loginWhenEnterPushed()" class=" fd-full-width">
       <div class="col-12 fd-flex fd-flex-row justify-content-center">
         <input class="fd-full-width" formControlName="email" id="username" pInputText
                placeholder="{{'email' | translate}}"
@@ -25,7 +25,7 @@
       <div class="col-12 fd-flex fd-flex-row justify-content-center fd-full-width ">
         <p-password [feedback]="false" [toggleMask]="true" class="fd-full-width"
                     formControlName="password" placeholder="{{'password' | translate}}"
-                    styleClass="p-password p-component p-inputwrapper p-input-icon-right" (keyup.enter)="loginWhenEnterPushed()">
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right">
         </p-password>
       </div>
     </form>
