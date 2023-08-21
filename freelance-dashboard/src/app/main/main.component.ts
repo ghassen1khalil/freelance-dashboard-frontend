@@ -18,7 +18,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public activePositions: Position[];
   public archivedPositions: Position[];
   public positionsYears: Set<number>;
-  public isFilterSet: boolean;
+  public isFilterSet: boolean | undefined;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      if (positions && positions.length > 0) {
+      if (positions) {
         this.archivedPositions = this.extractPositionsByState(positions, State.Archived);
         this.activePositions = this.extractPositionsByState(positions, State.Active);
         this.extractYearsFromPositions(this.activePositions);
@@ -45,6 +45,8 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe(filter => {
       if (filter !== undefined && filter.length > 0) {
         this.isFilterSet = true;
+      } else {
+        this.isFilterSet = undefined;
       }
     });
 

@@ -7,7 +7,7 @@ import {debounceTime, Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {Logout} from '../../core/store/actions/auth.actions';
-import {FetchPositions, FilterPositions} from '../../core/store/actions/position.actions';
+import {FetchPositions, FilterPositions, ResetFilter} from '../../core/store/actions/position.actions';
 import {FormControl} from '@angular/forms';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {NavigationEnd, Router} from '@angular/router';
@@ -33,33 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.resetSearchFieldWhenNavigationChange();
   }
 
-
-  private setupSearchDebouncing() {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged()
-      )
-      .subscribe((searchKeyword: string) => {
-        if (isNotNullOrUndefined(searchKeyword)) {
-          if (searchKeyword.length === 0) {
-            this.store.dispatch(FetchPositions());
-          } else {
-            this.store.dispatch(FilterPositions({keyword: searchKeyword}));
-          }
-        }
-      });
-  }
-
-  private resetSearchFieldWhenNavigationChange() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.searchControl.reset();
-      }
-    })
-  }
-
-
   ngOnInit(): void {
     this.store.pipe(
       select(getAuth),
@@ -78,6 +51,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  private setupSearchDebouncing() {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((searchKeyword: string) => {
+        if (isNotNullOrUndefined(searchKeyword)) {
+          if (searchKeyword.length === 0) {
+            this.store.dispatch(ResetFilter());
+            this.store.dispatch(FetchPositions());
+          } else {
+            this.store.dispatch(FilterPositions({keyword: searchKeyword}));
+          }
+        }
+      });
+  }
+
+  private resetSearchFieldWhenNavigationChange() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.store.dispatch(ResetFilter());
+        this.searchControl.reset();
+      }
+    })
+  }
+
+  //TODO use TranslateService
   private initMenuItems() {
     this.items = [{
       label: this.freelancer?.name,

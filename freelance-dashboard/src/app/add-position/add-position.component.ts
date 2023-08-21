@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Currency, Position, PositionsService} from '../../../generated';
+import {Currency, Position, PositionsService, State} from '../../../generated';
 import {Store} from '@ngrx/store';
 import * as PositionActions from '../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
@@ -81,7 +81,8 @@ export class AddPositionComponent implements OnInit {
       statuses: [{
         label: this.addPositionForm.controls['initialStatus'].value,
         date: this.dateService.today(DateService.YYYY_MM_DD_FORMAT)
-      }]
+      }],
+      state: State.Active
     };
   }
 

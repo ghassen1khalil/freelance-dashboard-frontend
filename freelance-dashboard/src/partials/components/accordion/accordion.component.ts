@@ -15,13 +15,14 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
   @Input() isNoActivePositions: boolean;
 
   expanded: boolean;
-
   contentHeight: string;
+  sortedPositions: Position[];
 
   constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    this.sortedPositions = this.sortByStartingDate(this.positions);
     if (this.isArchive) {
       this.expanded = this.isNoActivePositions;
     } else {
