@@ -41,7 +41,13 @@ export const SetFilteredPositions = createAction(
   props<{ positions: Position[] | undefined }>()
 );
 
+export const ResetFilter = createAction(
+  '[FILTER] - Reset Filter'
+);
+
 export const UpdatePosition = createAction(
   '[POSITION] - Update Position',
   props<{ position: Position }>()
 );
+
+

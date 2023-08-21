@@ -22,6 +22,9 @@ const _positionReducer = createReducer(
   }),
   on(PositionActions.SetFilteredPositions, (state, {positions}) => {
     return {...state, filteredPositions: positions}
+  }),
+  on(PositionActions.ResetFilter, (state) => {
+    return {...state, filter: undefined}
   })
 );
 
