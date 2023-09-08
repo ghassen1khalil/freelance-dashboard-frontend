@@ -12,6 +12,7 @@ export interface PositionState {
   positions: Position[] | undefined;
   filter: string | undefined;
   filteredPositions: Position[] | undefined;
+  positionToEdit: Position | undefined;
 }
 
 export interface EventState {
