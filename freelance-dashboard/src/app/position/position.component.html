@@ -1,7 +1,8 @@
 <form [formGroup]="addPositionForm" class="fd-flex fd-flex-column fd-margin-auto">
   <div class="grid">
     <div class="col-12 fd-flex fd-flex-column">
-      <p-calendar formControlName="startingDate" dateFormat="dd/mm/yy" placeholder="{{'startingDate' | translate}}" [showIcon]="true"></p-calendar>
+      <p-calendar formControlName="startingDate" dateFormat="yy-mm-dd" placeholder="{{'startingDate' | translate}}"
+                  [showIcon]="true"></p-calendar>
     </div>
     <div class="col-12 fd-flex fd-flex-column">
       <input formControlName="client" type="text" pInputText placeholder="{{'client' | translate}}">
@@ -16,7 +17,8 @@
       <input formControlName="dailyRate" type="number" pInputText placeholder="{{'dailyRate' | translate}}">
     </div>
     <div class="col-4 fd-flex fd-flex-column">
-      <p-dropdown formControlName="currency" [options]="currencies" placeholder="{{'currency' | translate}}"></p-dropdown>
+      <p-dropdown formControlName="currency" [options]="currencies"
+                  placeholder="{{'currency' | translate}}"></p-dropdown>
     </div>
 
     <div class="col-12 fd-flex fd-flex-row ">
@@ -64,17 +66,22 @@
       </div>
     </div>-->
 
-    <div class="col-12">
-      <input  class="address" formControlName="initialStatus" type="text" pInputText placeholder="{{'initialStatus' | translate}}">
+    <div *ngIf="!isEditMode" class="col-12">
+      <input class="address" formControlName="initialStatus" type="text" pInputText
+             placeholder="{{'initialStatus' | translate}}">
     </div>
 
     <div class="col-12 fd-flex fd-flex-row">
-      <textarea class="fd-full-width"  style="height: 100px" pInputTextarea placeholder="{{'remarks' | translate}}"></textarea>
+      <textarea class="fd-full-width" formControlName="remarks" style="height: 100px" pInputTextarea
+                placeholder="{{'remarks' | translate}}"></textarea>
     </div>
 
     <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0">
-      <button pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}" (click)="cancel()"></button>
-      <p-button [disabled]="!addPositionForm.valid" class="save-btn" label="{{'save' | translate}}" (click)="savePosition()"></p-button>
+      <button type="button" pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}" (click)="cancel()"></button>
+      <p-button *ngIf="!isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'save' | translate}}"
+                (click)="savePosition()"></p-button>
+      <p-button *ngIf="isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'update' | translate}}"
+                (click)="updatePosition()"></p-button>
     </div>
   </div>
 </form>

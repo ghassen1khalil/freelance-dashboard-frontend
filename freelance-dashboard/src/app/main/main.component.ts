@@ -5,7 +5,7 @@ import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import moment from 'moment';
 import {Router} from '@angular/router';
-import {SetFilteredPositions} from '../../core/store/actions/position.actions';
+import {FetchPositions, SetFilteredPositions} from '../../core/store/actions/position.actions';
 
 
 @Component({
@@ -28,6 +28,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(FetchPositions());
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
@@ -99,15 +100,15 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public goToAddPosition() {
-    this.router.navigate(['/', 'add-position']);
+    this.router.navigate(['/', 'position']);
   }
 
   public isNoResultForFilter(): boolean {
-    return this.isFilterSet !== undefined && !(this.activePositions.length > 0 || this.archivedPositions.length > 0);
+    return this.isFilterSet !== undefined && !(this.activePositions?.length > 0 || this.archivedPositions?.length > 0);
   }
 
   public isNoPositionsYet(): boolean {
-    return this.isFilterSet === undefined && this.activePositions.length === 0 && this.archivedPositions.length === 0;
+    return this.isFilterSet === undefined && this.activePositions?.length === 0 && this.archivedPositions?.length === 0;
   }
 
   ngOnDestroy(): void {

@@ -14,7 +14,9 @@ export class DateService {
     return moment().format(format);
   }
 
-  public formatAndUtc(date: string ,format: string) {
-    return moment(date).utc(true).format(format);
+  public format(date: string , format: string) {
+    return moment(date).format(format);
   }
+
+
 }

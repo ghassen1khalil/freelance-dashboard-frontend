@@ -8,7 +8,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {RippleModule} from 'primeng/ripple';
 import {DialogModule} from 'primeng/dialog';
-import {AddPositionModule} from '../add-position/add-position.module';
+import {PositionModule} from '../position/position.module';
 import {CardModule} from 'primeng/card';
 import {MenuModule} from 'primeng/menu';
 import {AccordionModule} from '../../partials/components/accordion/accordion.module';
@@ -28,7 +28,7 @@ import {AngularEmojisModule} from 'angular-emojis';
     InputTextModule,
     RippleModule,
     DialogModule,
-    AddPositionModule,
+    PositionModule,
     CardModule,
     MenuModule,
     AccordionModule,

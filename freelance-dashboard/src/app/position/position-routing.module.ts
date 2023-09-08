@@ -1,12 +1,12 @@
 import {RouterModule, Routes} from '@angular/router';
-import {AddPositionComponent} from './add-position.component';
+import {PositionComponent} from './position.component';
 import {NgModule} from '@angular/core';
 
 const routes: Routes = [
 
   {
     path: '',
-    component: AddPositionComponent
+    component: PositionComponent
   }
 
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AddPositionRoutingModule { }
+export class PositionRoutingModule { }

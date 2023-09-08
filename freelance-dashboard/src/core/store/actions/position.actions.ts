@@ -21,12 +21,12 @@ export const SetPositions = createAction(
   props<{ payload: Position[] }>()
 );
 
-export const SaveNewPosition = createAction(
+export const SavePosition = createAction(
   '[POSITION] - Save new position',
   props<{ position: Position }>()
 );
 
-export const SaveNewPositionFailure = createAction(
+export const SavePositionFailure = createAction(
   '[POSITION] - Save New Position Failure',
   props<{ error: HttpErrorResponse }>()
 );
@@ -48,6 +48,15 @@ export const ResetFilter = createAction(
 export const UpdatePosition = createAction(
   '[POSITION] - Update Position',
   props<{ position: Position }>()
+);
+
+export const EditPosition = createAction(
+  '[POSITION] - Edit Position',
+  props <{positionToEdit: Position}>()
+);
+
+export const ResetPositionToEdit = createAction(
+  '[POSITION] - Reset Position to edit'
 );
 
 

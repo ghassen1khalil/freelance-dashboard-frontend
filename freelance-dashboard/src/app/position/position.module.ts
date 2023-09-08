@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AddPositionComponent} from './add-position.component';
+import {PositionComponent} from './position.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {TranslateModule} from '@ngx-translate/core';
@@ -12,16 +12,16 @@ import {RippleModule} from 'primeng/ripple';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {TimelineModule} from 'primeng/timeline';
 import {CalendarModule} from 'primeng/calendar';
-import {AddPositionRoutingModule} from './add-position-routing.module';
+import {PositionRoutingModule} from './position-routing.module';
 import {DropdownModule} from 'primeng/dropdown';
 
 
 @NgModule({
   declarations: [
-    AddPositionComponent
+    PositionComponent
   ],
   exports: [
-    AddPositionComponent
+    PositionComponent
   ],
   imports: [
     CommonModule,
@@ -37,9 +37,9 @@ import {DropdownModule} from 'primeng/dropdown';
     InputTextareaModule,
     TimelineModule,
     CalendarModule,
-    AddPositionRoutingModule,
+    PositionRoutingModule,
     DropdownModule
   ]
 })
-export class AddPositionModule {
+export class PositionModule {
 }

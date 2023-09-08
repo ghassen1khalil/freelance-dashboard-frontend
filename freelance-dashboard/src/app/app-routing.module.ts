@@ -13,8 +13,8 @@ const routes: Routes = [
     canLoad: [LoggedInGuard]
   },
   {
-    path: 'add-position',
-    loadChildren: () => import('./add-position/add-position.module').then(m => m.AddPositionModule),
+    path: 'position',
+    loadChildren: () => import('./position/position.module').then(m => m.PositionModule),
     canLoad: [LoggedInGuard]
   },
   {

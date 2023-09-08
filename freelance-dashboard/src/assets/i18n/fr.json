@@ -115,7 +115,7 @@
   "orConnect": "ou <a href={{url}}> Connecte toi</a>",
   "addPositionSuccess": "Ajout d'un positionnement avec succès",
   "mission": "Mission",
-  "role": "Poste",
+  "role": "Poste*",
   "project": "Projet",
   "tribe": "Tribu",
   "manager": "Manager",
@@ -135,5 +135,15 @@
     "youHaveCancelled": "Vous avez annulé la suppression"
   },
   "yes": "Oui",
-  "no": "Non"
+  "no": "Non",
+  "update": "Mettre à jour",
+  "error": "Erreur",
+  "success": "Succès",
+  "savePositionSuccessMessage": "Positionnement ajouté avec succés",
+  "savePositionErrorMessage": "Une erreur est survenue lors  de l'enregistrement' d'un positionnement",
+  "updatePositionSuccessMessage": "Positionnement mise à jour avec succés",
+  "updatePositionErrorMessage": "Une erreur est survenue lors  de la mise à jour d'un positionnement",
+  "findAllErrorMessage": "Une erreur est survenue lors  du chargement des positionnements",
+  "deletePositionSuccessMessage": "Positionnement supprimé avec succés",
+  "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement"
 }

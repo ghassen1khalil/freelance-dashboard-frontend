@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfirmationService, ConfirmEventType, MenuItem, MessageService, PrimeIcons, PrimeNGConfig} from 'primeng/api';
+import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
 import {Position, State} from '../../../../../generated';
 import {TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
-import {UpdatePosition} from '../../../../core/store/actions/position.actions';
+import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-position-card',
@@ -22,8 +23,8 @@ export class PositionCardComponent implements OnInit {
   constructor(private translate: TranslateService,
               private store: Store,
               private confirmationService: ConfirmationService,
-              private messageService: MessageService,
-              private primengConfig: PrimeNGConfig) {
+              private primengConfig: PrimeNGConfig,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -46,7 +47,13 @@ export class PositionCardComponent implements OnInit {
       this.items = [{
         label: res['position-contextual-menu.title'],
         items: [
-          {label: res['position-contextual-menu.edit'], icon: PrimeIcons.PENCIL},
+          {
+            label: res['position-contextual-menu.edit'],
+            icon: PrimeIcons.PENCIL,
+            command: () => {
+              this.editPosition();
+            }
+          },
           {
             label: res['position-contextual-menu.remove'],
             icon: PrimeIcons.TRASH,
@@ -80,28 +87,16 @@ export class PositionCardComponent implements OnInit {
         icon: 'pi pi-info-circle',
         accept: () => {
           this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, State.Deleted)}));
-          this.messageService.add({severity: 'info', summary: res['delete-position-modal.confirmed'], detail: res['delete-position-modal.youHaveConfirmed']});
-        },
-        reject: (type: any) => {
-          switch (type) {
-            case ConfirmEventType.REJECT:
-              this.messageService.add({severity: 'error', summary: res['delete-position-modal.rejected'], detail: res['delete-position-modal.youHaveRejected']});
-              break;
-            case ConfirmEventType.CANCEL:
-              this.messageService.add({severity: 'warn', summary: res['delete-position-modal.cancelled'], detail: res['delete-position-modal.youHaveCancelled']});
-              break;
-          }
         }
       });
     });
   }
 
   private updatePositionState(position: Position, state: State): Position {
-    let updatedPosition: Position = {
+    return {
       ...position,
       state: state
     };
-    return updatedPosition;
   }
 
   private getLatestStatus(): string | undefined {
@@ -109,10 +104,12 @@ export class PositionCardComponent implements OnInit {
   }
 
   private getCurrency(): string | undefined {
-    /*let index = Object.keys(Currency).indexOf(this.position.dailyRate?.currency as unknown as Currency);
-    return Object.values(Currency)[index];*/
     return this.position.dailyRate?.currency;
   }
 
 
+  private editPosition() {
+    this.store.dispatch(EditPosition({positionToEdit: this.position}));
+    this.router.navigate(['/', 'position']);
+  }
 }

@@ -7,6 +7,7 @@ export const initialPositionState: PositionState =
     positions: undefined,
     filter: undefined,
     filteredPositions: undefined,
+    positionToEdit: undefined
   };
 
 const _positionReducer = createReducer(
@@ -25,6 +26,12 @@ const _positionReducer = createReducer(
   }),
   on(PositionActions.ResetFilter, (state) => {
     return {...state, filter: undefined}
+  }),
+  on(PositionActions.EditPosition, (state, {positionToEdit}) => {
+    return {...state, positionToEdit: positionToEdit}
+  }),
+  on(PositionActions.ResetPositionToEdit, (state) => {
+    return {...state, positionToEdit: undefined}
   })
 );
 
@@ -50,4 +57,9 @@ export const getFilter = createSelector(
 export const getFilteredPositions = createSelector(
   getPositionState,
   (state: PositionState) => state.filteredPositions
+);
+
+export const getPositionToEdit = createSelector(
+  getPositionState,
+  (state: PositionState) => state.positionToEdit
 );
