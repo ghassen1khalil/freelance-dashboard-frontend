@@ -5,12 +5,12 @@ import {catchError, finalize, map, mergeAll, mergeMap, Observable, of} from 'rxj
 import {Action} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
 import {HttpErrorResponse} from '@angular/common/http';
-import {switchMap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {LaunchEvent} from '../actions/event.actions';
 import {EventType} from '../models/models';
 import {TranslateService} from '@ngx-translate/core';
-import {EventService} from '../../services/event.service'; // Import merge operator from RxJS
+import {EventService} from '../../services/event.service';
+import {switchMap} from 'rxjs/operators'; // Import merge operator from RxJS
 
 
 @Injectable()
@@ -42,8 +42,8 @@ export class PositionEffects {
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
       mergeMap(() =>
-        this.positionService.findAll().pipe(
-          map((positions: Position[]): Action => { // specify type explicitly
+        this.positionService.findPositions().pipe(
+          map((positions: {[key: string]: Array<Position>}): Action => { // specify type explicitly
             return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
           catchError((error: HttpErrorResponse) => {
@@ -75,8 +75,8 @@ export class PositionEffects {
           )),
           switchMap((successEvent) => [
             of(successEvent),
-            this.positionService.findAll().pipe(
-              map((positions: Position[]) => PositionActions.FetchPositionsSuccess({payload: positions})),
+            this.positionService.findPositions().pipe(
+              map((positions:{[key: string]: Array<Position>}) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({
@@ -102,46 +102,6 @@ export class PositionEffects {
     ) as Observable<Action>
   );
 
-  /*UpdatePosition$: Observable<Action> = createEffect(() =>
-    this.action$.pipe(
-      ofType(PositionActions.UpdatePosition),
-      switchMap(action =>
-        this.positionService.update(action.position.id ? action.position.id : '', action.position).pipe(
-          switchMap(() => this.translate.get(['success', 'updatePositionSuccessMessage', 'deletePositionSuccessMessage']).pipe(
-            map((res) =>
-              LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'success', action.position.state === State.Deleted ? 'deletePositionSuccessMessage' : 'updatePositionSuccessMessage', EventType.SUCCESS)
-              })
-            )
-          )),
-          switchMap((successEvent) => [
-            of(successEvent),
-            this.positionService.findAll().pipe(
-              map((positions: Position[]) => PositionActions.FetchPositionsSuccess({payload: positions})),
-              catchError((error: HttpErrorResponse) => {
-                return this.translate.get(['error', 'findAllErrorMessage']).pipe(
-                  map((res) => LaunchEvent({
-                    event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'findAllErrorMessage', EventType.ERROR)
-                  }))
-                );
-              })
-            )
-          ]),
-          mergeAll(),
-          tap(() => {
-            this.router.navigate(['/main']);
-          }),
-          catchError((error: HttpErrorResponse) => {
-            return this.translate.get(['error', 'updatePositionErrorMessage', 'deletePositionErrorMessage']).pipe(
-              map((res) => LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'error', action.position.state === State.Deleted ? 'deletePositionErrorMessage' : 'updatePositionErrorMessage', EventType.ERROR)
-              }))
-            );
-          })
-        )
-      )
-    ) as Observable<Action>
-  );*/
 
   UpdatePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
@@ -157,8 +117,8 @@ export class PositionEffects {
           )),
           switchMap((successEvent) => [
             of(successEvent),
-            this.positionService.findAll().pipe(
-              map((positions: Position[]) => PositionActions.FetchPositionsSuccess({payload: positions})),
+            this.positionService.findPositions().pipe(
+              map((positions:{[key: string]: Array<Position>}) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({

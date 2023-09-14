@@ -8,17 +8,12 @@ export const FetchPositions = createAction(
 
 export const FetchPositionsSuccess = createAction(
   '[POSITION] - Fetch Positions Success',
-  props<{ payload: Position[] }>()
+  props<{ payload: { [key: string]: Array<Position> } }>()
 );
 
 export const FetchPositionsFailure = createAction(
   '[POSITION] - Fetch Positions Failure',
   props<{ payload: HttpErrorResponse }>()
-);
-
-export const SetPositions = createAction(
-  '[POSITION] - Set Positions',
-  props<{ payload: Position[] }>()
 );
 
 export const SavePosition = createAction(
@@ -52,7 +47,7 @@ export const UpdatePosition = createAction(
 
 export const EditPosition = createAction(
   '[POSITION] - Edit Position',
-  props <{positionToEdit: Position}>()
+  props<{ positionToEdit: Position }>()
 );
 
 export const ResetPositionToEdit = createAction(

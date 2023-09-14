@@ -3,9 +3,8 @@ import {Position, State} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
-import moment from 'moment';
 import {Router} from '@angular/router';
-import {FetchPositions, SetFilteredPositions} from '../../core/store/actions/position.actions';
+import {SetFilteredPositions} from '../../core/store/actions/position.actions';
 
 
 @Component({
@@ -15,28 +14,28 @@ import {FetchPositions, SetFilteredPositions} from '../../core/store/actions/pos
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  public activePositions: Position[];
-  public archivedPositions: Position[];
-  public positionsYears: Set<number>;
+  public activePositions: Position[] = [];
+  public archivedPositions: Position[] = [];
+
+  public positionsMap: { [key: string]: Array<Position> };
+  public onlyArchived: boolean;
+  public positionsYears: string[] = [];
   public isFilterSet: boolean | undefined;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(private router: Router,
-              private store: Store) {
-    this.positionsYears = new Set;
-  }
+              private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(FetchPositions());
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
       if (positions) {
-        this.archivedPositions = this.extractPositionsByState(positions, State.Archived);
-        this.activePositions = this.extractPositionsByState(positions, State.Active);
-        this.extractYearsFromPositions(this.activePositions);
+        this.positionsMap = positions;
+        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && this.positionsMap[State.Archived].length > 0;
+        this.positionsYears = this.getPositionsYears();
       }
     });
 
@@ -65,38 +64,29 @@ export class MainComponent implements OnInit, OnDestroy {
             archivedPosition.push(pos);
           }
         })
-        this.archivedPositions = archivedPosition;
+        /*this.archivedPositions = archivedPosition;
         this.activePositions = activePosition;
-        this.extractYearsFromPositions(this.activePositions);
+        this.getPositionsYears(this.activePositions);*/
       }
     });
   }
 
-  private extractPositionsByState(positions: Position[], state: State): Position[] {
-    return positions.filter(pos => pos.state === state);
-  }
 
-  private extractYearsFromPositions(positions: Position[]) {
-    this.positionsYears = new Set;
-    positions.map(position => {
-      let year = moment(position.startingDate, "YYYY-MM-DD").year();
-      this.positionsYears.add(year);
+  private getPositionsYears(): string[] {
+    let years: string[] = [];
+    Object.keys(this.positionsMap).forEach(key => {
+      if (State.Archived !== key) {
+        years.push(key);
+      }
     });
-    this.positionsYears = new Set(
-      Array.from(this.positionsYears)
-        .sort((a, b) => b - a) // sort in descending order
-    );
+    return years;
   }
 
   /**
    * return True is year is the biggest one
    */
-  public isLatestYear(year: any): boolean {
-    return year === Math.max(...Array.from(this.positionsYears).map(Number));
-  }
-
-  public getPositionsByYear(year: number) {
-    return this.activePositions.filter(position => moment(position.startingDate, "YYYY-MM-DD").year() === year);
+  public isLatestYear(key: any): boolean {
+    return key === Math.max(...Array.from(this.positionsYears).map(Number)).toString();
   }
 
   public goToAddPosition() {
@@ -108,7 +98,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public isNoPositionsYet(): boolean {
-    return this.isFilterSet === undefined && this.activePositions?.length === 0 && this.archivedPositions?.length === 0;
+    return this.isFilterSet === undefined && Object.keys(this.positionsMap).length === 0;
   }
 
   ngOnDestroy(): void {

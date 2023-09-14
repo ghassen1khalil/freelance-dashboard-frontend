@@ -3,17 +3,23 @@
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
 
-  <app-accordion *ngFor="let year of positionsYears" [title]="year.toString()"
-                 [positions]="getPositionsByYear(year)"
-                 [isArchive]="false" [isNoActivePositions]="activePositions.length === 0"
-                 [isLatestYear]="isLatestYear(year)">
-  </app-accordion>
+  <ng-container *ngFor="let year of positionsYears">
+    <app-accordion [title]="year"
+                   [positions]="positionsMap[year]"
+                   [isArchive]="false"
+                   [onlyArchived]="onlyArchived"
+                   [isLatestYear]="isLatestYear(year)">
+    </app-accordion>
+  </ng-container>
 
-  <app-accordion *ngIf="archivedPositions?.length > 0" title="{{'archived' | translate}}"
-                 [positions]="archivedPositions"
-                 [isArchive]="true" [isNoActivePositions]="activePositions.length === 0"
-                 [isLatestYear]="false">
-  </app-accordion>
+  <ng-container>
+    <app-accordion title="{{'archived' | translate}}"
+                   [positions]="positionsMap['ARCHIVED']"
+                   [isArchive]="false"
+                   [onlyArchived]="onlyArchived"
+                   [isLatestYear]="false">
+    </app-accordion>
+  </ng-container>
 
   <div *ngIf="isNoPositionsYet()">
     <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
