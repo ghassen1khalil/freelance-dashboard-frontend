@@ -9,7 +9,7 @@ export interface AppState {
 }
 
 export interface PositionState {
-  positions: Position[] | undefined;
+  positions: {[key: string]: Array<Position>} | undefined;
   filter: string | undefined;
   filteredPositions: Position[] | undefined;
   positionToEdit: Position | undefined;

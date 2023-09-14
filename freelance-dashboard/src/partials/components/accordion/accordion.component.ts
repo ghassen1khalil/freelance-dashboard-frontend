@@ -9,10 +9,10 @@ import {Position} from '../../../../generated';
 export class AccordionComponent implements OnInit, AfterViewChecked {
 
   @Input() title: string;
-  @Input() isLatestYear: boolean; /*DEPRECATED*/
   @Input() positions: Position[];
   @Input() isArchive: boolean;
-  @Input() isNoActivePositions: boolean;
+  @Input() onlyArchived: boolean;
+  @Input() isLatestYear: boolean;
 
   expanded: boolean;
   contentHeight: string;
@@ -24,9 +24,9 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.sortedPositions = this.sortByStartingDate(this.positions);
     if (this.isArchive) {
-      this.expanded = this.isNoActivePositions;
+      this.expanded = this.onlyArchived;
     } else {
-      this.expanded = true;
+      this.expanded = this.isLatestYear;
       this.calculateContentHeight();
       this.cdRef.detectChanges();
     }
@@ -47,8 +47,15 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
   }
 
   public sortByStartingDate(positions: Position[]): Position[] {
-    return positions.sort((a, b) =>
-      new Date((b.startingDate) as string).getTime() - new Date((a.startingDate) as string).getTime());
+    const mutablePositions = [...positions]; // Create a shallow copy
+    return mutablePositions.sort((a, b) => {
+      const timeA = new Date((a.startingDate) as string).getTime();
+      const timeB = new Date((b.startingDate) as string).getTime();
+      if (timeA === timeB) {
+        return 0;
+      }
+      return timeB - timeA;
+    });
   }
 
 

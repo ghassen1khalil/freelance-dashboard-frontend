@@ -15,9 +15,9 @@ const _positionReducer = createReducer(
   on(PositionActions.FetchPositionsSuccess, (state, {payload}) => {
     return {...state, positions: payload}
   }),
-  on(PositionActions.SetPositions, (state, {payload}) => {
+  /*on(PositionActions.SetPositions, (state, {payload}) => {
     return {...state, positions: payload}
-  }),
+  }),*/
   on(PositionActions.FilterPositions, (state, {keyword}) => {
     return {...state, filter: keyword}
   }),

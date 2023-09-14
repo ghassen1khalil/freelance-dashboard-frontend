@@ -7,6 +7,23 @@ servers:
   - url: http://localhost:8080/api
     description: Local URL
 paths:
+  /positions:
+    get:
+      summary: "Find positions grouped by year combined with ones having ARCHIVED state"
+      operationId: findPositions
+      tags:
+        - positions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: integer
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Position'
   /position:
     post:
       summary: Save a Position
@@ -39,21 +56,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    get:
-      summary: Return all positions
-      description: Return all position
-      operationId: findAll
-      tags:
-        - positions
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Position'
   /position/{id}:
     get:
       summary: Return a position by ID
