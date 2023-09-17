@@ -27,8 +27,8 @@ export class PositionEffects {
       ofType(PositionActions.FilterPositions),
       mergeMap(action =>
         this.positionService.filterByKeyword(action.keyword).pipe(
-          map((positions: Position[]) => {
-            return PositionActions.SetFilteredPositions({positions: positions});
+          map((positions: {[key: string]: Array<Position>}) => {
+            return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
           catchError((error: HttpErrorResponse) => {
             return of(PositionActions.FetchPositionsFailure({payload: error}));
@@ -91,11 +91,15 @@ export class PositionEffects {
           ]),
           mergeAll(),
           catchError((error: HttpErrorResponse) => {
-            return this.translate.get(['error', 'savePositionErrorMessage']).pipe(
-              map((res) => LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'savePositionErrorMessage', EventType.ERROR)
-              }))
-            );
+            return new Observable<Action>((observer) => { // specify type explicitly
+              this.translate.get(['error', 'fetchPositionsErrorMessage']).subscribe((res) => {
+                observer.next(PositionActions.SavePositionFailure({error: error}));
+                observer.next(LaunchEvent({
+                  event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'savePositionErrorMessage', EventType.ERROR)
+                }));
+                observer.complete();
+              });
+            });
           })
         )
       )
