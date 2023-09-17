@@ -1,4 +1,13 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import {Position} from '../../../../generated';
 
 @Component({
@@ -6,7 +15,7 @@ import {Position} from '../../../../generated';
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.scss']
 })
-export class AccordionComponent implements OnInit, AfterViewChecked {
+export class AccordionComponent implements OnInit, AfterViewChecked, OnChanges {
 
   @Input() title: string;
   @Input() positions: Position[];
@@ -16,13 +25,10 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
 
   expanded: boolean;
   contentHeight: string;
-  sortedPositions: Position[];
 
-  constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {
-  }
+  constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.sortedPositions = this.sortByStartingDate(this.positions);
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.isArchive) {
       this.expanded = this.onlyArchived;
     } else {
@@ -31,6 +37,8 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
       this.cdRef.detectChanges();
     }
   }
+
+  ngOnInit(): void {}
 
   public toggleAccordion() {
     this.expanded = !this.expanded;
@@ -45,18 +53,4 @@ export class AccordionComponent implements OnInit, AfterViewChecked {
     const contentElement = this.elementRef.nativeElement.querySelector('.accordion-content');
     this.contentHeight = contentElement.scrollHeight + 'px';
   }
-
-  public sortByStartingDate(positions: Position[]): Position[] {
-    const mutablePositions = [...positions]; // Create a shallow copy
-    return mutablePositions.sort((a, b) => {
-      const timeA = new Date((a.startingDate) as string).getTime();
-      const timeB = new Date((b.startingDate) as string).getTime();
-      if (timeA === timeB) {
-        return 0;
-      }
-      return timeB - timeA;
-    });
-  }
-
-
 }

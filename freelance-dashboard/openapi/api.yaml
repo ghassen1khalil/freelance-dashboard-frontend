@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: object
                 additionalProperties:
                   type: array
                   items:
@@ -123,9 +123,11 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Position'
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Position'
   /freelancer:
     post:
       summary: Check freelancer

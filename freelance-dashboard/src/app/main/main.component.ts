@@ -5,7 +5,7 @@ import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import {Router} from '@angular/router';
 import {SetFilteredPositions} from '../../core/store/actions/position.actions';
-
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 
 @Component({
   selector: 'app-main',
@@ -14,10 +14,7 @@ import {SetFilteredPositions} from '../../core/store/actions/position.actions';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  public activePositions: Position[] = [];
-  public archivedPositions: Position[] = [];
-
-  public positionsMap: { [key: string]: Array<Position> };
+  public positionsMap: {[key: string]: Array<Position>};
   public onlyArchived: boolean;
   public positionsYears: string[] = [];
   public isFilterSet: boolean | undefined;
@@ -25,16 +22,17 @@ export class MainComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(private router: Router,
-              private store: Store) {}
+              private store: Store) {
+  }
 
   ngOnInit(): void {
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      if (positions) {
+      if (positions !== undefined) {
         this.positionsMap = positions;
-        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && this.positionsMap[State.Archived].length > 0;
+        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[State.Archived]);
         this.positionsYears = this.getPositionsYears();
       }
     });
@@ -47,26 +45,6 @@ export class MainComponent implements OnInit, OnDestroy {
         this.isFilterSet = true;
       } else {
         this.isFilterSet = undefined;
-      }
-    });
-
-    this.store.pipe(
-      select(positionReducer.getFilteredPositions),
-      takeUntil(this.unsubscribe$)
-    ).subscribe((filteredPositions) => {
-      if (filteredPositions !== undefined) {
-        let activePosition: Position[] = [];
-        let archivedPosition: Position[] = [];
-        filteredPositions.forEach(pos => {
-          if (State.Active === pos.state) {
-            activePosition.push(pos);
-          } else if (State.Archived === pos.state) {
-            archivedPosition.push(pos);
-          }
-        })
-        /*this.archivedPositions = archivedPosition;
-        this.activePositions = activePosition;
-        this.getPositionsYears(this.activePositions);*/
       }
     });
   }
@@ -94,7 +72,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public isNoResultForFilter(): boolean {
-    return this.isFilterSet !== undefined && !(this.activePositions?.length > 0 || this.archivedPositions?.length > 0);
+    return this.isFilterSet !== undefined && Object.keys(this.positionsMap).length === 0;
   }
 
   public isNoPositionsYet(): boolean {
