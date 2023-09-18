@@ -5,8 +5,8 @@ import {PositionState} from '../state/app.states';
 export const initialPositionState: PositionState =
   {
     positions: undefined,
-    filter: undefined,
-    filteredPositions: undefined,
+    /*filter: undefined,
+    filteredPositions: undefined,*/
     positionToEdit: undefined
   };
 
@@ -18,15 +18,6 @@ const _positionReducer = createReducer(
   /*on(PositionActions.SetPositions, (state, {payload}) => {
     return {...state, positions: payload}
   }),*/
-  on(PositionActions.FilterPositions, (state, {keyword}) => {
-    return {...state, filter: keyword}
-  }),
-  on(PositionActions.SetFilteredPositions, (state, {positions}) => {
-    return {...state, filteredPositions: positions}
-  }),
-  on(PositionActions.ResetFilter, (state) => {
-    return {...state, filter: undefined}
-  }),
   on(PositionActions.EditPosition, (state, {positionToEdit}) => {
     return {...state, positionToEdit: positionToEdit}
   }),
@@ -49,7 +40,7 @@ export const getPositions = createSelector(
   (state: PositionState) => state.positions
 );
 
-export const getFilter = createSelector(
+/*export const getFilter = createSelector(
   getPositionState,
   (state: PositionState) => state.filter
 );
@@ -57,7 +48,7 @@ export const getFilter = createSelector(
 export const getFilteredPositions = createSelector(
   getPositionState,
   (state: PositionState) => state.filteredPositions
-);
+);*/
 
 export const getPositionToEdit = createSelector(
   getPositionState,

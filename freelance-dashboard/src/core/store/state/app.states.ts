@@ -6,12 +6,11 @@ export interface AppState {
   eventState: EventState;
   authState: AuthState;
   loaderState: LoaderState;
+  filterState: FilterState;
 }
 
 export interface PositionState {
   positions: {[key: string]: Array<Position>} | undefined;
-  filter: string | undefined;
-  filteredPositions: Position[] | undefined;
   positionToEdit: Position | undefined;
 }
 
@@ -27,4 +26,9 @@ export interface AuthState {
 
 export interface LoaderState {
   isLoaderShown: boolean;
+}
+
+export interface FilterState {
+  filter: string | undefined;
+  filteredPositions: Position[] | undefined;
 }

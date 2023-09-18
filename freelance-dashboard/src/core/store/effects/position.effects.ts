@@ -22,22 +22,6 @@ export class PositionEffects {
               private eventService: EventService) {
   }
 
-  FilterPositions$: Observable<Action> = createEffect(() =>
-    this.action$.pipe(
-      ofType(PositionActions.FilterPositions),
-      mergeMap(action =>
-        this.positionService.filterByKeyword(action.keyword).pipe(
-          map((positions: {[key: string]: Array<Position>}) => {
-            return PositionActions.FetchPositionsSuccess({payload: positions});
-          }),
-          catchError((error: HttpErrorResponse) => {
-            return of(PositionActions.FetchPositionsFailure({payload: error}));
-          })
-        )
-      )
-    )
-  );
-
   FetchPositions$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
