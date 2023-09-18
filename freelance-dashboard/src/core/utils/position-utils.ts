@@ -63,7 +63,7 @@ export class PositionUtils {
         label: form.controls['initialStatus'].value,
         date: this.dateService.today(DateService.YYYY_MM_DD_FORMAT)
       }],
-      state: State.Active
+      state: position?.state
     };
   }
 

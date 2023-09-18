@@ -12,7 +12,7 @@
     </app-accordion>
   </ng-container>
 
-  <ng-container *ngIf="positionsMap['ARCHIVED'] !== undefined && positionsMap['ARCHIVED']?.length > 0">
+  <ng-container *ngIf="positionsMap !== undefined && positionsMap['ARCHIVED'] !== undefined">
     <app-accordion title="{{'archived' | translate}}"
                    [positions]="positionsMap['ARCHIVED']"
                    [isArchive]="true"
