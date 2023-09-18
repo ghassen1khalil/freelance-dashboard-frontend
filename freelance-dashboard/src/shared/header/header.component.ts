@@ -7,10 +7,11 @@ import {debounceTime, Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {Logout} from '../../core/store/actions/auth.actions';
-import {FetchPositions, FilterPositions, ResetFilter} from '../../core/store/actions/position.actions';
+import {FetchPositions} from '../../core/store/actions/position.actions';
 import {FormControl} from '@angular/forms';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {NavigationEnd, Router} from '@angular/router';
+import {FilterPositions, ResetFilter} from '../../core/store/actions/filter.actions';
 
 @Component({
   selector: 'app-header',

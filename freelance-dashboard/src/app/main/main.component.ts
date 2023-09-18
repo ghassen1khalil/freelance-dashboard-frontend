@@ -3,9 +3,10 @@ import {Position, State} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
+import * as filterReducer from '../../core/store/reducers/filter.reducer'
 import {Router} from '@angular/router';
-import {SetFilteredPositions} from '../../core/store/actions/position.actions';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
 
 @Component({
   selector: 'app-main',
@@ -38,7 +39,7 @@ export class MainComponent implements OnInit, OnDestroy {
     });
 
     this.store.pipe(
-      select(positionReducer.getFilter),
+      select(filterReducer.getFilter),
       takeUntil(this.unsubscribe$)
     ).subscribe(filter => {
       if (filter !== undefined && filter.length > 0) {
@@ -48,7 +49,6 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   private getPositionsYears(): string[] {
     let years: string[] = [];

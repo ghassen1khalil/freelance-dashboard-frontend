@@ -26,20 +26,6 @@ export const SavePositionFailure = createAction(
   props<{ error: HttpErrorResponse }>()
 );
 
-export const FilterPositions = createAction(
-  '[POSITION] – Filter positions by keyword',
-  props<{ keyword: string }>()
-);
-
-export const SetFilteredPositions = createAction(
-  '[POSITION] - Set Filtered Positions',
-  props<{ positions: Position[] | undefined }>()
-);
-
-export const ResetFilter = createAction(
-  '[FILTER] - Reset Filter'
-);
-
 export const UpdatePosition = createAction(
   '[POSITION] - Update Position',
   props<{ position: Position }>()
