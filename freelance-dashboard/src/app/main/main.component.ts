@@ -57,6 +57,7 @@ export class MainComponent implements OnInit, OnDestroy {
         years.push(key);
       }
     });
+    years.sort((a, b) => parseInt(b) - parseInt(a));
     return years;
   }
 
@@ -72,11 +73,11 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public isNoResultForFilter(): boolean {
-    return this.isFilterSet !== undefined && Object.keys(this.positionsMap).length === 0;
+    return this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
   }
 
   public isNoPositionsYet(): boolean {
-    return this.isFilterSet === undefined && Object.keys(this.positionsMap).length === 0;
+    return this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
   }
 
   ngOnDestroy(): void {
