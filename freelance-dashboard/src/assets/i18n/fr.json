@@ -145,5 +145,6 @@
   "updatePositionErrorMessage": "Une erreur est survenue lors  de la mise à jour d'un positionnement",
   "findAllErrorMessage": "Une erreur est survenue lors  du chargement des positionnements",
   "deletePositionSuccessMessage": "Positionnement supprimé avec succés",
-  "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement"
+  "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement",
+  "allRightsReserved": "Tous les droits sont réservés."
 }
