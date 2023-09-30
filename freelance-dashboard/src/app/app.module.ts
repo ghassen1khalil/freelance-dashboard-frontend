@@ -25,6 +25,7 @@ import {LoaderComponent} from '../shared/loader/loader.component';
 import {LoaderInterceptor} from '../core/interceptors/loader.interceptor';
 import {MessageService} from 'primeng/api';
 import {FilterEffects} from '../core/store/effects/filter.effects';
+import {FooterModule} from '../partials/components/footer/footer.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,29 +35,30 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        ButtonModule,
-        RippleModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            },
-            defaultLanguage: 'fr'
-        }),
-        StoreModule.forRoot(reducers, /*{ metaReducers }*/),
-        !environment.production ? StoreDevtoolsModule.instrument() : [],
-        EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects/*HydrationEffects*/]),
-        ToastModule,
-        HeaderModule,
-        AuthModule.forRoot({...env.auth}),
-        LoaderComponent,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ButtonModule,
+    RippleModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'fr'
+    }),
+    StoreModule.forRoot(reducers, /*{ metaReducers }*/),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects/*HydrationEffects*/]),
+    ToastModule,
+    HeaderModule,
+    AuthModule.forRoot({...env.auth}),
+    LoaderComponent,
+    FooterModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

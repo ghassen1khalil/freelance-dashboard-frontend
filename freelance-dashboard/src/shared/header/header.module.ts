@@ -12,7 +12,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [HeaderComponent],
-    imports: [CommonModule, ButtonModule, TranslateModule, AvatarModule, BadgeModule, MenuModule, InputTextModule, DropdownModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ButtonModule, TranslateModule, AvatarModule, BadgeModule, MenuModule, InputTextModule, DropdownModule, FormsModule, ReactiveFormsModule],
   exports: [HeaderComponent]
 })
 export class HeaderModule {
