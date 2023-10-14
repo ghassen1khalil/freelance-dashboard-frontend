@@ -12,6 +12,7 @@ import {FormControl} from '@angular/forms';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {NavigationEnd, Router} from '@angular/router';
 import {FilterPositions, ResetFilter} from '../../core/store/actions/filter.actions';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService,
               private store: Store,
-              private router: Router) {
+              private router: Router,
+              private translate: TranslateService,) {
     this.freelancer = undefined;
     this.setupSearchDebouncing();
     this.resetSearchFieldWhenNavigationChange();
@@ -81,7 +83,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   //TODO use TranslateService
   private initMenuItems() {
-    this.items = [{
+    this.translate.get([
+      'profile',
+      'logOut'
+    ]).subscribe(res => {
+      this.items = [{
+        label: this.freelancer?.name,
+        items: [
+          {
+            label: res['profile'],
+            icon: PrimeIcons.USER_EDIT,
+            command: event => {
+              this.router.navigate(['/', 'profile']);
+            }
+          },
+          {
+            label: res['logOut'],
+            icon: PrimeIcons.SIGN_OUT,
+            command: event => {
+              this.logout()
+            }
+          }
+        ]
+      }];
+    });
+    /*this.items = [{
       label: this.freelancer?.name,
       items: [
         {label: 'Profile', icon: PrimeIcons.USER_EDIT},
@@ -91,7 +117,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         }
       ]
-    }];
+    }];*/
   }
 
   private logout() {

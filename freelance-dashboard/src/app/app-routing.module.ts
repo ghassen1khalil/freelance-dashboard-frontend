@@ -18,6 +18,11 @@ const routes: Routes = [
     canLoad: [LoggedInGuard]
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+    canLoad: [LoggedInGuard]
+  },
+  {
     path: '**',
     redirectTo: ''
   }

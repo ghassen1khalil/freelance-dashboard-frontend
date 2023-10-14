@@ -146,5 +146,9 @@
   "findAllErrorMessage": "Une erreur est survenue lors  du chargement des positionnements",
   "deletePositionSuccessMessage": "Positionnement supprimé avec succés",
   "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement",
-  "allRightsReserved": "Tous les droits sont réservés."
+  "allRightsReserved": "Tous les droits sont réservés.",
+  "profile": "Profile",
+  "logOut": "Se déconnecter",
+  "personalInformations": "Informations Personnelles",
+  "deleteAccount": "Supprimer mon compte"
 }
