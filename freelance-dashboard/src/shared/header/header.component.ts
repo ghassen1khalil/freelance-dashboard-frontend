@@ -107,17 +107,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         ]
       }];
     });
-    /*this.items = [{
-      label: this.freelancer?.name,
-      items: [
-        {label: 'Profile', icon: PrimeIcons.USER_EDIT},
-        {
-          label: 'Se déconnecter', icon: PrimeIcons.SIGN_OUT, command: event => {
-            this.logout()
-          }
-        }
-      ]
-    }];*/
   }
 
   private logout() {
@@ -129,7 +118,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return window.location.href.includes('main')
   }
 
+  public goToHome() {
+    this.router.navigate(['/','main'])
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.complete();
   }
+
+
 }

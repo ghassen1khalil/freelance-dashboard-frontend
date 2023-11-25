@@ -23,8 +23,10 @@
 
     <div #body class="fd-flex fd-flex-column card-body-container">
       <div class="fd-flex fd-flex-row">
-        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'" [text]="'100% Télétravail'"></app-card-line>
-        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'" [text]="'Télétravail partiel'"></app-card-line>
+        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'"
+                       [text]="'100% Télétravail'"></app-card-line>
+        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'"
+                       [text]="'Télétravail partiel'"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
         <app-card-line [emojiName]="'checkered_flag'" [text]="latestStatus"></app-card-line>
@@ -47,4 +49,5 @@
 </div>
 
 <p-menu #menu [popup]="true" [model]="items"></p-menu>
-<p-confirmDialog [style]="{width: '75vw'}" [baseZIndex]="10000" acceptLabel="{{'yes' | translate}}" rejectLabel="{{'no' | translate}}" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '500px'}" [baseZIndex]="10000" acceptLabel="{{'yes' | translate}}"
+                 rejectLabel="{{'no' | translate}}" rejectButtonStyleClass="p-button-text"></p-confirmDialog>

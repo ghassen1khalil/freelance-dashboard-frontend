@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {FreelancerService} from '../../../../generated';
 import {AuthService} from '@auth0/auth0-angular';
 import {EncryptionService} from '../../../core/services/encryption.service';
 import {Store} from '@ngrx/store';
 import {LoginViaSocial, Signup} from '../../../core/store/actions/auth.actions';
+import {passwordStrengthValidator} from '../../../core/utils/password-validators';
 
 @Component({
   selector: 'app-signup',
@@ -18,10 +17,7 @@ export class SignupComponent implements OnInit {
   public signUpForm: FormGroup;
   public isRedirectedFromLogin: boolean;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private location: Location,
-              private freelancerService: FreelancerService,
+  constructor(private location: Location,
               private authService: AuthService,
               private encryptionService: EncryptionService,
               private store: Store) {
@@ -65,7 +61,7 @@ export class SignupComponent implements OnInit {
   private buildForm(userMail: string) {
     this.signUpForm = new FormGroup({
       email: new FormControl(userMail ? userMail : '', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required, passwordStrengthValidator()])
     });
   }
 }
