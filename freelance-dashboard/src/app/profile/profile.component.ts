@@ -6,6 +6,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {checkPasswords, passwordStrengthValidator} from '../../core/utils/password-validators';
 import {TranslateService} from '@ngx-translate/core';
 import {ConfirmationService} from 'primeng/api';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {Freelancer} from '../../../generated';
 
 @Component({
   selector: 'app-profile',
@@ -32,11 +34,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
       select(getAuthState),
       takeUntil(this.unsubscribe$)
     ).subscribe(authState => {
-      this.personalInformationForm = new FormGroup<any>({
-        email: new FormControl(authState.freelancer?.email),
-        firstname: new FormControl(authState.freelancer?.firstname, [Validators.required]),
-        lastname: new FormControl(authState.freelancer?.lastname, [Validators.required])
-      });
+      if (authState.freelancer !== undefined) {
+        this.buildPersonalInformationForm(authState.freelancer);
+      }
     });
   }
 
@@ -48,10 +48,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }, {validators: checkPasswords});
   }
 
-  public sendModificationRequest() {
+  private buildPersonalInformationForm(freelancer: Freelancer) {
+    this.personalInformationForm = new FormGroup<any>({
+      email: new FormControl(freelancer.email),
+      firstname: new FormControl(freelancer.firstname, [Validators.required]),
+      lastname: new FormControl(freelancer.lastname, [Validators.required])
+    });
   }
 
-  public deleteMyAccount() {
+  public submitPersonalInfosModificationRequest() {
+    console.log(JSON.stringify(this.personalInformationForm.value));
+  }
+
+  public sendDeleteMyAccountRequest() {
     this.translate.get([
       'delete-modal.account.areYouSure',
       'delete-modal.confirmation',
@@ -68,7 +77,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSubmit() {
+  public submitPasswordChangeRequest() {
     console.log(JSON.stringify(this.passwordModificationForm.value));
   }
 
