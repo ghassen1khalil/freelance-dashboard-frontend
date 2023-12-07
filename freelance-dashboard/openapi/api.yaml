@@ -132,6 +132,7 @@ paths:
     post:
       summary: Check freelancer
       description: Check if freelancer exists in database
+      #TODO : change this method from POST to GET:id (freelancer's id)
       operationId: checkFreelancer
       tags:
         - freelancer
@@ -148,6 +149,27 @@ paths:
             application/json:
               schema:
                 type: boolean
+
+    patch:
+      summary: Update a freelancer
+      description: Update freelancer information's in the database
+      operationId: updateFreelancer
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Freelancer'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+
   /freelancer/signup:
     post:
       summary: SignUp
