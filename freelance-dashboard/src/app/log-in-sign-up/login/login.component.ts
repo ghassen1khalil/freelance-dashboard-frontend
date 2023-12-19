@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.store.dispatch(Login({
-      email: this.encryptionService.encrypt(this.logInForm.controls['email'].value),
+      email: this.logInForm.controls['email'].value,
       password: this.encryptionService.encrypt(this.logInForm.controls['password'].value)
     }));
   }

@@ -162,5 +162,7 @@
   "firstname": "Prénom",
   "lastname": "Nom de famille",
   "modifyInformations": "Modifier les informations",
-  "accountDeletingWarning": "Attention : toute suppression de compte est définitive et entraînera la suppression de l'ensemble des données associées."
+  "accountDeletingWarning": "Attention : toute suppression de compte est définitive et entraînera la suppression de l'ensemble des données associées.",
+  "personalInfoModified": "Vos informations personnelles ont bien été modifiées",
+  "passwordModified": "Votre mot de passe a bien été modifié"
 }

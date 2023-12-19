@@ -81,14 +81,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
-  //TODO use TranslateService
   private initMenuItems() {
     this.translate.get([
       'profile',
       'logOut'
     ]).subscribe(res => {
       this.items = [{
-        label: this.freelancer?.name,
+        label: this.getFreelancerFullName(),
         items: [
           {
             label: res['profile'],
@@ -109,6 +108,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getFreelancerFullName() {
+    return this.freelancer?.name !== '' ? this.freelancer?.name : `${this.freelancer?.firstname}  ${this.freelancer?.lastname}`
+  }
+
   private logout() {
     localStorage.clear();
     this.store.dispatch(Logout());
@@ -119,7 +122,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public goToHome() {
-    this.router.navigate(['/','main'])
+    this.router.navigate(['/', 'main'])
   }
 
   ngOnDestroy(): void {

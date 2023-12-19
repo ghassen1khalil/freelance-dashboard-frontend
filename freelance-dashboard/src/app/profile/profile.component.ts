@@ -7,9 +7,9 @@ import {checkPasswords, passwordStrengthValidator} from '../../core/utils/passwo
 import {TranslateService} from '@ngx-translate/core';
 import {ConfirmationService} from 'primeng/api';
 import {Freelancer} from '../../../generated';
-import {UpdateFreelancer} from '../../core/store/actions/freelancer.actions';
-import {FreelancerEffects} from '../../core/store/effects/freelancer.effects';
+import {UpdateFreelancerInformations, UpdateFreelancerPassword} from '../../core/store/actions/freelancer.actions';
 import {EncryptionService} from '../../core/services/encryption.service';
+import {UpdateType} from '../../core/domain/update-type.enum';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +21,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public personalInformationForm: FormGroup;
   public passwordModificationForm: FormGroup;
+
+  protected readonly UpdateType = UpdateType;
 
   private encryptionService = inject(EncryptionService);
   private freelancer: Freelancer = {};
@@ -61,22 +63,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  public submitPersonalInfosModificationRequest() {
-    this.store.dispatch(UpdateFreelancer({freelancer: this.buildUpdatedFreelancer()}))
-  }
-
-  private buildUpdatedFreelancer(): Freelancer {
-    this.freelancer = {
-      ...this.freelancer,
-      firstname: this.personalInformationForm.controls['firstname'].value,
-      lastname:this.personalInformationForm.controls['lastname'].value,
-      email: this.encryptionService.encrypt(this.personalInformationForm.controls['email'].value),
+  public submitFreelancerDataUpdate(updateType: UpdateType) {
+    if (UpdateType.PERSONAL_INFO === updateType) {
+      this.store.dispatch(UpdateFreelancerInformations(
+        {
+          informationsUpdateRequest: {
+            id: this.freelancer.id,
+            email: this.personalInformationForm.controls['email'].value,
+            firstname: this.personalInformationForm.controls['firstname'].value,
+            lastname: this.personalInformationForm.controls['lastname'].value,
+          }
+        }));
+    } else {
+      this.store.dispatch(UpdateFreelancerPassword(
+        {
+          passwordUpdateRequest: {
+            email: this.freelancer.email,
+            password: this.encryptionService.encrypt(this.passwordModificationForm.controls['newPassword'].value),
+          }
+        }));
     }
-    return this.freelancer;
-  }
-
-  public submitPasswordChangeRequest() {
-    console.log(JSON.stringify(this.passwordModificationForm.value));
   }
 
   public sendDeleteMyAccountRequest() {

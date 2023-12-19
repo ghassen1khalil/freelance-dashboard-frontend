@@ -32,7 +32,6 @@ export class SignupComponent implements OnInit {
 
   }
 
-  //TODO user store (actions, effects) to signup user and detect errors
   public signupUser() {
     this.authService.user$.subscribe(user => {
       this.store.dispatch(Signup({
@@ -40,7 +39,7 @@ export class SignupComponent implements OnInit {
           name: user?.name,
           firstname: user?.given_name,
           lastname: user?.family_name,
-          email: this.encryptionService.encrypt(this.signUpForm.controls['email'].value),
+          email: this.signUpForm.controls['email'].value,
           password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
           picture: user?.picture
         }

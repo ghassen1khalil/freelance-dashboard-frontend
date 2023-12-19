@@ -60,7 +60,7 @@ paths:
     get:
       summary: Return a position by ID
       description: Find a position by ID
-      operationId: getById
+      operationId: getPositionById
       tags:
         - positions
       parameters:
@@ -128,32 +128,53 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Position'
-  /freelancer:
-    post:
-      summary: Check freelancer
-      description: Check if freelancer exists in database
-      #TODO : change this method from POST to GET:id (freelancer's id)
-      operationId: checkFreelancer
+  /freelancer/id/{id}:
+    get:
+      summary: Get a freelancer
+      description: Get a freelancer by ID
+      operationId: getFreelancerById
       tags:
         - freelancer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Freelancer'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the freelancer
+          schema:
+            type: string
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                type: boolean
-
+                $ref: '#/components/schemas/Freelancer'
+  /freelancer/email/{email}:
+    get:
+      summary: Get a freelancer
+      description: Get a freelancer by email
+      operationId: getFreelancerByEmail
+      tags:
+        - freelancer
+      parameters:
+        - name: email
+          in: path
+          required: true
+          description: Email of the freelancer
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Freelancer'
+  /freelancer/informations:
     patch:
       summary: Update a freelancer
-      description: Update freelancer information's in the database
-      operationId: updateFreelancer
+      description: Update freelancer personal information's in the database
+      operationId: updateInformations
       tags:
         - freelancer
       requestBody:
@@ -161,20 +182,40 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Freelancer'
+              $ref: '#/components/schemas/InformationsUpdateRequest'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/Freelancer'
+  /freelancer/password:
+    patch:
+      summary: Update a freelancer
+      description: Update freelancer's password in the database
+      operationId: updatePassword
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordUpdateRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Freelancer'
 
   /freelancer/signup:
     post:
-      summary: SignUp
+      summary: Signup
       description: Sign up a user to save it in the database
-      operationId: signUp
+      operationId: signup
       tags:
         - freelancer
       requestBody:
@@ -333,13 +374,15 @@ components:
           type: string
         email:
           type: string
+          format: email
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         password:
           type: string
         picture:
           type: string
     State:
       type: string
-      enum: ['ACTIVE', 'ARCHIVED', 'DELETED']
+      enum: [ 'ACTIVE', 'ARCHIVED', 'DELETED' ]
     Error:
       type: object
       properties:
@@ -347,3 +390,27 @@ components:
           type: string
         message:
           type: string
+    InformationsUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Freelancer to update ID
+        email:
+          type: string
+          format: email
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        firstname:
+          type: string
+        lastname:
+          type: string
+    PasswordUpdateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        password:
+          type: string
+
