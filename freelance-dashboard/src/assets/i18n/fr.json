@@ -99,11 +99,14 @@
   "usernameOrPassword": "Nom d'utilisateur ou mot de passe",
   "username": "Nom d'utilisateur",
   "password": "Mot de passe",
+  "confirmPassword": "Confirmer le mot de passe",
+  "changePassword": "Changer le mot de passe",
   "pickPwd": "Tape ton mot de passe",
   "suggestions": "Suggestions",
   "atLeastOneLowercase": "Au moins une lettre en minuscule",
   "atLeastOneUppercase": "Au moins une lettre en majuscule",
   "atLeastOneDigit": "Au moins un chiffre",
+  "atLeastOneSymbol": "Au moins un caractère spécial",
   "min8chars": "Au moins 8 caractères",
   "passwordForgotten?": "Mot de passe oublié ?",
   "connectViaLinkedIn": "Se connecter avec Linkedin",
@@ -124,8 +127,13 @@
   "search": "Rechercher des positionnements",
   "noResult": "Pas de résultat ",
   "archived": "Archivés",
-  "delete-position-modal": {
-    "areYouSure": "Êtes-vous sûrs de vouloir supprimer le positionnement ?",
+  "delete-modal": {
+    "position": {
+      "areYouSure": "Êtes-vous sûrs de vouloir supprimer le positionnement ?"
+    },
+    "account": {
+      "areYouSure": "Êtes-vous sûrs de vouloir supprimer votre compte ?"
+    },
     "confirmation": "Confirmation de suppression",
     "confirmed": "Confirmé",
     "youHaveConfirmed": "Positionnement supprimé",
@@ -146,5 +154,15 @@
   "findAllErrorMessage": "Une erreur est survenue lors  du chargement des positionnements",
   "deletePositionSuccessMessage": "Positionnement supprimé avec succés",
   "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement",
-  "allRightsReserved": "Tous les droits sont réservés."
+  "allRightsReserved": "Tous les droits sont réservés.",
+  "profile": "Profile",
+  "logOut": "Se déconnecter",
+  "personalInformations": "Informations Personnelles",
+  "deleteMyAccount": "Supprimer mon compte",
+  "firstname": "Prénom",
+  "lastname": "Nom de famille",
+  "modifyInformations": "Modifier les informations",
+  "accountDeletingWarning": "Attention : toute suppression de compte est définitive et entraînera la suppression de l'ensemble des données associées.",
+  "personalInfoModified": "Vos informations personnelles ont bien été modifiées",
+  "passwordModified": "Votre mot de passe a bien été modifié"
 }

@@ -13,7 +13,6 @@
         <p [innerHTML]="'createYourAccount' | translate" class="text-3xl font-bold no-margin"></p>
         <p *ngIf="!isRedirectedFromLogin" [innerHTML]="'orConnect' | translate: {url: 'login'}" class="no-margin"></p>
       </div>
-
     </div>
 
 
@@ -21,7 +20,8 @@
       <div class="col-12 fd-flex fd-flex-row justify-content-center">
         <input class="fd-full-width" formControlName="email" id="username" pInputText
                placeholder="{{'email' | translate}}"
-               type="text">
+               type="text"
+               autocomplete="email ">
       </div>
       <div class="col-12 fd-flex fd-flex-row justify-content-center fd-full-width ">
         <p-password [toggleMask]="true" class="fd-full-width" formControlName="password"
@@ -37,6 +37,7 @@
             <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
               <li>{{'atLeastOneLowercase' | translate}}</li>
               <li>{{'atLeastOneUppercase' | translate}}</li>
+              <li>{{'atLeastOneSymbol' | translate}}</li>
               <li>{{'atLeastOneDigit' | translate}}</li>
               <li>{{'min8chars' | translate}}</li>
             </ul>

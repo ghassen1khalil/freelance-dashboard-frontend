@@ -32,9 +32,9 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
       if (!!isAuth) {
         this.store.dispatch(SetAuthStatus({isAuthenticated: true}));
         this.authService.user$.subscribe(user => {
-          this.freelancerService.checkFreelancer(this.constructFreelancer(user, true)).subscribe(isAlreadyRegistered => {
-            if (isAlreadyRegistered) {
-              this.store.dispatch(SetFreelancer({freelancer: this.constructFreelancer(user, false)}));
+          this.freelancerService.getFreelancerByEmail(user?.email!).subscribe(freelancer => {
+            if (freelancer) {
+              this.store.dispatch(SetFreelancer({freelancer: this.constructFreelancer(user)}));
               this.store.dispatch(FetchPositions());
               this.router.navigate(['main']);
             } else {
@@ -54,7 +54,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     });
   }
 
-  private constructFreelancer(user: User | null | undefined, withSensitiveData: boolean) {
+  private constructFreelancer(user: User | null | undefined) {
     if (user === null || user === undefined) {
       throw new Error('Required parameter freelancer was null or undefined when calling checkFreelancer.');
     }
@@ -62,7 +62,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
       name: user?.name,
       firstname: user?.given_name,
       lastname: user?.family_name,
-      email: withSensitiveData ? this.encryptionService.encrypt(<string>user?.email) : user?.email,
+      email: user?.email,
       picture: user?.picture
     }
   }

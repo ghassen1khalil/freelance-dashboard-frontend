@@ -18,7 +18,10 @@ export class MainComponent implements OnInit, OnDestroy {
   public positionsMap: {[key: string]: Array<Position>};
   public onlyArchived: boolean;
   public positionsYears: string[] = [];
+
   public isFilterSet: boolean | undefined;
+  public isNoPositionsYet: boolean | undefined;
+  public isNoResultForFilter: boolean | undefined;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -35,6 +38,9 @@ export class MainComponent implements OnInit, OnDestroy {
         this.positionsMap = positions;
         this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[State.Archived]);
         this.positionsYears = this.getPositionsYears();
+
+        this.isNoPositionsYet = this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
+        this.isNoResultForFilter = this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
       }
     });
 
@@ -72,13 +78,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'position']);
   }
 
-  public isNoResultForFilter(): boolean {
+  /*public isNoResultForFilter(): boolean {
     return this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
   }
 
   public isNoPositionsYet(): boolean {
     return this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.store.dispatch(SetFilteredPositions({positions: undefined}))

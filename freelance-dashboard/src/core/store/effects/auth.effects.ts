@@ -55,7 +55,7 @@ export class AuthEffects {
 
   Signup$: Observable<Action> = createEffect(() => this.action$.pipe(
     ofType(AuthActions.Signup),
-    mergeMap(action => this.freelancerService.signUp(action.freelancer).pipe(
+    mergeMap(action => this.freelancerService.signup(action.freelancer).pipe(
       map((freelancer) => SetFreelancer({freelancer: freelancer})),
       catchError(err => of(SignupFailure({error: err}))),
       tap(() => this.router.navigate(['main']))

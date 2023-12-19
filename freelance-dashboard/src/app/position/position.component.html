@@ -77,7 +77,8 @@
     </div>
 
     <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0">
-      <button type="button" pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}" (click)="cancel()"></button>
+      <button type="button" pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}"
+              (click)="cancel()"></button>
       <p-button *ngIf="!isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'save' | translate}}"
                 (click)="savePosition()"></p-button>
       <p-button *ngIf="isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'update' | translate}}"

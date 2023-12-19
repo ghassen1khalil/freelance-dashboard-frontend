@@ -8,7 +8,6 @@ import {MenuModule} from 'primeng/menu';
 import {TranslateModule} from '@ngx-translate/core';
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
 
 
 

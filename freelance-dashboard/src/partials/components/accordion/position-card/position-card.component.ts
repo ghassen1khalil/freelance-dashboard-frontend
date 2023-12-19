@@ -65,7 +65,11 @@ export class PositionCardComponent implements OnInit {
             label: res[state === State.Active ? 'position-contextual-menu.archive' : 'position-contextual-menu.enable'],
             icon: state === State.Active ? PrimeIcons.BRIEFCASE : PrimeIcons.REFRESH,
             command: () => {
-              this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, state === State.Active ? State.Archived : State.Active)}));
+              this.store.dispatch(
+                UpdatePosition({
+                  position: this.updatePositionState(this.position, state === State.Active ? State.Archived : State.Active)
+                })
+              );
             }
           }
         ]
@@ -75,15 +79,15 @@ export class PositionCardComponent implements OnInit {
 
   private confirmDeletion() {
     this.translate.get([
-      'delete-position-modal.areYouSure',
-      'delete-position-modal.confirmation',
-      'delete-position-modal.confirmed',
-      'delete-position-modal.rejected',
-      'delete-position-modal.cancelled',
+      'delete-modal.position.areYouSure',
+      'delete-modal.confirmation',
+      'delete-modal.confirmed',
+      'delete-modal.rejected',
+      'delete-modal.cancelled',
     ]).subscribe(res => {
       this.confirmationService.confirm({
-        message: res['delete-position-modal.areYouSure'],
-        header: res['delete-position-modal.confirmation'],
+        message: res['delete-modal.position.areYouSure'],
+        header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
         accept: () => {
           this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, State.Deleted)}));
