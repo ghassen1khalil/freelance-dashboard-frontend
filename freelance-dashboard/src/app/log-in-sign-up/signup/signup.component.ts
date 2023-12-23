@@ -15,7 +15,7 @@ import {FreelancerState} from '../../../../generated';
 })
 export class SignupComponent implements OnInit {
 
-  public signUpForm: FormGroup;
+  public signupForm: FormGroup;
   public isRedirectedFromLogin: boolean;
 
   constructor(private location: Location,
@@ -37,11 +37,12 @@ export class SignupComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.store.dispatch(Signup({
         freelancer: {
-          name: user?.name,
-          firstname: user?.given_name,
-          lastname: user?.family_name,
-          email: this.signUpForm.controls['email'].value,
-          password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
+          name: user !== null && user !== undefined ? user.name :
+            `${this.signupForm.controls['firstname'].value} ${this.signupForm.controls['lastname'].value}`,
+          firstname: user !== null && user !== undefined ? user?.given_name : this.signupForm.controls['firstname'].value,
+          lastname: user !== null && user !== undefined ? user?.family_name : this.signupForm.controls['lastname'].value,
+          email: this.signupForm.controls['email'].value,
+          password: this.encryptionService.encrypt(this.signupForm.controls['password'].value),
           picture: user?.picture,
           state: FreelancerState.Active
         }
@@ -50,7 +51,7 @@ export class SignupComponent implements OnInit {
   }
 
   public signupWhenEnterPushed() {
-    if (this.signUpForm.valid) {
+    if (this.signupForm.valid) {
       this.signupUser();
     }
   }
@@ -60,7 +61,9 @@ export class SignupComponent implements OnInit {
   }
 
   private buildForm(userMail: string) {
-    this.signUpForm = new FormGroup({
+    this.signupForm = new FormGroup({
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
       email: new FormControl(userMail ? userMail : '', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, passwordStrengthValidator()])
     });

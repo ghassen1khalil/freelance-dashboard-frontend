@@ -16,7 +16,17 @@
     </div>
 
 
-    <form [formGroup]="signUpForm" class=" fd-full-width">
+    <form [formGroup]="signupForm" class=" fd-full-width">
+      <div class="col-12 fd-flex fd-flex-row justify-content-center">
+        <input class="fd-full-width" formControlName="firstname" id="firstname" pInputText
+               placeholder="{{'firstname' | translate}}"
+               type="text">
+      </div>
+      <div class="col-12 fd-flex fd-flex-row justify-content-center">
+        <input class="fd-full-width" formControlName="lastname" id="lastname" pInputText
+               placeholder="{{'lastname' | translate}}"
+               type="text">
+      </div>
       <div class="col-12 fd-flex fd-flex-row justify-content-center">
         <input class="fd-full-width" formControlName="email" id="username" pInputText
                placeholder="{{'email' | translate}}"
@@ -47,7 +57,7 @@
     </form>
 
     <div class="col-12 fd-flex fd-flex-column">
-      <button (click)="signupUser()" [disabled]="signUpForm.invalid" label="{{'createMyAccount' | translate}}" pButton
+      <button (click)="signupUser()" [disabled]="signupForm.invalid" label="{{'createMyAccount' | translate}}" pButton
               pRipple type="button"></button>
     </div>
 
