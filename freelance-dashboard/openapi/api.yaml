@@ -149,6 +149,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Freelancer'
+    delete:
+      summary: Delete a Freelancer
+      description: Making Freelancer's status to DELETED in database
+      operationId: deleteAccount
+      tags:
+        - freelancer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the Freelancer
+          schema:
+            type: string
+      responses:
+        204:
+          description: Account deleted successfully
+        '500':
+          description: INTERNAL SERVER ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /freelancer/email/{email}:
     get:
       summary: Get a freelancer
@@ -312,7 +334,7 @@ components:
           items:
             $ref: '#/components/schemas/Status'
         state:
-          $ref: '#/components/schemas/State'
+          $ref: '#/components/schemas/PositionState'
     Mission:
       type: object
       properties:
@@ -380,7 +402,12 @@ components:
           type: string
         picture:
           type: string
-    State:
+        state:
+          $ref: '#/components/schemas/FreelancerState'
+    FreelancerState:
+      type: string
+      enum: [ 'ACTIVE', 'DELETED' ]
+    PositionState:
       type: string
       enum: [ 'ACTIVE', 'ARCHIVED', 'DELETED' ]
     Error:
@@ -413,4 +440,3 @@ components:
           pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         password:
           type: string
-

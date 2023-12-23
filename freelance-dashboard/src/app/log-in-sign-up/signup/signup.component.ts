@@ -6,6 +6,7 @@ import {EncryptionService} from '../../../core/services/encryption.service';
 import {Store} from '@ngrx/store';
 import {LoginViaSocial, Signup} from '../../../core/store/actions/auth.actions';
 import {passwordStrengthValidator} from '../../../core/utils/password-validators';
+import {FreelancerState} from '../../../../generated';
 
 @Component({
   selector: 'app-signup',
@@ -41,7 +42,8 @@ export class SignupComponent implements OnInit {
           lastname: user?.family_name,
           email: this.signUpForm.controls['email'].value,
           password: this.encryptionService.encrypt(this.signUpForm.controls['password'].value),
-          picture: user?.picture
+          picture: user?.picture,
+          state: FreelancerState.Active
         }
       }));
     });

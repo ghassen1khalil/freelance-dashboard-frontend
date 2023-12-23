@@ -48,7 +48,7 @@ export class AuthEffects {
       ofType(AuthActions.LoginViaSocial),
       switchMap(() => this.authService.loginWithRedirect().pipe(
         map(() => PositionActions.FetchPositions()),
-        catchError(error => of(LoginFailure({error: error})))
+        catchError(error => of(LoginFailure({error: error}))) //TODO : replace err with an implicit error message instead of returning technical items
       ))
     )
   );
@@ -57,7 +57,7 @@ export class AuthEffects {
     ofType(AuthActions.Signup),
     mergeMap(action => this.freelancerService.signup(action.freelancer).pipe(
       map((freelancer) => SetFreelancer({freelancer: freelancer})),
-      catchError(err => of(SignupFailure({error: err}))),
+      catchError(err => of(SignupFailure({error: err}))), //TODO : replace err with an implicit error message instead of returning technical items
       tap(() => this.router.navigate(['main']))
     )),
   ));

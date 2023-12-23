@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Position, PositionsService, State} from '../../../../generated';
+import {Position, PositionsService, PositionState} from '../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, finalize, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
@@ -99,7 +99,7 @@ export class PositionEffects {
           switchMap(() => this.translate.get(['success', 'updatePositionSuccessMessage', 'deletePositionSuccessMessage']).pipe(
             map((res) =>
               LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'success', action.position.state === State.Deleted ? 'deletePositionSuccessMessage' : 'updatePositionSuccessMessage', EventType.SUCCESS)
+                event: this.eventService.createEventFromLocalizedMessage(res, 'success', action.position.state === PositionState.Deleted ? 'deletePositionSuccessMessage' : 'updatePositionSuccessMessage', EventType.SUCCESS)
               })
             )
           )),
@@ -124,7 +124,7 @@ export class PositionEffects {
           catchError((error: HttpErrorResponse) => {
             return this.translate.get(['error', 'updatePositionErrorMessage', 'deletePositionErrorMessage']).pipe(
               map((res) => LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'error', action.position.state === State.Deleted ? 'deletePositionErrorMessage' : 'updatePositionErrorMessage', EventType.ERROR)
+                event: this.eventService.createEventFromLocalizedMessage(res, 'error', action.position.state === PositionState.Deleted ? 'deletePositionErrorMessage' : 'updatePositionErrorMessage', EventType.ERROR)
               }))
             );
           })
