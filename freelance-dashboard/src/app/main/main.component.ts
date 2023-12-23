@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Position, State} from '../../../generated';
+import {Position, PositionState} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
@@ -36,7 +36,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe((positions) => {
       if (positions !== undefined) {
         this.positionsMap = positions;
-        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[State.Archived]);
+        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[PositionState.Archived]);
         this.positionsYears = this.getPositionsYears();
 
         this.isNoPositionsYet = this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
@@ -59,7 +59,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private getPositionsYears(): string[] {
     let years: string[] = [];
     Object.keys(this.positionsMap).forEach(key => {
-      if (State.Archived !== key) {
+      if (PositionState.Archived !== key) {
         years.push(key);
       }
     });

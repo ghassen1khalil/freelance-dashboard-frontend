@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
-import {Position, State} from '../../../../../generated';
+import {Position, PositionState} from '../../../../../generated';
 import {TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
 import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
@@ -36,7 +36,7 @@ export class PositionCardComponent implements OnInit {
     this.latestStatus = this.getLatestStatus();
   }
 
-  private initMenuItems(state: State) {
+  private initMenuItems(state: PositionState) {
     this.translate.get(
       ['position-contextual-menu.title',
         'position-contextual-menu.edit',
@@ -62,12 +62,12 @@ export class PositionCardComponent implements OnInit {
             }
           },
           {
-            label: res[state === State.Active ? 'position-contextual-menu.archive' : 'position-contextual-menu.enable'],
-            icon: state === State.Active ? PrimeIcons.BRIEFCASE : PrimeIcons.REFRESH,
+            label: res[state === PositionState.Active ? 'position-contextual-menu.archive' : 'position-contextual-menu.enable'],
+            icon: state === PositionState.Active ? PrimeIcons.BRIEFCASE : PrimeIcons.REFRESH,
             command: () => {
               this.store.dispatch(
                 UpdatePosition({
-                  position: this.updatePositionState(this.position, state === State.Active ? State.Archived : State.Active)
+                  position: this.updatePositionState(this.position, state === PositionState.Active ? PositionState.Archived : PositionState.Active)
                 })
               );
             }
@@ -90,13 +90,13 @@ export class PositionCardComponent implements OnInit {
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
         accept: () => {
-          this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, State.Deleted)}));
+          this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, PositionState.Deleted)}));
         }
       });
     });
   }
 
-  private updatePositionState(position: Position, state: State): Position {
+  private updatePositionState(position: Position, state: PositionState): Position {
     return {
       ...position,
       state: state

@@ -7,7 +7,11 @@ import {checkPasswords, passwordStrengthValidator} from '../../core/utils/passwo
 import {TranslateService} from '@ngx-translate/core';
 import {ConfirmationService} from 'primeng/api';
 import {Freelancer} from '../../../generated';
-import {UpdateFreelancerInformations, UpdateFreelancerPassword} from '../../core/store/actions/freelancer.actions';
+import {
+  DeleteAccount,
+  UpdateFreelancerInformations,
+  UpdateFreelancerPassword
+} from '../../core/store/actions/freelancer.actions';
 import {EncryptionService} from '../../core/services/encryption.service';
 import {UpdateType} from '../../core/domain/update-type.enum';
 
@@ -95,8 +99,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
         accept: () => {
-          //TODO dispatch delete account action
-          console.log("accepted");
+          this.store.dispatch(DeleteAccount({id: this.freelancer.id!}))
         }
       });
     });

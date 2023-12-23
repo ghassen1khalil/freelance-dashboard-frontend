@@ -1,4 +1,4 @@
-import {Position, State} from '../../../generated';
+import {Position} from '../../../generated';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {DateService} from '../services/date.service';

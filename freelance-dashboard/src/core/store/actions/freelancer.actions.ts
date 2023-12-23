@@ -1,12 +1,10 @@
 import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
-import {UpdateType} from '../../domain/update-type.enum';
-import {InformationUpdateRequest} from '../../../../generated/model/informationUpdateRequest';
-import {PasswordUpdateRequest} from '../../../../generated';
+import {InformationsUpdateRequest, PasswordUpdateRequest} from '../../../../generated';
 
 export const UpdateFreelancerInformations = createAction(
   '[FREELANCER] - Update Freelancer Personal Informations',
-  props<{ informationsUpdateRequest: InformationUpdateRequest }>()
+  props<{ informationsUpdateRequest: InformationsUpdateRequest }>()
 )
 
 export const UpdateFreelancerPassword = createAction(
@@ -26,5 +24,10 @@ export const UpdateFreelancerFailure = createAction(
 
 export const GetFreelancerByEmail = createAction(
   '[FREELANCER] - Get Freelancer by email',
-  props< {email: string} >()
+  props<{ email: string }>()
+);
+
+export const DeleteAccount = createAction(
+  '[FREELANCER] - Delete Freelancer Account',
+  props<{ id: string }>()
 );
