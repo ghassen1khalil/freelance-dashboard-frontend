@@ -32,4 +32,5 @@ export const getAuthState = createFeatureSelector<AuthState>('authState');
 
 export const getAuth = createSelector(
   getAuthState,
-  (state: AuthState) => state)
+  (state: AuthState) => state
+)

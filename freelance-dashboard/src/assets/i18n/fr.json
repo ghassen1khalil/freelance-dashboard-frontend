@@ -168,5 +168,16 @@
   "usernameOrPassword": "Nom d'utilisateur ou mot de passe",
   "view": "Consulter",
   "year": "Année",
-  "yes": "Oui"
+  "yes": "Oui",
+  "resetYouPassword": "Réinitialisez votre mot de passe",
+  "resetMyPassword": "Réinitialisez mon mot de passe",
+  "gotBackToLogin": "Retour à l'écran de connexion",
+  "typeYourNewPassword": "Choisissez votre nouveau mot de passe",
+  "passwordResetInstructionsSent": "Votre demande a bien été prise en compte. Vous allez recevoir les instructions pour modifier votre mot de passe sur votre boite mail.",
+  "invalidPasswordResetToken": "Demande de réinitialisation de mot de passe invalide",
+  "passwordResetRequestSent": "Demande de réinitialisation de mot de passe envoyée",
+  "passwordResetRequestSendingError": "Erreur lors de l'envoie de la demande de réinitialisation de mot de passe",
+  "passwordResetSuccessfully": "Votre mot de passe a bien été réinitialisé",
+  "passwordResetError": "Une erreur est survenue lors de la réinitialisation de votre mot de passe",
+  "verifyCredentials": "Veuillez vérifiez vos informations de connexion"
 }

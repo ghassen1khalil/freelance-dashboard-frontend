@@ -6,13 +6,15 @@ import {authReducer} from './auth.reducers';
 import {hydrationMetaReducer} from './hydration.reducer';
 import {loaderReducer} from './loader.reducers';
 import {filterReducer} from './filter.reducer';
+import {passwordResetTokenReducer} from './password-reset-token.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   positionState: positionReducer,
   eventState: eventReducer,
   authState: authReducer,
   loaderState: loaderReducer,
-  filterState: filterReducer
+  filterState: filterReducer,
+  passwordResetTokenState: passwordResetTokenReducer
 }
 
 export const metaReducers: MetaReducer[] = [

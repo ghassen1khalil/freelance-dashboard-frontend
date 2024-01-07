@@ -34,7 +34,7 @@
       <button pButton pRipple type="button" (click)="login()" [disabled]="logInForm.invalid" label="{{'login' | translate}}"></button>
     </div>
     <div class="col-6 fd-flex fd-flex-column">
-      <p-button class="login-button" label="{{'passwordForgotten?' | translate}}" styleClass="p-button-link"></p-button>
+      <p-button label="{{'passwordForgotten?' | translate}}" (click)="goToPasswordReset()" class="login-button" styleClass="p-button-link"></p-button>
     </div>
 
 
