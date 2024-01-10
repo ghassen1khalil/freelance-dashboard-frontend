@@ -12,13 +12,17 @@ import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {MessageModule} from 'primeng/message';
+import { NewPasswordFormComponent } from './reset-password/new-password-form/new-password-form.component';
+import { ResetPasswordFormComponent } from './reset-password/reset-password-form/reset-password-form.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     SignupComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    NewPasswordFormComponent,
+    ResetPasswordFormComponent
   ],
     imports: [
         CommonModule,
