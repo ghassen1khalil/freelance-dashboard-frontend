@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Freelancer} from '../../../../generated';
+import {Freelancer, PasswordResetToken} from '../../../../generated';
 import {HttpErrorResponse} from '@angular/common/http';
 
 export const SetFreelancer = createAction(
@@ -39,7 +39,7 @@ export const LoginFailure = createAction(
 
 export const Signup = createAction(
   '[AUTH] - Signup',
-  props<{ freelancer: Freelancer}>()
+  props<{ freelancer: Freelancer }>()
 );
 
 export const SignupViaSocial = createAction(
@@ -53,4 +53,14 @@ export const SignupFailure = createAction(
 
 export const Logout = createAction(
   '[AUTH] - Logout',
+);
+
+export const SendResetPasswordRequest = createAction(
+  '[AUTH] - Send Reset Password Request',
+  props<{ email: string }>()
+);
+
+export const ResetPassword = createAction(
+  '[AUTH] - Reset Password',
+  props<{ token: string, newPassword: string }>()
 );

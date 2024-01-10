@@ -1,6 +1,4 @@
 <div class="grid nested-grid">
-
-
   <div class="col-12">
     <p-fieldset legend="{{'personalInformations' | translate}}">
       <form [formGroup]="personalInformationForm" (ngSubmit)="submitFreelancerDataUpdate(UpdateType.PERSONAL_INFO)">
@@ -31,36 +29,34 @@
       </form>
     </p-fieldset>
   </div>
-
-
   <div class="col-12">
     <p-fieldset legend="{{'password' | translate}}">
       <form [formGroup]="passwordModificationForm" (ngSubmit)="submitFreelancerDataUpdate(UpdateType.PASSWORD)">
         <div class="grid">
           <div class="col-12 field">
-          <span class="p-float-label">
-            <p-password id="password"
-                        [toggleMask]="true"
-                        class="fd-full-width"
-                        formControlName="newPassword"
-                        styleClass="p-password p-component p-inputwrapper p-input-icon-right">
-              <ng-template pTemplate="header">
-                <h6>{{ 'password' | translate }}</h6>
-              </ng-template>
-              <ng-template pTemplate="footer">
-                <p-divider></p-divider>
-                <p class="mt-2">{{ 'suggestions' | translate }}</p>
-                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                  <li>{{ 'atLeastOneLowercase' | translate }}</li>
-                  <li>{{ 'atLeastOneUppercase' | translate }}</li>
-                  <li>{{ 'atLeastOneSymbol' | translate }}</li>
-                  <li>{{ 'atLeastOneDigit' | translate }}</li>
-                  <li>{{ 'min8chars' | translate }}</li>
-                </ul>
-              </ng-template>
-            </p-password>
-            <label for="password">{{ 'password' | translate }}</label>
-          </span>
+            <span class="p-float-label">
+              <p-password id="password"
+                          [toggleMask]="true"
+                          class="fd-full-width"
+                          formControlName="newPassword"
+                          styleClass="p-password p-component p-inputwrapper p-input-icon-right">
+                <ng-template pTemplate="header">
+                  <h6>{{ 'password' | translate }}</h6>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <p-divider></p-divider>
+                  <p class="mt-2">{{ 'suggestions' | translate }}</p>
+                  <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                    <li>{{ 'atLeastOneLowercase' | translate }}</li>
+                    <li>{{ 'atLeastOneUppercase' | translate }}</li>
+                    <li>{{ 'atLeastOneSymbol' | translate }}</li>
+                    <li>{{ 'atLeastOneDigit' | translate }}</li>
+                    <li>{{ 'min8chars' | translate }}</li>
+                  </ul>
+                </ng-template>
+              </p-password>
+              <label for="password">{{ 'password' | translate }}</label>
+            </span>
           </div>
           <div class="col-12 field">
           <span class="p-float-label">

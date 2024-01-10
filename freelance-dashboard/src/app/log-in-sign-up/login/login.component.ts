@@ -4,6 +4,7 @@ import {AuthService} from '@auth0/auth0-angular';
 import {Store} from '@ngrx/store';
 import {Login, LoginViaSocial} from '../../../core/store/actions/auth.actions';
 import {EncryptionService} from '../../../core/services/encryption.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,9 @@ export class LoginComponent implements OnInit {
 
   public logInForm: FormGroup;
 
-  constructor(private authService: AuthService,
-              private encryptionService: EncryptionService,
-              private store: Store) {
+  constructor(private encryptionService: EncryptionService,
+              private store: Store,
+              private router: Router) {
     this.buildForm();
   }
 
@@ -45,5 +46,9 @@ export class LoginComponent implements OnInit {
       email: this.logInForm.controls['email'].value,
       password: this.encryptionService.encrypt(this.logInForm.controls['password'].value)
     }));
+  }
+
+  goToPasswordReset() {
+    this.router.navigate(['reset-password']);
   }
 }

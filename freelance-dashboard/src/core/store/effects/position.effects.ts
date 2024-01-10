@@ -27,7 +27,7 @@ export class PositionEffects {
       ofType(PositionActions.FetchPositions),
       mergeMap(() =>
         this.positionService.findPositions().pipe(
-          map((positions: {[key: string]: Array<Position>}): Action => { // specify type explicitly
+          map((positions: { [key: string]: Array<Position> }): Action => { // specify type explicitly
             return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
           catchError((error: HttpErrorResponse) => {
@@ -60,7 +60,9 @@ export class PositionEffects {
           switchMap((successEvent) => [
             of(successEvent),
             this.positionService.findPositions().pipe(
-              map((positions:{[key: string]: Array<Position>}) => PositionActions.FetchPositionsSuccess({payload: positions})),
+              map((positions: {
+                [key: string]: Array<Position>
+              }) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({
@@ -106,7 +108,9 @@ export class PositionEffects {
           switchMap((successEvent) => [
             of(successEvent),
             this.positionService.findPositions().pipe(
-              map((positions:{[key: string]: Array<Position>}) => PositionActions.FetchPositionsSuccess({payload: positions})),
+              map((positions: {
+                [key: string]: Array<Position>
+              }) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({
@@ -124,7 +128,11 @@ export class PositionEffects {
           catchError((error: HttpErrorResponse) => {
             return this.translate.get(['error', 'updatePositionErrorMessage', 'deletePositionErrorMessage']).pipe(
               map((res) => LaunchEvent({
-                event: this.eventService.createEventFromLocalizedMessage(res, 'error', action.position.state === PositionState.Deleted ? 'deletePositionErrorMessage' : 'updatePositionErrorMessage', EventType.ERROR)
+                event: this.eventService.createEventFromLocalizedMessage(
+                  res,
+                  'error',
+                  action.position.state === PositionState.Deleted ? 'deletePositionErrorMessage' : 'updatePositionErrorMessage',
+                  EventType.ERROR)
               }))
             );
           })

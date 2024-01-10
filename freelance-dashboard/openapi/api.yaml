@@ -232,7 +232,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Freelancer'
-
   /freelancer/signup:
     post:
       summary: Signup
@@ -283,7 +282,62 @@ paths:
                 $ref: "#/components/schemas/Freelancer"
         401:
           $ref: '#/components/responses/UnauthorizedError'
-
+  /freelancer/password-reset/{email}:
+    post:
+      summary: Request Password Reset
+      description: Generate a Password Reset Token in the Database
+      operationId: requestResetPassword
+      tags:
+        - freelancer
+      parameters:
+        - name: email
+          in: path
+          required: true
+          description: Email of the freelancer
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+  /freelancer/password-reset:
+    post:
+      summary: Reset password
+      description: Change user's password by token
+      operationId: resetPassword
+      tags:
+        - freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordResetRequest"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+  /freelancer/password-reset/token/{token}:
+    get:
+      summary: Check validity
+      description: Verify if password reset token is still valid
+      operationId: validatePasswordResetToken
+      tags:
+        - freelancer
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Password Reset Token
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
 components:
   responses:
     UnauthorizedError:
@@ -439,4 +493,31 @@ components:
           format: email
           pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         password:
+          type: string
+    PasswordResetToken:
+      x-java-class-annotations:
+        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "password_reset_tokens")'
+        - '@lombok.Data'
+        - '@lombok.Builder'
+        - '@lombok.AllArgsConstructor'
+        - '@lombok.NoArgsConstructor'
+      type: object
+      properties:
+        id:
+          type: string
+        token:
+          type: string
+        freelancerId:
+          type: string
+        expiryDate:
+          type: string
+          format: DateTime
+        isUser:
+          type: boolean
+    PasswordResetRequest:
+      type: object
+      properties:
+        token:
+          type: string
+        newPassword:
           type: string

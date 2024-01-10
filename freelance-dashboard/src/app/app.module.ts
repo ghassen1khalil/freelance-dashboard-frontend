@@ -15,18 +15,17 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {PositionEffects} from '../core/store/effects/position.effects';
-import {metaReducers, reducers} from '../core/store/reducers/reducers';
+import {reducers} from '../core/store/reducers/reducers';
 import {ToastModule} from 'primeng/toast';
 import {HeaderModule} from '../shared/header/header.module';
 import {AuthModule} from '@auth0/auth0-angular';
 import {AuthEffects} from '../core/store/effects/auth.effects';
-import {HydrationEffects} from '../core/store/effects/hydration.effects';
 import {LoaderComponent} from '../shared/loader/loader.component';
 import {LoaderInterceptor} from '../core/interceptors/loader.interceptor';
-import {MessageService} from 'primeng/api';
 import {FilterEffects} from '../core/store/effects/filter.effects';
 import {FooterModule} from '../partials/components/footer/footer.module';
 import {FreelancerEffects} from '../core/store/effects/freelancer.effects';
+import {PasswordResetTokenEffects} from '../core/store/effects/password-reset-token.effects';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -53,7 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     StoreModule.forRoot(reducers, /*{ metaReducers }*/),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects/*HydrationEffects*/]),
+    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects/*HydrationEffects*/]),
     ToastModule,
     HeaderModule,
     AuthModule.forRoot({...env.auth}),
