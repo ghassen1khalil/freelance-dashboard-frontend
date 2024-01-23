@@ -62,7 +62,7 @@ export class PositionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.positionUtils.resetForm(this.addPositionForm, this.positionToEdit);
+    this.positionUtils.clearPositionToEditAndForm(this.addPositionForm, this.positionToEdit);
     this.unsubscribe$.complete();
   }
 

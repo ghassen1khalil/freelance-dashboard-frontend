@@ -5,17 +5,18 @@ import {TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
 import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
+import {PositionUtils} from '../../../../core/utils/position-utils';
 
 @Component({
   selector: 'app-position-card',
   templateUrl: './position-card.component.html',
   styleUrls: ['./position-card.component.scss'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService, PositionUtils]
 })
 export class PositionCardComponent implements OnInit {
 
   @Input() public position: Position;
-  public items: MenuItem[];
+  public menuActions: MenuItem[];
   public currency: string | undefined;
   public latestStatus: string | undefined;
 
@@ -24,19 +25,18 @@ export class PositionCardComponent implements OnInit {
               private store: Store,
               private confirmationService: ConfirmationService,
               private primengConfig: PrimeNGConfig,
-              private router: Router) {
+              private router: Router,
+              private positionUtils: PositionUtils) {
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    if (this.position.state !== null && this.position.state !== undefined) {
-      this.initMenuItems(this.position.state);
-    }
+    this.initializeActionsMenu(this.position.state!);
     this.currency = this.getCurrency();
     this.latestStatus = this.getLatestStatus();
   }
 
-  private initMenuItems(state: PositionState) {
+  private initializeActionsMenu(state: PositionState) {
     this.translate.get(
       ['position-contextual-menu.title',
         'position-contextual-menu.edit',
@@ -44,7 +44,7 @@ export class PositionCardComponent implements OnInit {
         'position-contextual-menu.archive',
         'position-contextual-menu.enable']
     ).subscribe(res => {
-      this.items = [{
+      this.menuActions = [{
         label: res['position-contextual-menu.title'],
         items: [
           {
@@ -67,7 +67,7 @@ export class PositionCardComponent implements OnInit {
             command: () => {
               this.store.dispatch(
                 UpdatePosition({
-                  position: this.updatePositionState(this.position, state === PositionState.Active ? PositionState.Archived : PositionState.Active)
+                  position: this.positionUtils.updatePositionState(this.position, state === PositionState.Active ? PositionState.Archived : PositionState.Active)
                 })
               );
             }
@@ -90,17 +90,10 @@ export class PositionCardComponent implements OnInit {
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
         accept: () => {
-          this.store.dispatch(UpdatePosition({position: this.updatePositionState(this.position, PositionState.Deleted)}));
+          this.store.dispatch(UpdatePosition({position: this.positionUtils.updatePositionState(this.position, PositionState.Deleted)}));
         }
       });
     });
-  }
-
-  private updatePositionState(position: Position, state: PositionState): Position {
-    return {
-      ...position,
-      state: state
-    };
   }
 
   private getLatestStatus(): string | undefined {

@@ -1,4 +1,4 @@
-import {Position} from '../../../generated';
+import {Position, PositionState} from '../../../generated';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {DateService} from '../services/date.service';
@@ -63,7 +63,7 @@ export class PositionUtils {
         label: form.controls['initialStatus'].value,
         date: this.dateService.today(DateService.YYYY_MM_DD_FORMAT)
       }],
-      state: position?.state
+      state: isEditMode ? position?.state : PositionState.Active
     };
   }
 
@@ -74,7 +74,7 @@ export class PositionUtils {
     return this.dateService.format(inputDate, DateService.YYYY_MM_DD_FORMAT)
   }
 
-  public resetForm(form: FormGroup, position: Position | undefined) {
+  public clearPositionToEditAndForm(form: FormGroup, position: Position | undefined) {
     if (isNotNullOrUndefined(position)) {
       this.store.dispatch(PositionActions.ResetPositionToEdit())
       form.setValue({
@@ -96,5 +96,13 @@ export class PositionUtils {
         initialStatus: '',
       });
     }
+  }
+
+  public updatePositionState(position: Position, state: PositionState): Position {
+    return {
+      ...position,
+      updateDate: this.dateService.today(DateService.YYYY_MM_DD_FORMAT),
+      state: state
+    };
   }
 }
