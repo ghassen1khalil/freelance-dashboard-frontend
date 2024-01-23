@@ -48,11 +48,18 @@
   box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
 }
 
-/*::ng-deep .p-button {
-  background: var(--very_light_blue);
-  border: 1px solid var(--very_light_blue);
-}*/
-
 .p-button {
   border-radius: 1rem!important;
+}
+
+::ng-deep .p-dialog  {
+  border-radius: 16px!important;
+}
+
+::ng-deep .p-dialog-header {
+  border-radius: 16px 16px 0 0!important ;
+}
+
+::ng-deep .p-dialog-footer {
+  border-radius: 0 0 16px 16px!important ;
 }
