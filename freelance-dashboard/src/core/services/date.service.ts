@@ -17,6 +17,4 @@ export class DateService {
   public format(date: string , format: string) {
     return moment(date).format(format);
   }
-
-
 }

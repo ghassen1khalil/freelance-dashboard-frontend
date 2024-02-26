@@ -14,8 +14,8 @@ export class PositionUtils {
   }
 
   public initPositionFormGroup(positionToEdit: Position | undefined): FormGroup {
-    return new FormGroup({
-      startingDate: new FormControl(isNotNullOrUndefined(positionToEdit) ? this.parseStartingDate(positionToEdit?.startingDate) : '', [Validators.required]),
+   return new FormGroup({
+      startingDate: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.startingDate : '', [Validators.required]),
       client: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.client : '', [Validators.required]),
       address: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.address : '', [Validators.required]),
       isFullRemote: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.isFullRemote : ''),
@@ -65,13 +65,6 @@ export class PositionUtils {
       }],
       state: isEditMode ? position?.state : PositionState.Active
     };
-  }
-
-  public parseStartingDate(inputDate: string | undefined) {
-    if (inputDate === undefined) {
-      return;
-    }
-    return this.dateService.format(inputDate, DateService.YYYY_MM_DD_FORMAT)
   }
 
   public clearPositionToEditAndForm(form: FormGroup, position: Position | undefined) {

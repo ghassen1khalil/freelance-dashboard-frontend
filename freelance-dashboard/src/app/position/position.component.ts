@@ -17,7 +17,7 @@ import {PositionUtils} from '../../core/utils/position-utils';
 })
 export class PositionComponent implements OnInit, OnDestroy {
 
-  public addPositionForm: FormGroup;
+  public positionForm: FormGroup;
   public currencies: string[] = Object.values(Currency);
   public isEditMode: boolean;
   public positionToEdit: Position | undefined;
@@ -38,21 +38,21 @@ export class PositionComponent implements OnInit, OnDestroy {
         this.positionToEdit = positionToEdit;
         this.isEditMode = true;
       }
-      this.addPositionForm = this.positionUtils.initPositionFormGroup(positionToEdit);
+      this.positionForm = this.positionUtils.initPositionFormGroup(positionToEdit);
     });
   }
 
   public savePosition() {
-    if (this.addPositionForm.valid) {
+    if (this.positionForm.valid) {
       this.store.dispatch(PositionActions.SavePosition({
-        position: this.positionUtils.createPositionFromForm(false, this.addPositionForm, this.positionToEdit)
+        position: this.positionUtils.createPositionFromForm(false, this.positionForm, this.positionToEdit)
       }));
     }
   }
 
   public updatePosition() {
     let editedPosition = this.positionUtils
-      .createPositionFromForm(true, this.addPositionForm, this.positionToEdit);
+      .createPositionFromForm(true, this.positionForm, this.positionToEdit);
     editedPosition.id = this.positionToEdit?.id;
     this.store.dispatch(PositionActions.UpdatePosition({position: editedPosition}))
   }
@@ -62,7 +62,7 @@ export class PositionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.positionUtils.clearPositionToEditAndForm(this.addPositionForm, this.positionToEdit);
+    this.positionUtils.clearPositionToEditAndForm(this.positionForm, this.positionToEdit);
     this.unsubscribe$.complete();
   }
 
