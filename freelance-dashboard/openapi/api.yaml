@@ -512,7 +512,7 @@ components:
         expiryDate:
           type: string
           format: DateTime
-        isUser:
+        isUsed:
           type: boolean
     PasswordResetRequest:
       type: object

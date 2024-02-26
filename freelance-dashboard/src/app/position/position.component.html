@@ -1,4 +1,4 @@
-<form [formGroup]="addPositionForm" class="fd-flex fd-flex-column fd-margin-auto">
+<form [formGroup]="positionForm" class="fd-flex fd-flex-column fd-margin-auto">
   <div class="grid">
     <div class="col-12 fd-flex fd-flex-column">
       <p-calendar formControlName="startingDate" dateFormat="yy-mm-dd" placeholder="{{'startingDate' | translate}}"
@@ -11,7 +11,7 @@
       <input class="address" formControlName="address" type="text" pInputText placeholder="{{'address' | translate}}">
       <p-toggleButton onLabel="{{'fullRemote' | translate}}" offLabel="{{'partialRemote' | translate}}"
                       onIcon="pi pi-check" offIcon="pi pi-times"
-                      [formControl]="$any(addPositionForm).controls['isFullRemote']"></p-toggleButton>
+                      [formControl]="$any(positionForm).controls['isFullRemote']"></p-toggleButton>
     </div>
     <div class="col-8 fd-flex fd-flex-column">
       <input formControlName="dailyRate" type="number" pInputText placeholder="{{'dailyRate' | translate}}">
@@ -79,9 +79,9 @@
     <div class="col-12 fd-flex fd-flex-row fd-space-between" style="padding-top: 20px; padding-bottom: 0">
       <button type="button" pButton pRipple class="p-button-outlined" label="{{'cancel' | translate}}"
               (click)="cancel()"></button>
-      <p-button *ngIf="!isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'save' | translate}}"
+      <p-button *ngIf="!isEditMode" [disabled]="!positionForm.valid" class="save-btn" label="{{'save' | translate}}"
                 (click)="savePosition()"></p-button>
-      <p-button *ngIf="isEditMode" [disabled]="!addPositionForm.valid" class="save-btn" label="{{'update' | translate}}"
+      <p-button *ngIf="isEditMode" [disabled]="!positionForm.valid" class="save-btn" label="{{'update' | translate}}"
                 (click)="updatePosition()"></p-button>
     </div>
   </div>
