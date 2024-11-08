@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CardLineComponent implements OnInit {
 
   @Input()
-  public emojiName: string;
+  public emoji: string;
 
   @Input()
   public size: string;

@@ -5,7 +5,7 @@
     </div>
     <div #header class="fd-flex fd-flex-row fd-space-between">
       <div class="fd-flex fd-flex-row">
-        <angular-emojis [name]="'office'" size="50"></angular-emojis>
+        <app-emoji emoji="🏢" size="50"></app-emoji>
         <div class="fd-flex fd-flex-column card-header-text">
           <p class="text-xl font-bold card-header-client">{{position?.client}}</p>
           <p class="card-header-address">{{position?.address}}</p>
@@ -13,7 +13,7 @@
       </div>
 
       <div class="fd-flex fd-flex-row align-items-center">
-        <angular-emojis [name]="'moneybag'" size="25"></angular-emojis>
+        <app-emoji emoji="💰" size="25"></app-emoji>
         <p class="text-xl font-bold fd-flex-row">
           {{position?.dailyRate?.amount}}
           {{currency}}
@@ -23,22 +23,22 @@
 
     <div #body class="fd-flex fd-flex-column card-body-container">
       <div class="fd-flex fd-flex-row">
-        <app-card-line *ngIf="position?.isFullRemote" [emojiName]="'white_check_mark'"
+        <app-card-line *ngIf="position?.isFullRemote" [emoji]="'✔️'"
                        [text]="'100% Télétravail'"></app-card-line>
-        <app-card-line *ngIf="!position?.isFullRemote" [emojiName]="'ballot_box_with_check'"
+        <app-card-line *ngIf="!position?.isFullRemote" [emoji]="'☑️'"
                        [text]="'Télétravail partiel'"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'checkered_flag'" [text]="latestStatus"></app-card-line>
+        <app-card-line [emoji]="'🏁'" [text]="latestStatus"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'date'" [text]="position?.startingDate"></app-card-line>
+        <app-card-line [emoji]="'📅'" [text]="position?.startingDate"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'rocket'" [text]="position?.mission?.project"></app-card-line>
+        <app-card-line [emoji]="'🚀'" [text]="position?.mission?.project"></app-card-line>
       </div>
       <div class="fd-flex fd-flex-row">
-        <app-card-line [emojiName]="'cityscape'" [text]="position?.intermediary.corporation"></app-card-line>
+        <app-card-line [emoji]="'🏙'" [text]="position?.intermediary.corporation"></app-card-line>
       </div>
     </div>
 
@@ -51,3 +51,4 @@
 <p-menu #menu [popup]="true" [model]="menuActions"></p-menu>
 <p-confirmDialog [style]="{width: '500px'}" [baseZIndex]="10000" acceptLabel="{{'yes' | translate}}"
                  rejectLabel="{{'no' | translate}}" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
