@@ -11,12 +11,13 @@ import {DialogModule} from 'primeng/dialog';
 import {PositionModule} from '../position/position.module';
 import {CardModule} from 'primeng/card';
 import {MenuModule} from 'primeng/menu';
-import {AccordionModule} from '../../partials/components/accordion/accordion.module';
-import {AngularEmojisModule} from 'angular-emojis';
+import {PositionAccordionModule} from '../../partials/components/accordion/position-accordion.module';
+import {EmojiComponent} from '../emoji/emoji.component';
+/*import {AngularEmojisModule} from 'angular-emojis';*/
 
 @NgModule({
   declarations: [
-    MainComponent,
+    MainComponent
   ],
   exports: [],
   imports: [
@@ -31,8 +32,10 @@ import {AngularEmojisModule} from 'angular-emojis';
     PositionModule,
     CardModule,
     MenuModule,
-    AccordionModule,
-    AngularEmojisModule
+    PositionAccordionModule,
+    EmojiComponent
+    /*AngularEmojisModule*/
+
   ]
 })
 export class MainModule {

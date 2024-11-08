@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccordionComponent } from './accordion.component';
+import { PositionAccordionComponent } from './position-accordion.component';
 
 describe('AccordComponent', () => {
-  let component: AccordionComponent;
-  let fixture: ComponentFixture<AccordionComponent>;
+  let component: PositionAccordionComponent;
+  let fixture: ComponentFixture<PositionAccordionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccordionComponent ]
+      declarations: [ PositionAccordionComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AccordionComponent);
+    fixture = TestBed.createComponent(PositionAccordionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

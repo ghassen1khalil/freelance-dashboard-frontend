@@ -12,10 +12,10 @@ import {Position} from '../../../../generated';
 
 @Component({
   selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss']
+  templateUrl: './position-accordion.component.html',
+  styleUrls: ['./position-accordion.component.scss']
 })
-export class AccordionComponent implements OnInit, AfterViewChecked, OnChanges {
+export class PositionAccordionComponent implements OnInit, AfterViewChecked, OnChanges {
 
   @Input() title: string;
   @Input() positions: Position[];
