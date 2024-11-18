@@ -7,7 +7,9 @@
   <div class="accordion-content" [ngStyle]="{'max-height': expanded ? contentHeight : '0'}">
     <div class="fd-flex fd-flex-column">
       <div class="fd-flex fd-flex-column">
-        <app-position-card *ngFor="let position of positions" [position]="position"></app-position-card>
+        <app-position-card *ngFor="let position of positions"
+                           [position]="position"
+        ></app-position-card>
       </div>
     </div>
   </div>

@@ -1,65 +1,61 @@
-@media(min-width: 1480px) {
-  .card-width {
-    max-width: 800px;
-  }
-}
-
-@media (min-width: 320px) and (max-width: 1479px) {
-  .card-width {
-    max-width: available;
-  }
-}
-
-.card {
-  background: #ffffff;
-  color: #495057;
-  box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
+.simple-card {
+  background-color: white;
   border-radius: 1rem;
-
-  padding: 2rem;
-  margin: 2rem auto;
-}
-
-.card-header-text {
-  margin-left: 6px;
-}
-
-.card-header-client {
-  margin-top: 12px;
-  margin-bottom: 0;
-}
-
-.card-header-address {
-  margin: 0;
-}
-
-.card-header-edit {
-  cursor: pointer;
-  margin-top: 0;
-  margin-bottom: 0;
-  height: 25px;
-}
-
-.card-body-container {
-  padding: 1rem 2rem 0
-}
-
-::ng-deep .p-menu.p-menu-overlay {
   box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
+  padding: 16px;
+  margin: 24px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.p-button {
-  border-radius: 1rem!important;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-::ng-deep .p-dialog  {
-  border-radius: 16px!important;
+.card-title {
+  font-size: 16px;
+  color: #555;
 }
 
-::ng-deep .p-dialog-header {
-  border-radius: 16px 16px 0 0!important ;
+
+.menu-button {
+  display: flex;
+  align-items: center;
 }
 
-::ng-deep .p-dialog-footer {
-  border-radius: 0 0 16px 16px!important ;
+.menu-icon {
+  cursor: pointer;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.card-row {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.card-row i {
+  margin-right: 8px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: right;
+  margin-top: 12px;
+}
+
+.consult-button {
+  color: white;
+  border-radius: 4px;
+  padding: 8px 16px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
 }

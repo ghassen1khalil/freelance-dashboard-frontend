@@ -1,54 +1,31 @@
-<div class="card card-width">
-  <div class="fd-flex fd-flex-column">
-    <div #actionPanel class="fd-flex fd-flex-row-reverse">
-      <p class="card-header-edit" (click)="menu.toggle($event)">...</p>
+<div class="simple-card">
+  <div class="card-header">
+    <div class="card-title">
+      <!--<i class="fa-regular fa-building"></i>-->
+      <strong>{{ position?.client }}</strong>
     </div>
-    <div #header class="fd-flex fd-flex-row fd-space-between">
-      <div class="fd-flex fd-flex-row">
-        <app-emoji emoji="🏢" size="50"></app-emoji>
-        <div class="fd-flex fd-flex-column card-header-text">
-          <p class="text-xl font-bold card-header-client">{{position?.client}}</p>
-          <p class="card-header-address">{{position?.address}}</p>
-        </div>
-      </div>
-
-      <div class="fd-flex fd-flex-row align-items-center">
-        <app-emoji emoji="💰" size="25"></app-emoji>
-        <p class="text-xl font-bold fd-flex-row">
-          {{position?.dailyRate?.amount}}
-          {{currency}}
-        </p>
-      </div>
-    </div>
-
-    <div #body class="fd-flex fd-flex-column card-body-container">
-      <div class="fd-flex fd-flex-row">
-        <app-card-line *ngIf="position?.isFullRemote" [emoji]="'✔️'"
-                       [text]="'100% Télétravail'"></app-card-line>
-        <app-card-line *ngIf="!position?.isFullRemote" [emoji]="'☑️'"
-                       [text]="'Télétravail partiel'"></app-card-line>
-      </div>
-      <div class="fd-flex fd-flex-row">
-        <app-card-line [emoji]="'🏁'" [text]="latestStatus"></app-card-line>
-      </div>
-      <div class="fd-flex fd-flex-row">
-        <app-card-line [emoji]="'📅'" [text]="position?.startingDate"></app-card-line>
-      </div>
-      <div class="fd-flex fd-flex-row">
-        <app-card-line [emoji]="'🚀'" [text]="position?.mission?.project"></app-card-line>
-      </div>
-      <div class="fd-flex fd-flex-row">
-        <app-card-line [emoji]="'🏙'" [text]="position?.intermediary.corporation"></app-card-line>
-      </div>
-    </div>
-
-    <div #footer class="fd-flex fd-flex-row-reverse">
-      <button pButton type="button" iconPos="left" label="{{'view' | translate}}"></button>
+    <div class="menu-button">
+      <p-menu #menu [popup]="true" [model]="menuActions"></p-menu>
+      <button pButton icon="pi pi-ellipsis-h" class="menu-icon p-button-outlined" (click)="menu.toggle($event)"></button>
     </div>
   </div>
+
+  <div class="card-body">
+    <div class="card-row">
+      <i class="fa-solid fa-money-bills"></i>
+      {{ position?.dailyRate?.amount }} {{ position?.dailyRate?.currency }}
+    </div>
+    <div class="card-row">
+      <i class="fa-solid fa-map-location-dot"></i>
+      {{ position?.address }}
+    </div>
+    <div class="card-row">
+      <i class="fa-solid fa-people-arrows"></i>
+      {{ position?.intermediary?.corporation }}
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button pButton type="button" label="{{'view' | translate}}" class="consult-button"></button>
+  </div>
 </div>
-
-<p-menu #menu [popup]="true" [model]="menuActions"></p-menu>
-<p-confirmDialog [style]="{width: '500px'}" [baseZIndex]="10000" acceptLabel="{{'yes' | translate}}"
-                 rejectLabel="{{'no' | translate}}" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
-
