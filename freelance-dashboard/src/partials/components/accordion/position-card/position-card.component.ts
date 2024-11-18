@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
 import {Position, PositionState} from '../../../../../generated';
+import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
 import {TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
-import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
 import {PositionUtils} from '../../../../core/utils/position-utils';
 
@@ -16,10 +16,8 @@ import {PositionUtils} from '../../../../core/utils/position-utils';
 export class PositionCardComponent implements OnInit {
 
   @Input() public position: Position;
-  public menuActions: MenuItem[];
-  public currency: string | undefined;
-  public latestStatus: string | undefined;
 
+  public menuActions: MenuItem[];
 
   constructor(private translate: TranslateService,
               private store: Store,
@@ -32,8 +30,6 @@ export class PositionCardComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.initializeActionsMenu(this.position.state!);
-    this.currency = this.getCurrency();
-    this.latestStatus = this.getLatestStatus();
   }
 
   private initializeActionsMenu(state: PositionState) {
@@ -77,6 +73,7 @@ export class PositionCardComponent implements OnInit {
     });
   }
 
+
   private confirmDeletion() {
     this.translate.get([
       'delete-modal.position.areYouSure',
@@ -96,17 +93,18 @@ export class PositionCardComponent implements OnInit {
     });
   }
 
-  private getLatestStatus(): string | undefined {
+  /*private getLatestStatus(): string | undefined {
     return this.position.statuses?.slice(-1)[0].label
   }
 
   private getCurrency(): string | undefined {
     return this.position.dailyRate?.currency;
-  }
+  }*/
 
 
   private editPosition() {
     this.store.dispatch(EditPosition({positionToEdit: this.position}));
     this.router.navigate(['/', 'position']);
   }
+
 }

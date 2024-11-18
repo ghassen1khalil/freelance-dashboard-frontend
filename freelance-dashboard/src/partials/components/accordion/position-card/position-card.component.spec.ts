@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PositionCardComponent } from './position-card.component';
 
-describe('PositionCardComponent', () => {
+describe('SimpleCardComponent', () => {
   let component: PositionCardComponent;
   let fixture: ComponentFixture<PositionCardComponent>;
 
@@ -11,9 +11,7 @@ describe('PositionCardComponent', () => {
       declarations: [ PositionCardComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PositionCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
