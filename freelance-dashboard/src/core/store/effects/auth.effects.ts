@@ -50,7 +50,8 @@ export class AuthEffects {
             )}))
         );
       }),
-      tap(() => this.router.navigate(['main']))
+      //tap(() => this.router.navigate(['main']))
+      tap(() => this.router.navigate(['positions']))
     ))
   ));
 

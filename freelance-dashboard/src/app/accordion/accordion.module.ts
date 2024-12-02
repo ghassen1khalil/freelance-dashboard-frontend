@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PositionAccordionComponent} from './position-accordion.component';
+import {AccordionComponent} from './accordion.component';
 import {MenuModule} from 'primeng/menu';
 import {TranslateModule} from '@ngx-translate/core';
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {EmojiComponent} from '../../../app/emoji/emoji.component';
+import {EmojiComponent} from '../emoji/emoji.component';
 import { PositionCardComponent } from './position-card/position-card.component';
+import {StatusBoardComponent} from '../positions-board/status-board.component';
 
 @NgModule({
-  declarations: [PositionAccordionComponent, PositionCardComponent, PositionCardComponent],
+  declarations: [AccordionComponent, PositionCardComponent, PositionCardComponent],
   imports: [
     CommonModule,
     MenuModule,
@@ -17,7 +18,8 @@ import { PositionCardComponent } from './position-card/position-card.component';
     ButtonModule,
     ConfirmDialogModule,
     EmojiComponent,
+    StatusBoardComponent
   ],
-  exports: [PositionAccordionComponent],
+  exports: [AccordionComponent],
 })
-export class PositionAccordionModule { }
+export class AccordionModule { }

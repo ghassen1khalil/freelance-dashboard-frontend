@@ -1,0 +1,131 @@
+<div class="board">
+  <div class="column">
+    <div class="column-header">{{ 'commercialSuggestion' | translate }}</div>
+    <div
+      class="position-list"
+      pDroppable
+      (onDrop)="drop($event, StatusLabelEnum.CommercialSuggestion)"
+      (onDragEnter)="dragEnter(StatusLabelEnum.CommercialSuggestion)"
+      (onDragLeave)="dragLeave()"
+      [ngClass]="{'p-dragover': draggedOver === StatusLabelEnum.CommercialSuggestion}">
+      <div
+        *ngFor="let position of getPositionByStateAndStatus(StatusLabelEnum.CommercialSuggestion)"
+        class="position"
+        pDraggable
+        (onDragStart)="dragStart(position)"
+        (onDragEnd)="dragEnd()"
+        [ngClass]="{
+              'p-draggable-dragging': draggedPosition === position,
+              'source-highlight': sourcePosition === position
+            }">
+        <div class="position-title">{{ position.client }}</div>
+        <div class="position-description">{{ position.dailyRate.amount + position.dailyRate.currency}}</div>
+      </div>
+      <div *ngIf="draggedOver === StatusLabelEnum.CommercialSuggestion" class="position-placeholder"></div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header">{{ 'positioned' | translate }}</div>
+    <div
+      class="position-list"
+      pDroppable
+      (onDrop)="drop($event, StatusLabelEnum.Positioned)"
+      (onDragEnter)="dragEnter(StatusLabelEnum.Positioned)"
+      (onDragLeave)="dragLeave()"
+      [ngClass]="{'p-dragover': draggedOver === StatusLabelEnum.Positioned}">
+      <div
+        *ngFor="let position of getPositionByStateAndStatus(StatusLabelEnum.Positioned)"
+        class="position"
+        pDraggable
+        (onDragStart)="dragStart(position)"
+        (onDragEnd)="dragEnd()"
+        [ngClass]="{
+              'p-draggable-dragging': draggedPosition === position,
+              'source-highlight': sourcePosition === position
+            }">
+        <div class="position-title">{{ position.client }}</div>
+        <div class="position-description">{{ position.dailyRate.amount + position.dailyRate.currency }}</div>
+      </div>
+      <div *ngIf="draggedOver === StatusLabelEnum.Positioned" class="position-placeholder"></div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header">{{ 'interviewPlanned' | translate }}</div>
+    <div
+      class="position-list"
+      pDroppable
+      (onDrop)="drop($event, StatusLabelEnum.InterviewPlanned)"
+      (onDragEnter)="dragEnter(StatusLabelEnum.InterviewPlanned)"
+      (onDragLeave)="dragLeave()"
+      [ngClass]="{'p-dragover': draggedOver === StatusLabelEnum.InterviewPlanned}">
+      <div
+        *ngFor="let position of getPositionByStateAndStatus(StatusLabelEnum.InterviewPlanned)"
+        class="position"
+        pDraggable
+        (onDragStart)="dragStart(position)"
+        (onDragEnd)="dragEnd()"
+        [ngClass]="{
+              'p-draggable-dragging': draggedPosition === position,
+              'source-highlight': sourcePosition === position
+            }">
+        <div class="position-title">{{ position.client }}</div>
+        <div class="position-description">{{ position.dailyRate.amount + position.dailyRate.currency }}</div>
+      </div>
+      <div *ngIf="draggedOver === StatusLabelEnum.InterviewPlanned" class="position-placeholder"></div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header">{{ 'waitingForResponse' | translate }}</div>
+    <div
+      class="position-list"
+      pDroppable
+      (onDrop)="drop($event, StatusLabelEnum.WaitingForResponse)"
+      (onDragEnter)="dragEnter(StatusLabelEnum.WaitingForResponse)"
+      (onDragLeave)="dragLeave()"
+      [ngClass]="{'p-dragover': draggedOver === StatusLabelEnum.WaitingForResponse}">
+      <div
+        *ngFor="let position of getPositionByStateAndStatus(StatusLabelEnum.WaitingForResponse)"
+        class="position"
+        pDraggable
+        (onDragStart)="dragStart(position)"
+        (onDragEnd)="dragEnd()"
+        [ngClass]="{
+              'p-draggable-dragging': draggedPosition === position,
+              'source-highlight': sourcePosition === position
+            }">
+        <div class="position-title">{{ position.client }}</div>
+        <div class="position-description">{{ position.dailyRate.amount + position.dailyRate.currency }}</div>
+      </div>
+      <div *ngIf="draggedOver === StatusLabelEnum.WaitingForResponse" class="position-placeholder"></div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header">{{ 'responseReceived' | translate }}</div>
+    <div
+      class="position-list"
+      pDroppable
+      (onDrop)="drop($event, StatusLabelEnum.ResponseReceived)"
+      (onDragEnter)="dragEnter(StatusLabelEnum.ResponseReceived)"
+      (onDragLeave)="dragLeave()"
+      [ngClass]="{'p-dragover': draggedOver === StatusLabelEnum.ResponseReceived}">
+      <div
+        *ngFor="let position of getPositionByStateAndStatus(StatusLabelEnum.ResponseReceived)"
+        class="position"
+        pDraggable
+        (onDragStart)="dragStart(position)"
+        (onDragEnd)="dragEnd()"
+        [ngClass]="{
+              'p-draggable-dragging': draggedPosition === position,
+              'source-highlight': sourcePosition === position
+            }">
+        <div class="position-title">{{ position.client }}</div>
+        <div class="position-description">{{ position.dailyRate.amount + position.dailyRate.currency }}</div>
+      </div>
+      <div *ngIf="draggedOver === StatusLabelEnum.ResponseReceived" class="position-placeholder"></div>
+    </div>
+  </div>
+</div>

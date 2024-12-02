@@ -9,7 +9,8 @@ servers:
 paths:
   /positions:
     get:
-      summary: "Find positions grouped by year combined with ones having ARCHIVED state"
+      summary: "Returns non deleted positions grouped by status and states"
+      description: "Returns a map of map of non-deleted positions grouped by ACTIVE and ARCHIVED and for each one grouped by latest status "
       operationId: findPositions
       tags:
         - positions
@@ -21,9 +22,11 @@ paths:
               schema:
                 type: object
                 additionalProperties:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Position'
+                  type: object
+                  additionalProperties:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Position'
   /position:
     post:
       summary: Save a Position
@@ -417,6 +420,7 @@ components:
       properties:
         label:
           type: string
+          enum: [ 'COMMERCIAL_SUGGESTION','POSITIONED','INTERVIEW_PLANNED','WAITING_FOR_RESPONSE','RESPONSE_RECEIVED' ]
         date:
           type: string
           format: date

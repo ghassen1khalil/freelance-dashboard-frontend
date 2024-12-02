@@ -1,0 +1,16 @@
+<ng-container>
+  <app-accordion [title]="'En cours'"
+                 [positions]="positions"
+                 [isArchive]="false"
+                 [onlyArchived]="false"
+                 [isLatestYear]="false"
+                 [positionState]="PositionState.Active">
+  </app-accordion>
+  <app-accordion [title]="'Archivés'"
+                 [positions]="positions"
+                 [isArchive]="true"
+                 [onlyArchived]="false"
+                 [isLatestYear]="false"
+                 [positionState]="PositionState.Archived">
+  </app-accordion>
+</ng-container>

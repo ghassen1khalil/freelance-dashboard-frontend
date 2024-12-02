@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
-import {Position, PositionState} from '../../../../../generated';
-import {EditPosition, UpdatePosition} from '../../../../core/store/actions/position.actions';
+import {Position, PositionState} from '../../../../generated';
+import {EditPosition, UpdatePosition} from '../../../core/store/actions/position.actions';
 import {TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {PositionUtils} from '../../../../core/utils/position-utils';
+import {PositionUtils} from '../../../core/utils/position-utils';
 
 @Component({
   selector: 'app-position-card',

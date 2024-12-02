@@ -34,14 +34,14 @@ export class MainComponent implements OnInit, OnDestroy {
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      if (positions !== undefined) {
+      /*if (positions !== undefined) {
         this.positionsMap = positions;
         this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[PositionState.Archived]);
         this.positionsYears = this.getPositionsYears();
 
         this.isNoPositionsYet = this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
         this.isNoResultForFilter = this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
-      }
+      }*/
     });
 
     this.store.pipe(
