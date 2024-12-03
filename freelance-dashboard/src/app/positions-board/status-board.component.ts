@@ -80,13 +80,33 @@ export class StatusBoardComponent implements OnInit, OnDestroy{
       const positionIndex = this.positions[previousStatus].findIndex(position => position.id === this.draggedPosition!.id);
       //const positionIndex = this.positions[newStatus].findIndex(position => position.id === this.draggedPosition!.id);
       if (positionIndex !== -1) {
-        const updatedPosition = this.positions[previousStatus][positionIndex];
+        //const updatedPosition = this.positions[previousStatus][positionIndex];
+        const status : Status = {};
+        status.label = newStatus;
+        status.date = new Date().toString();
+
+        const updatedPosition = {
+          ...this.positions[previousStatus][positionIndex],
+          statuses: [
+            ...(this.positions[previousStatus][positionIndex].statuses || []),
+            status,
+          ],
+        };
+        console.log(Object.isFrozen(updatedPosition));
+        console.log(Object.isSealed(updatedPosition));
         //const updatedPosition = this.positions[newStatus][positionIndex];
-        updatedPosition.statuses?.push({
-          'date': new Date().toDateString(),
-          'label': newStatus
-        });
-        this.positions[newStatus][positionIndex] = updatedPosition;
+
+        //updatedPosition.statuses?.push(status);
+        //this.positions[newStatus][positionIndex] = updatedPosition;
+
+        this.positions = {
+          ...this.positions,
+          [newStatus]: [
+            ...this.positions[previousStatus].slice(0, positionIndex),
+            updatedPosition,
+            ...this.positions[previousStatus].slice(positionIndex + 1),
+          ],
+        };
       }
     }
     this.draggedOver = null;
