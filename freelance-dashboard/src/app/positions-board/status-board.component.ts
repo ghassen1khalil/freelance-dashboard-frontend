@@ -76,9 +76,12 @@ export class StatusBoardComponent implements OnInit, OnDestroy{
 
   drop(event: DragEvent, newStatus: StatusLabelEnum) {
     if (this.draggedPosition) {
-      const positionIndex = this.positions[newStatus].findIndex(position => position.id === this.draggedPosition!.id);
+      const previousStatus = this.draggedPosition!.statuses![this.draggedPosition!.statuses!.length - 1].label!.toString(); //TODO to refactor
+      const positionIndex = this.positions[previousStatus].findIndex(position => position.id === this.draggedPosition!.id);
+      //const positionIndex = this.positions[newStatus].findIndex(position => position.id === this.draggedPosition!.id);
       if (positionIndex !== -1) {
-        const updatedPosition = this.positions[newStatus][positionIndex];
+        const updatedPosition = this.positions[previousStatus][positionIndex];
+        //const updatedPosition = this.positions[newStatus][positionIndex];
         updatedPosition.statuses?.push({
           'date': new Date().toDateString(),
           'label': newStatus
