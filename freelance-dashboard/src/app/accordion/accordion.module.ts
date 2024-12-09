@@ -6,11 +6,12 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {EmojiComponent} from '../emoji/emoji.component';
-import { PositionCardComponent } from './position-card/position-card.component';
+import { PositionCardComponent } from '../position-card/position-card.component';
 import {StatusBoardComponent} from '../positions-board/status-board.component';
+import {DragDropModule} from 'primeng/dragdrop';
 
 @NgModule({
-  declarations: [AccordionComponent, PositionCardComponent, PositionCardComponent],
+  declarations: [AccordionComponent],
   imports: [
     CommonModule,
     MenuModule,
@@ -18,7 +19,8 @@ import {StatusBoardComponent} from '../positions-board/status-board.component';
     ButtonModule,
     ConfirmDialogModule,
     EmojiComponent,
-    StatusBoardComponent
+    StatusBoardComponent,
+    DragDropModule
   ],
   exports: [AccordionComponent],
 })

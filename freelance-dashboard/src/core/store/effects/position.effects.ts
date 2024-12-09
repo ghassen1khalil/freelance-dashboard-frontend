@@ -116,7 +116,7 @@ export class PositionEffects {
               }),
               finalize(() => {
                 // Navigate to /main after the FetchPositionsSuccess action is dispatched.
-                this.router.navigate(['/main']);
+                //this.router.navigate(['/positions']);
               })
             )
           ]),

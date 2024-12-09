@@ -1,17 +1,27 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
-import {Position, PositionState} from '../../../../generated';
-import {EditPosition, UpdatePosition} from '../../../core/store/actions/position.actions';
-import {TranslateService} from '@ngx-translate/core';
+import {Position, PositionState} from '../../../generated';
+import {EditPosition, UpdatePosition} from '../../core/store/actions/position.actions';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {PositionUtils} from '../../../core/utils/position-utils';
+import {PositionUtils} from '../../core/utils/position-utils';
+import {MenuModule} from 'primeng/menu';
+import {DragDropModule} from 'primeng/dragdrop';
+import {ButtonModule} from 'primeng/button';
 
 @Component({
   selector: 'app-position-card',
   templateUrl: './position-card.component.html',
   styleUrls: ['./position-card.component.scss'],
-  providers: [ConfirmationService, PositionUtils]
+  providers: [ConfirmationService, PositionUtils],
+  standalone: true,
+  imports: [
+    MenuModule,
+    DragDropModule,
+    TranslateModule,
+    ButtonModule
+  ]
 })
 export class PositionCardComponent implements OnInit {
 
@@ -105,6 +115,17 @@ export class PositionCardComponent implements OnInit {
   private editPosition() {
     this.store.dispatch(EditPosition({positionToEdit: this.position}));
     this.router.navigate(['/', 'position']);
+  }
+
+  onDragStart() {
+    console.log('dragging position ' + this.position.client);
+    const element = document.querySelector('.simple-card');
+    element?.classList.add('dragging');
+  }
+
+  onDragEnd() {
+    const element = document.querySelector('.simple-card');
+    element?.classList.remove('dragging');
   }
 
 }

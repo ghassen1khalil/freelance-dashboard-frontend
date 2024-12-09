@@ -180,9 +180,10 @@
   "passwordResetSuccessfully": "Votre mot de passe a bien été réinitialisé",
   "passwordResetError": "Une erreur est survenue lors de la réinitialisation de votre mot de passe",
   "verifyCredentials": "Veuillez vérifiez vos informations de connexion",
-  "commercialSuggestion": "Proposition commerciale",
-  "positioned": "Positionné",
-  "interviewPlanned": "Entretien planifié",
-  "waitingForResponse": "En attente du retour client",
-  "responseReceived": "Réponse reçue"
+  "COMMERCIAL_SUGGESTION": "Proposition commerciale",
+  "POSITIONED": "Positionné",
+  "INTERVIEW_PLANNED": "Entretien planifié",
+  "WAITING_FOR_RESPONSE": "En attente du retour client",
+  "RESPONSE_RECEIVED": "Réponse reçue"
+
 }

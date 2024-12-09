@@ -5,11 +5,12 @@ import {CardModule} from 'primeng/card';
 import {OrderListModule} from 'primeng/orderlist';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {Position, PositionState, Status, StatusLabelEnum} from '../../../generated';
 
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import {TranslateModule} from '@ngx-translate/core';
+import {PositionCardComponent} from '../position-card/position-card.component';
+import {UpdatePosition} from '../../core/store/actions/position.actions';
 
 
 @Component({
@@ -17,22 +18,15 @@ import {TranslateModule} from '@ngx-translate/core';
   templateUrl: './status-board.component.html',
   styleUrls: ['./status-board.component.scss'],
   standalone: true,
-  imports: [NgFor, OrderListModule, CardModule, DragDropModule, CommonModule, TranslateModule]
+  imports: [NgFor, OrderListModule, CardModule, DragDropModule, CommonModule, TranslateModule, PositionCardComponent]
 })
 export class StatusBoardComponent implements OnInit, OnDestroy{
 
   @Input() public positionState: PositionState;
 
-  draggedPosition: Position | null = null;
-  sourcePosition: Position | null = null;
-  draggedOver: string | null = null;
-
-  protected readonly StatusLabelEnum = StatusLabelEnum;
-  protected readonly PositionState = PositionState;
-
-
   public positions: {[statusKey: string]: Array<Position>} = {};
-
+  public statusLabels = Object.values(StatusLabelEnum);
+  public draggedPosition: Position | undefined;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -45,75 +39,81 @@ export class StatusBoardComponent implements OnInit, OnDestroy{
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
       if (positions !== undefined) {
-
         this.positions = positions[this.positionState];
       }
     });
   }
 
-  getPositionByStateAndStatus(status: string): Array<Position> {
-    return this.positions[status];
+  onDrop(event: any, status: string ) {
+    const latestStatus = this.getLatestStatus(this.draggedPosition!);
+    const targetStatus = this.buildTargetStatus(status);
+    const draggedPositionIndex = this.getDraggedPositionIndexFromStatusColumn(this.positions, latestStatus);
+
+    if (latestStatus.label !== targetStatus.label) {
+      const updatedPosition = this.buildUpdatedPositions(this.draggedPosition!, targetStatus);
+      this.positions = {
+        ...this.positions,
+        [latestStatus.label!]: [...this.removedDraggedPositionFromPreviousStatusColumn(this.positions[latestStatus.label!], draggedPositionIndex)],
+        [targetStatus.label!]: [...(this.positions[targetStatus.label!] || []), updatedPosition],
+      };
+      // Dispatch update action to store
+      this.store.dispatch(UpdatePosition({ position: updatedPosition }));
+    }
+
+    this.draggedPosition = undefined;
   }
 
-  dragStart(position: Position) {
-    this.draggedPosition = position;
-    this.sourcePosition = position;
+  private getDraggedPositionIndexFromStatusColumn(positions: {[statusKey: string]: Array<Position>}, status: Status): number {
+    return positions[status.label!].findIndex(pos => pos.id === this.draggedPosition!.id);
   }
 
-  dragEnd() {
-    this.draggedPosition = null;
-    this.sourcePosition = null;
-    this.draggedOver = null;
+  private getLatestStatus(draggedPosition: Position): Status {
+    return draggedPosition!.statuses![this.draggedPosition!.statuses!.length - 1];
   }
 
-  dragEnter(status: StatusLabelEnum) {
-    this.draggedOver = status;
+  private buildTargetStatus(status: string): Status {
+    return {
+      label: this.findStatusLabelFromValue(status),
+      date: new Date().toISOString()
+    };
   }
 
-  dragLeave() {
-    this.draggedOver = null;
+  private buildUpdatedPositions(draggedPosition: Position, targetStatus: Status): Position {
+    return {
+      ...draggedPosition,
+      statuses: [...draggedPosition!.statuses!, targetStatus]
+    };
   }
 
-  drop(event: DragEvent, newStatus: StatusLabelEnum) {
-    if (this.draggedPosition) {
-      const previousStatus = this.draggedPosition!.statuses![this.draggedPosition!.statuses!.length - 1].label!.toString(); //TODO to refactor
-      const positionIndex = this.positions[previousStatus].findIndex(position => position.id === this.draggedPosition!.id);
-      //const positionIndex = this.positions[newStatus].findIndex(position => position.id === this.draggedPosition!.id);
-      if (positionIndex !== -1) {
-        //const updatedPosition = this.positions[previousStatus][positionIndex];
-        const status : Status = {};
-        status.label = newStatus;
-        status.date = new Date().toString();
+  private removedDraggedPositionFromPreviousStatusColumn(listOfPositions: Position[], index: number) {
+    const updatedPositions = [...listOfPositions];
+    updatedPositions.splice(index, 1);
+    return updatedPositions;
+  }
 
-        const updatedPosition = {
-          ...this.positions[previousStatus][positionIndex],
-          statuses: [
-            ...(this.positions[previousStatus][positionIndex].statuses || []),
-            status,
-          ],
-        };
-        console.log(Object.isFrozen(updatedPosition));
-        console.log(Object.isSealed(updatedPosition));
-        //const updatedPosition = this.positions[newStatus][positionIndex];
+  getPositionsForStatus(status: StatusLabelEnum): Position[] {
+    return this.positions[status] || [];
+  }
 
-        //updatedPosition.statuses?.push(status);
-        //this.positions[newStatus][positionIndex] = updatedPosition;
-
-        this.positions = {
-          ...this.positions,
-          [newStatus]: [
-            ...this.positions[previousStatus].slice(0, positionIndex),
-            updatedPosition,
-            ...this.positions[previousStatus].slice(positionIndex + 1),
-          ],
-        };
+  public findStatusLabelFromValue(value: string): StatusLabelEnum {
+    for (const key in StatusLabelEnum) {
+      if (StatusLabelEnum[key as keyof typeof StatusLabelEnum] === value) {
+        return StatusLabelEnum[key as keyof typeof StatusLabelEnum];
       }
     }
-    this.draggedOver = null;
-    this.sourcePosition = null;
+    throw new Error('Invalid StatusLabelEnum value: ' + value);
+  }
+
+  onDragStart(position: Position) {
+    console.log('dragging position ' + position.client);
+    this.draggedPosition = position;
+  }
+
+  onDragEnd() {
   }
 
   ngOnDestroy(): void {
+    //TODO updated this.positions /!\
     this.unsubscribe$.complete();
   }
 }
