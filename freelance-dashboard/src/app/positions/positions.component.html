@@ -17,4 +17,12 @@
   <button style="" pButton pRipple type="button"
           icon="pi pi-plus" class="floating add-btn p-button-rounded"
           (click)="goToAddPosition()"></button>
+
+  <button (click)="isDrawerVisible = true">Open Drawer</button>
+
+  <app-drawer [position]="'right'" [visible]="isDrawerVisible" (visibleChange)="toggleDrawer($event)">
+    <h3>Drawer Content</h3>
+    <p>Place your custom content here.</p>
+    <button (click)="isDrawerVisible = false">Close</button>
+  </app-drawer>
 </ng-container>

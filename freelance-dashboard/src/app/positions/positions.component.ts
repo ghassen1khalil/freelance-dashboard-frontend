@@ -10,10 +10,15 @@ import {Router} from '@angular/router';
 export class PositionsComponent implements OnInit {
 
   positions: Position[] = [];
+  public isDrawerVisible = false;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  public toggleDrawer(event: boolean) {
+    this.isDrawerVisible = event;
   }
 
   public goToAddPosition() {
