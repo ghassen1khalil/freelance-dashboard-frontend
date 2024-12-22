@@ -1,4 +1,4 @@
-import { Action, ActionReducer } from "@ngrx/store";
+import {Action, ActionReducer} from "@ngrx/store";
 import * as HydrationActions from "../actions/hydration.actions";
 import {PositionState} from '../state/app.states';
 

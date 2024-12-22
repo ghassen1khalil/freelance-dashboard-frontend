@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ButtonModule} from 'primeng/button';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {RippleModule} from 'primeng/ripple';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
@@ -36,12 +36,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
   ],
   imports: [
+    /**Angular**/
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
-    ButtonModule,
-    RippleModule,
     HttpClientModule,
+
+    /**Third parties**/
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -51,14 +51,21 @@ export function HttpLoaderFactory(http: HttpClient) {
       defaultLanguage: 'fr'
     }),
     StoreModule.forRoot(reducers, /*{ metaReducers }*/),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects/*HydrationEffects*/]),
-    ToastModule,
-    HeaderModule,
     AuthModule.forRoot({...env.auth}),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+
+    /**PrimeNG**/
+    ButtonModule,
+    RippleModule,
+    ToastModule,
+
+    /**Freelance Dahsboard**/
+    AppRoutingModule,
+    HeaderModule,
     LoaderComponent,
     FooterModule,
-  ],
+   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -66,7 +73,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true,
     },
     HttpClient,
-    BasePathProviderService],
+    BasePathProviderService,
+    provideAnimations()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

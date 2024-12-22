@@ -8,20 +8,22 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import {Position} from '../../../../generated';
+import {Position, PositionState} from '../../../generated';
 
 @Component({
   selector: 'app-accordion',
-  templateUrl: './position-accordion.component.html',
-  styleUrls: ['./position-accordion.component.scss']
+  templateUrl: './accordion.component.html',
+  styleUrls: ['./accordion.component.scss'],
 })
-export class PositionAccordionComponent implements OnInit, AfterViewChecked, OnChanges {
+export class AccordionComponent implements OnInit, AfterViewChecked, OnChanges {
 
   @Input() title: string;
   @Input() positions: Position[];
   @Input() isArchive: boolean;
   @Input() onlyArchived: boolean;
   @Input() isLatestYear: boolean;
+
+  @Input() public positionState: PositionState;
 
   expanded: boolean;
   contentHeight: string;

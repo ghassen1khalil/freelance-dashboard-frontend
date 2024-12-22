@@ -8,7 +8,7 @@ export const FetchPositions = createAction(
 
 export const FetchPositionsSuccess = createAction(
   '[POSITION] - Fetch Positions Success',
-  props<{ payload: { [key: string]: Array<Position> } }>()
+  props<{ payload: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; } }>()
 );
 
 export const FetchPositionsFailure = createAction(

@@ -8,6 +8,11 @@ const routes: Routes = [
     loadChildren: () => import('./log-in-sign-up/log-in-sign-up.module').then(m => m.LogInSignUpModule),
   },
   {
+    path: 'positions',
+    loadChildren: () => import('./positions/positions.module').then(m => m.PositionsModule),
+    canLoad: [LoggedInGuard]
+  },
+  {
     path: 'main',
     loadChildren: () => import('./main/main.module').then(m => m.MainModule),
     canLoad: [LoggedInGuard]

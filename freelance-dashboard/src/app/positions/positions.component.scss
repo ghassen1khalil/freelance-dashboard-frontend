@@ -1,0 +1,12 @@
+.floating {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 99;
+}
+
+.add-btn {
+  border-radius: 50% !important;
+  width: 50px !important;
+  height: 50px !important;
+}

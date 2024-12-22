@@ -10,10 +10,10 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import {MessageModule} from 'primeng/message';
-import { NewPasswordFormComponent } from './reset-password/new-password-form/new-password-form.component';
-import { ResetPasswordFormComponent } from './reset-password/reset-password-form/reset-password-form.component';
+import {NewPasswordFormComponent} from './reset-password/new-password-form/new-password-form.component';
+import {ResetPasswordFormComponent} from './reset-password/reset-password-form/reset-password-form.component';
 
 
 @NgModule({

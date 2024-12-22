@@ -11,7 +11,7 @@ export interface AppState {
 }
 
 export interface PositionState {
-  positions: {[key: string]: Array<Position>} | undefined;
+  positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; } | undefined;
   positionToEdit: Position | undefined;
 }
 

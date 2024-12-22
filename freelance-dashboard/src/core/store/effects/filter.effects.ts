@@ -19,7 +19,8 @@ export class FilterEffects {
       mergeMap(action =>
         this.positionService.filterByKeyword(action.keyword).pipe(
           map((positions: {[key: string]: Array<Position>}) => {
-            return PositionActions.FetchPositionsSuccess({payload: positions});
+            //return PositionActions.FetchPositionsSuccess({payload: positions});
+            return PositionActions.FetchPositionsSuccess({payload: {}}); // TODO adapt for new return type
           }),
           catchError((error: HttpErrorResponse) => {
             return of(PositionActions.FetchPositionsFailure({payload: error}));

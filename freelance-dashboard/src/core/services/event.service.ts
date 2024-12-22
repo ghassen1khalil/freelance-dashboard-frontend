@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Event, EventType} from '../store/models/models';
 
 @Injectable({

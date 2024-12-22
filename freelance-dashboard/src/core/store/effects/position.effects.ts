@@ -27,7 +27,7 @@ export class PositionEffects {
       ofType(PositionActions.FetchPositions),
       mergeMap(() =>
         this.positionService.findPositions().pipe(
-          map((positions: { [key: string]: Array<Position> }): Action => { // specify type explicitly
+          map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }): Action => { // specify type explicitly
             return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
           catchError((error: HttpErrorResponse) => {
@@ -60,9 +60,7 @@ export class PositionEffects {
           switchMap((successEvent) => [
             of(successEvent),
             this.positionService.findPositions().pipe(
-              map((positions: {
-                [key: string]: Array<Position>
-              }) => PositionActions.FetchPositionsSuccess({payload: positions})),
+              map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({
@@ -108,9 +106,7 @@ export class PositionEffects {
           switchMap((successEvent) => [
             of(successEvent),
             this.positionService.findPositions().pipe(
-              map((positions: {
-                [key: string]: Array<Position>
-              }) => PositionActions.FetchPositionsSuccess({payload: positions})),
+              map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }) => PositionActions.FetchPositionsSuccess({payload: positions})),
               catchError((error: HttpErrorResponse) => {
                 return this.translate.get(['error', 'findAllErrorMessage']).pipe(
                   map((res) => LaunchEvent({
@@ -120,7 +116,7 @@ export class PositionEffects {
               }),
               finalize(() => {
                 // Navigate to /main after the FetchPositionsSuccess action is dispatched.
-                this.router.navigate(['/main']);
+                //this.router.navigate(['/positions']);
               })
             )
           ]),

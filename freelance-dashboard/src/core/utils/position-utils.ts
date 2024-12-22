@@ -42,6 +42,7 @@ export class PositionUtils {
       client: form.controls['client'].value,
       address: form.controls['address'].value,
       isFullRemote: form.controls['isFullRemote'].value,
+      isFreelancerAccepted: false,
       dailyRate: {
         amount: form.controls['dailyRate'].value,
         currency: form.controls['currency'].value

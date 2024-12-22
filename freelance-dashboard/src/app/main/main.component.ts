@@ -5,7 +5,6 @@ import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import * as filterReducer from '../../core/store/reducers/filter.reducer'
 import {Router} from '@angular/router';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
 
 @Component({
@@ -34,14 +33,14 @@ export class MainComponent implements OnInit, OnDestroy {
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      if (positions !== undefined) {
+      /*if (positions !== undefined) {
         this.positionsMap = positions;
         this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[PositionState.Archived]);
         this.positionsYears = this.getPositionsYears();
 
         this.isNoPositionsYet = this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
         this.isNoResultForFilter = this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
-      }
+      }*/
     });
 
     this.store.pipe(

@@ -1,0 +1,77 @@
+.status-board {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  min-height: 600px;
+  background: #f9f9f9; /* Subtle background for the entire board */
+  overflow-x: auto;
+}
+
+.status-column {
+  flex: 1;
+  background: linear-gradient(to bottom, #fafafa, #f2f2f2);
+  padding: 1rem;
+  border-radius: 8px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.status-column:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.status-header {
+  display: flex;
+  justify-content: center;  /* Centering the column label */
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.status-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+  text-align: center; /* Ensure text is centered */
+}
+
+.cards-container {
+  flex: 1;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Modified card styling without a white background */
+.kanban-card {
+  padding: 1rem;
+  cursor: grab;
+  //transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+  transform: scale(1.01);
+  //transform: scale(1);
+}
+
+/* Highlight column during drag */
+.status-column.p-droppable-highlight {
+  background: #e6f7ff;
+  border: 2px dashed #1890ff;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .status-board {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+}
+
+
