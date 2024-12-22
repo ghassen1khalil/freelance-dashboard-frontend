@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewPasswordFormComponent } from './new-password-form.component';
+import {NewPasswordFormComponent} from './new-password-form.component';
 
 describe('NewPasswordFormComponent', () => {
   let component: NewPasswordFormComponent;

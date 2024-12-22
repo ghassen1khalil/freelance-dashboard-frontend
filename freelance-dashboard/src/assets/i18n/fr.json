@@ -184,6 +184,8 @@
   "POSITIONED": "Positionné",
   "INTERVIEW_PLANNED": "Entretien planifié",
   "WAITING_FOR_RESPONSE": "En attente du retour client",
-  "RESPONSE_RECEIVED": "Réponse reçue"
+  "RESPONSE_RECEIVED": "Réponse reçue",
+  "areYouAcceptedHeader" : "Confirmation",
+  "areYouAccepted" : "Avez-vous été retenu(e) pour la mission ?"
 
 }

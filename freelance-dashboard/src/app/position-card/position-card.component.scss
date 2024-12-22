@@ -1,13 +1,30 @@
 .simple-card {
   background-color: white;
+  border: 1px solid #ddd;
   border-radius: 1rem;
-  box-shadow: 0 12px 0.875rem 0 rgb(0 0 0 / 6%);
   padding: 16px;
-  margin: 24px;
-  max-width: 400px;
+  //margin: 24px;
+  //max-width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: grab;
+
+  /* Smooth transitions for hover effects */
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+  /* On hover, slightly enhance the border and add a light shadow */
+  &:hover {
+    border-color: #ccc;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* On active (dragging), indicate a grabbing state and subtle scale */
+  &:active {
+    cursor: grabbing;
+    //transform: scale(1.01);
+    //transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
 }
 
 .card-header {
@@ -21,7 +38,6 @@
   font-size: 16px;
   color: #555;
 }
-
 
 .menu-button {
   display: flex;

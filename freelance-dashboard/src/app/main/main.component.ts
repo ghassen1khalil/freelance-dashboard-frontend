@@ -5,7 +5,6 @@ import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import * as filterReducer from '../../core/store/reducers/filter.reducer'
 import {Router} from '@angular/router';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
 
 @Component({

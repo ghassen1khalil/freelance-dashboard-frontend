@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EmojiComponent } from './emoji.component';
+import {EmojiComponent} from './emoji.component';
 
 describe('EmojiComponent', () => {
   let component: EmojiComponent;

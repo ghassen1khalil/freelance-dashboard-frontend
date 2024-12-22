@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Position, PositionState} from '../../../generated';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-positions',
@@ -10,9 +11,13 @@ export class PositionsComponent implements OnInit {
 
   positions: Position[] = [];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  public goToAddPosition() {
+    this.router.navigate(['/', 'position']);
   }
 
   protected readonly PositionState = PositionState;

@@ -103,29 +103,10 @@ export class PositionCardComponent implements OnInit {
     });
   }
 
-  /*private getLatestStatus(): string | undefined {
-    return this.position.statuses?.slice(-1)[0].label
-  }
-
-  private getCurrency(): string | undefined {
-    return this.position.dailyRate?.currency;
-  }*/
-
 
   private editPosition() {
     this.store.dispatch(EditPosition({positionToEdit: this.position}));
     this.router.navigate(['/', 'position']);
-  }
-
-  onDragStart() {
-    console.log('dragging position ' + this.position.client);
-    const element = document.querySelector('.simple-card');
-    element?.classList.add('dragging');
-  }
-
-  onDragEnd() {
-    const element = document.querySelector('.simple-card');
-    element?.classList.remove('dragging');
   }
 
 }

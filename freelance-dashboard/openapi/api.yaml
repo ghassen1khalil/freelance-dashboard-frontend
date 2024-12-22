@@ -382,6 +382,8 @@ components:
         startingDate:
           type: string
           format: date
+        isFreelancerAccepted:
+          type: boolean
         intermediary:
           $ref: '#/components/schemas/Intermediary'
         dailyRate:

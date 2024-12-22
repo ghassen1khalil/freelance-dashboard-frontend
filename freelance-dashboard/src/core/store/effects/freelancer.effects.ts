@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {FreelancerService} from '../../../../generated';
-import {catchError, map, mergeMap, Observable, of, switchMap} from 'rxjs';
+import {catchError, map, mergeMap, Observable, switchMap} from 'rxjs';
 import {Action} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import * as FreelancerActions from '../actions/freelancer.actions';

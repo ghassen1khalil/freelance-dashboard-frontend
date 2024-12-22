@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { LoaderManagerService } from './loader-manager.service';
+import {LoaderManagerService} from './loader-manager.service';
 
 describe('LoaderManagerService', () => {
   let service: LoaderManagerService;

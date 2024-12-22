@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '@auth0/auth0-angular';
 import {Store} from '@ngrx/store';
 import {Login, LoginViaSocial} from '../../../core/store/actions/auth.actions';
 import {EncryptionService} from '../../../core/services/encryption.service';
