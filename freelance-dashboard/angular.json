@@ -113,7 +113,6 @@
       }
     }
   },
-  "defaultProject": "freelance-dashboard",
   "cli": {
     "analytics": false
   }
