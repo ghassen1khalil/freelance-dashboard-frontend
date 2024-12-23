@@ -53,7 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StoreModule.forRoot(reducers, /*{ metaReducers }*/),
     EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects/*HydrationEffects*/]),
     AuthModule.forRoot({...env.auth}),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
 
     /**PrimeNG**/
     ButtonModule,
