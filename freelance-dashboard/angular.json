@@ -78,10 +78,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "freelance-dashboard:build:production"
+              "buildTarget": "freelance-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "freelance-dashboard:build:development"
+              "buildTarget": "freelance-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "freelance-dashboard:build"
+            "buildTarget": "freelance-dashboard:build"
           }
         },
         "test": {
