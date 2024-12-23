@@ -1,36 +1,38 @@
 import {Position, PositionState} from '../../../generated';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {DateService} from '../services/date.service';
 import * as PositionActions from '../store/actions/position.actions';
 import {Store} from '@ngrx/store';
 import {Injectable} from '@angular/core';
+import {NullityUtilService} from './nullity-util.service';
+
 
 @Injectable()
 export class PositionUtils {
 
   constructor(private dateService: DateService,
-              private store: Store) {
+              private store: Store,
+              private nullityUtilService: NullityUtilService) {
   }
 
   public initPositionFormGroup(positionToEdit: Position | undefined): FormGroup {
    return new FormGroup({
-      startingDate: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.startingDate : '', [Validators.required]),
-      client: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.client : '', [Validators.required]),
-      address: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.address : '', [Validators.required]),
-      isFullRemote: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.isFullRemote : ''),
-      dailyRate: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.dailyRate?.amount : '', [Validators.required]),
-      currency: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.dailyRate?.currency : '', [Validators.required]),
-      role: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.role : '', [Validators.required]),
-      project: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.project : ''),
-      tribe: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.tribe : ''),
-      manager: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.manager : ''),
-      intermediaryCorporation: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.corporation : '', [Validators.required]),
-      intermediaryName: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.name : '', [Validators.required]),
-      intermediaryPhones: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.phones : ''),
-      intermediaryEmail: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.email : '', [Validators.email]),
-      remarks: new FormControl(isNotNullOrUndefined(positionToEdit) ? positionToEdit?.remarks : ''),
-      initialStatus: new FormControl('', isNotNullOrUndefined(positionToEdit) ? [] : [Validators.required]),
+      startingDate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.startingDate : '', [Validators.required]),
+      client: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.client : '', [Validators.required]),
+      address: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.address : '', [Validators.required]),
+      isFullRemote: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.isFullRemote : ''),
+      dailyRate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.dailyRate?.amount : '', [Validators.required]),
+      currency: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.dailyRate?.currency : '', [Validators.required]),
+      role: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.role : '', [Validators.required]),
+      project: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.project : ''),
+      tribe: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.tribe : ''),
+      manager: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.mission?.manager : ''),
+      intermediaryCorporation: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.corporation : '', [Validators.required]),
+      intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.name : '', [Validators.required]),
+      intermediaryPhones: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.phones : ''),
+      intermediaryEmail: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.intermediary?.email : '', [Validators.email]),
+      remarks: new FormControl(this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? positionToEdit?.remarks : ''),
+      initialStatus: new FormControl('', this.nullityUtilService.isNotNullOrUndefined(positionToEdit) ? [] : [Validators.required]),
     });
   }
 
@@ -69,7 +71,7 @@ export class PositionUtils {
   }
 
   public clearPositionToEditAndForm(form: FormGroup, position: Position | undefined) {
-    if (isNotNullOrUndefined(position)) {
+    if (this.nullityUtilService.isNotNullOrUndefined(position)) {
       this.store.dispatch(PositionActions.ResetPositionToEdit())
       form.setValue({
         startingDate: '',

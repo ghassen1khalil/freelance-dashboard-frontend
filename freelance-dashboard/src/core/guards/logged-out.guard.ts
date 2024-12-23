@@ -1,20 +1,12 @@
 import {Injectable} from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanLoad,
-  Route,
-  RouterStateSnapshot,
-  UrlSegment,
-  UrlTree
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import {Observable, of, switchMap} from 'rxjs';
 import {AuthService} from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedOutGuard implements CanLoad, CanActivate {
+export class LoggedOutGuard  {
 
   constructor(private authService: AuthService) {
   }

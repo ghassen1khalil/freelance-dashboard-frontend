@@ -5,7 +5,6 @@ import {Freelancer} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {debounceTime, Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {Logout} from '../../core/store/actions/auth.actions';
 import {FetchPositions} from '../../core/store/actions/position.actions';
 import {FormControl} from '@angular/forms';
@@ -13,6 +12,7 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import {NavigationEnd, Router} from '@angular/router';
 import {FilterPositions, ResetFilter} from '../../core/store/actions/filter.actions';
 import {TranslateService} from '@ngx-translate/core';
+import {NullityUtilService} from '../../core/utils/nullity-util.service';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +30,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(public auth: AuthService,
               private store: Store,
               private router: Router,
-              private translate: TranslateService,) {
+              private translate: TranslateService,
+              private nullityUtilService: NullityUtilService) {
     this.freelancer = undefined;
     this.setupSearchDebouncing();
     this.resetSearchFieldWhenNavigationChange();
@@ -41,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       select(getAuth),
       takeUntil(this.unsubscribe$)
     ).subscribe(authState => {
-      if (isNotNullOrUndefined(authState.freelancer)) {
+      if (this.nullityUtilService.isNotNullOrUndefined(authState.freelancer)) {
         this.freelancer = {
           name: authState.freelancer?.name,
           firstname: authState.freelancer?.firstname,
@@ -61,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe((searchKeyword: string) => {
-        if (isNotNullOrUndefined(searchKeyword)) {
+        if (this.nullityUtilService.isNotNullOrUndefined(searchKeyword)) {
           if (searchKeyword.length === 0) {
             this.store.dispatch(ResetFilter());
             this.store.dispatch(FetchPositions());
