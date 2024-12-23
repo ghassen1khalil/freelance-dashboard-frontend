@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanLoad, Route, Router, UrlSegment, UrlTree} from '@angular/router';
+import { Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import {Observable, of, switchMap} from 'rxjs';
 import {AuthService} from '@auth0/auth0-angular';
 import {select, Store} from '@ngrx/store';
@@ -8,7 +8,7 @@ import * as authReducer from '../store/reducers/auth.reducers';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedInGuard implements CanLoad {
+export class LoggedInGuard  {
 
   public constructor(private authService: AuthService,
                      private store: Store,

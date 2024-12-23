@@ -6,8 +6,8 @@ import * as PositionActions from '../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {getPositionToEdit} from '../../core/store/reducers/position.reducer';
-import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
 import {PositionUtils} from '../../core/utils/position-utils';
+import {NullityUtilService} from '../../core/utils/nullity-util.service';
 
 @Component({
   selector: 'app-add-position',
@@ -26,7 +26,8 @@ export class PositionComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<{ positions: Position[] }>,
               private router: Router,
-              private positionUtils: PositionUtils) {
+              private positionUtils: PositionUtils,
+              private nullityUtilService: NullityUtilService) {
   }
 
   ngOnInit(): void {
@@ -34,7 +35,7 @@ export class PositionComponent implements OnInit, OnDestroy {
       select(getPositionToEdit),
       takeUntil(this.unsubscribe$)
     ).subscribe(positionToEdit => {
-      if (isNotNullOrUndefined(positionToEdit)) {
+      if (this.nullityUtilService.isNotNullOrUndefined(positionToEdit)) {
         this.positionToEdit = positionToEdit;
         this.isEditMode = true;
       }
