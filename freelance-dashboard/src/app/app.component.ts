@@ -4,7 +4,7 @@ import {Event} from '../core/store/models/models';
 import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
-import {MessageService, PrimeNGConfig} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {getAuth} from '../core/store/reducers/auth.reducers';
 
 @Component({
@@ -21,15 +21,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
-              private config: PrimeNGConfig,
-              private messageService: MessageService,
-              private primengConfig: PrimeNGConfig) {
+              private messageService: MessageService) {
     this.translateService.use('fr');
-    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+    //this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
     this.checkIfHeaderIsShown();
     this.listenToNotification();
 

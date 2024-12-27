@@ -7,6 +7,7 @@ import {StatusBoardComponent} from '../positions-board/status-board.component';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {DrawerComponent} from '../drawer/drawer.component';
+import {Drawer} from 'primeng/drawer';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {DrawerComponent} from '../drawer/drawer.component';
     StatusBoardComponent,
     ButtonModule,
     RippleModule,
-    DrawerComponent
+    DrawerComponent,
+    Drawer
   ]
 })
 export class PositionsModule { }

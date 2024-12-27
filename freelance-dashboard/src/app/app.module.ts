@@ -26,7 +26,6 @@ import {FilterEffects} from '../core/store/effects/filter.effects';
 import {FooterModule} from '../partials/components/footer/footer.module';
 import {FreelancerEffects} from '../core/store/effects/freelancer.effects';
 import {PasswordResetTokenEffects} from '../core/store/effects/password-reset-token.effects';
-import { DrawerComponent } from './drawer/drawer.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);

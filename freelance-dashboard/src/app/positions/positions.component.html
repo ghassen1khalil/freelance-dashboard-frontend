@@ -20,9 +20,17 @@
 
   <button (click)="isDrawerVisible = true">Open Drawer</button>
 
-  <app-drawer [position]="'right'" [visible]="isDrawerVisible" (visibleChange)="toggleDrawer($event)">
+  <!--<app-drawer [position]="'right'" [visible]="isDrawerVisible" (visibleChange)="toggleDrawer($event)">
     <h3>Drawer Content</h3>
     <p>Place your custom content here.</p>
     <button (click)="isDrawerVisible = false">Close</button>
-  </app-drawer>
+  </app-drawer>-->
+
+  <p-drawer header="Right Drawer" [(visible)]="isDrawerVisible" position="right">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+      aliquip ex ea commodo consequat.
+    </p>
+  </p-drawer>
 </ng-container>

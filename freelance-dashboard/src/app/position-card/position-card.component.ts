@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
+import {ConfirmationService, MenuItem, PrimeIcons} from 'primeng/api';
 import {Position, PositionState} from '../../../generated';
 import {EditPosition, UpdatePosition} from '../../core/store/actions/position.actions';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
@@ -32,13 +32,11 @@ export class PositionCardComponent implements OnInit {
   constructor(private translate: TranslateService,
               private store: Store,
               private confirmationService: ConfirmationService,
-              private primengConfig: PrimeNGConfig,
               private router: Router,
               private positionUtils: PositionUtils) {
   }
 
   ngOnInit(): void {
-    this.primengConfig.ripple = true;
     this.initializeActionsMenu(this.position.state!);
   }
 

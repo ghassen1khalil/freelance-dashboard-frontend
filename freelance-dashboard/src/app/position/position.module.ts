@@ -9,11 +9,11 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {FieldsetModule} from 'primeng/fieldset';
 import {RippleModule} from 'primeng/ripple';
-import {InputTextareaModule} from 'primeng/inputtextarea';
 import {TimelineModule} from 'primeng/timeline';
 import {CalendarModule} from 'primeng/calendar';
 import {PositionRoutingModule} from './position-routing.module';
 import {DropdownModule} from 'primeng/dropdown';
+import {TextareaModule} from 'primeng/textarea';
 
 
 @NgModule({
@@ -34,11 +34,11 @@ import {DropdownModule} from 'primeng/dropdown';
     FormsModule,
     FieldsetModule,
     RippleModule,
-    InputTextareaModule,
+    TextareaModule,
     TimelineModule,
     CalendarModule,
     PositionRoutingModule,
-    DropdownModule
+    DropdownModule,
   ]
 })
 export class PositionModule {
