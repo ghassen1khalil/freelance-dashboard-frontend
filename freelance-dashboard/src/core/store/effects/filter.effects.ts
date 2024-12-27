@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {FilterPositions} from '../actions/filter.actions';
 import {Injectable} from '@angular/core';
 

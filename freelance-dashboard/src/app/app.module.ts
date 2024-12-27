@@ -7,7 +7,7 @@ import {ButtonModule} from 'primeng/button';
 import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {RippleModule} from 'primeng/ripple';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BasePathProviderService} from '../core/services/base-path-provider.service';
 import {environment, environment as env} from '../environments/environment';
@@ -31,52 +31,44 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    /**Angular**/
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-
-    /**Third parties**/
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'fr'
-    }),
-    StoreModule.forRoot(reducers, /*{ metaReducers }*/),
-    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects/*HydrationEffects*/]),
-    AuthModule.forRoot({...env.auth}),
-    !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
-
-    /**PrimeNG**/
-    ButtonModule,
-    RippleModule,
-    ToastModule,
-
-    /**Freelance Dahsboard**/
-    AppRoutingModule,
-    HeaderModule,
-    LoaderComponent,
-    FooterModule,
-   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true,
-    },
-    HttpClient,
-    BasePathProviderService,
-    provideAnimations()
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+    ],
+    bootstrap: [AppComponent], imports: [
+        /**Angular**/
+        BrowserModule,
+        BrowserAnimationsModule,
+        /**Third parties**/
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            },
+            defaultLanguage: 'fr'
+        }),
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
+        AuthModule.forRoot({ ...env.auth }),
+        !environment.production ? StoreDevtoolsModule.instrument({ connectInZone: true }) : [],
+        /**PrimeNG**/
+        ButtonModule,
+        RippleModule,
+        ToastModule,
+        /**Freelance Dahsboard**/
+        AppRoutingModule,
+        HeaderModule,
+        LoaderComponent,
+        FooterModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
+            multi: true,
+        },
+        HttpClient,
+        BasePathProviderService,
+        provideAnimations(),
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }

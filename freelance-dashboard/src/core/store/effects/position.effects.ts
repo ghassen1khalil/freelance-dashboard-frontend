@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, finalize, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {Router} from '@angular/router';
 import {LaunchEvent} from '../actions/event.actions';
 import {EventType} from '../models/models';

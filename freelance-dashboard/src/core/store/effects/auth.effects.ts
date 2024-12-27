@@ -13,7 +13,7 @@ import {
 } from '../actions/auth.actions';
 import * as PositionActions from '../actions/position.actions';
 import {LaunchEvent} from '../actions/event.actions';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AuthService} from '@auth0/auth0-angular';
 import {EventType} from '../models/models';

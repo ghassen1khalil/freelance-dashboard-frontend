@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {InformationsUpdateRequest, PasswordUpdateRequest} from '../../../../generated';
 
 export const UpdateFreelancerInformations = createAction(
