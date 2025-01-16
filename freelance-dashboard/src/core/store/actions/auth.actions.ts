@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Freelancer} from '../../../../generated';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const SetFreelancer = createAction(
   '[AUTH] - Set Freelancer',

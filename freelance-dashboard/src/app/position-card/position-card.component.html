@@ -8,6 +8,22 @@
       <p-menu #menu [popup]="true" [model]="menuActions"></p-menu>
       <button pButton icon="pi pi-ellipsis-h" class="menu-icon p-button-outlined" (click)="menu.toggle($event)"></button>
     </div>-->
+    <div class="menu-button">
+      <!--<button pButton icon="pi pi-ellipsis-h" class="menu-icon p-button-outlined" (click)="testABC()"></button>-->
+      <p-button variant="outlined"
+                [icon]="position.state === PositionState.Archived ? 'pi pi-refresh' : 'pi pi-briefcase'"
+                (click)="switchPositionState()"
+                [rounded]="true"
+                [text]="true"
+                [pTooltip]="(position.state === PositionState.Archived
+               ? 'refreshPosition'
+               : 'archivePosition')
+               | translate"
+                showDelay="1000"
+                hideDelay="300"/>
+
+      <!--<p-button icon="pi pi-check" [rounded]="true" [text]="true" />-->
+    </div>
   </div>
 
   <div class="card-body">
@@ -26,6 +42,10 @@
   </div>
 
   <div class="card-footer">
-    <button pButton type="button" label="{{'view' | translate}}" class="consult-button"></button>
+    <p-button variant="outlined"
+              rounded="true"
+              (click)="viewPositionDetails()"
+              label="{{ 'view' | translate }}">
+    </p-button>
   </div>
 </div>

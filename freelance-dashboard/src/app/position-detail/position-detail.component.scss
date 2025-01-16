@@ -1,0 +1,42 @@
+.drawer-title {
+  font-weight: var(--p-drawer-title-font-weight);
+  font-size: var(--p-drawer-title-font-size);
+}
+
+.drawer-width {
+  width: 32rem!important;
+}
+
+::ng-deep .p-datepicker {
+  min-width: 100%;
+}
+
+::ng-deep .p-fieldset {
+  width: 100%;
+}
+
+::ng-deep .p-fieldset {
+  border-radius: 2rem;
+}
+
+::ng-deep .p-fieldset .p-fieldset-legend {
+  border-radius: 2rem;
+}
+
+::ng-deep .p-floatlabel {
+  min-width: 100%!important;
+}
+
+textarea {
+  min-width: 100%!important;
+}
+
+.fixed-button-width {
+  width: 28.875rem!important;
+  min-width: 28.875rem!important;
+}
+
+.p-button-drawer {
+  width: 28.875rem!important;
+  min-width: 28.875rem!important;
+}

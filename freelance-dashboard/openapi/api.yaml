@@ -265,7 +265,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
               properties:
@@ -358,7 +358,7 @@ components:
         - '@lombok.AllArgsConstructor'
         - '@lombok.NoArgsConstructor'
         - |
-          @org.springframework.data.mongodb.core.index.CompoundIndexes({@org.springframework.data.mongodb.core.index.CompoundIndex(name = "text_idx", def = "{'client': 'text', 'address': 'text', 'isFullRemote': 'text', 'remarks': 'text', 'mission.role': 'text', 'mission.project': 'text', 'mission.tribe': 'text', 'mission.manager': 'text', 'intermediary.corporation': 'text', 'intermediary.name': 'text', 'dailyRate.amount': text}")})
+          @org.springframework.data.mongodb.core.index.CompoundIndexes({@org.springframework.data.mongodb.core.index.CompoundIndex(name = "text_idx", def = "{'client': 'text', 'address': 'text', 'isFullRemote': 'text', 'notes': 'text', 'mission.role': 'text', 'mission.project': 'text', 'mission.team': 'text', 'mission.manager': 'text', 'intermediary.corporation': 'text', 'intermediary.name': 'text', 'dailyRate.amount': text}")})
       type: object
       properties:
         id:
@@ -369,9 +369,9 @@ components:
           $ref: '#/components/schemas/Mission'
         address:
           type: string
-        isFullRemote:
-          type: boolean
-        remarks:
+        remoteDays:
+          type: number
+        notes:
           type: string
         creationDate:
           type: string
@@ -401,7 +401,7 @@ components:
           type: string
         project:
           type: string
-        tribe:
+        team:
           type: string
         manager:
           type: string

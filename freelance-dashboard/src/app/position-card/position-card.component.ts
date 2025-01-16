@@ -1,26 +1,29 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfirmationService, MenuItem, PrimeIcons, PrimeNGConfig} from 'primeng/api';
+import {ConfirmationService, MenuItem, PrimeIcons} from 'primeng/api';
 import {Position, PositionState} from '../../../generated';
-import {EditPosition, UpdatePosition} from '../../core/store/actions/position.actions';
+import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {PositionUtils} from '../../core/utils/position-utils';
+import {PositionDetailUtilService} from '../position-detail/position-detail-util.service';
 import {MenuModule} from 'primeng/menu';
 import {DragDropModule} from 'primeng/dragdrop';
 import {ButtonModule} from 'primeng/button';
+import {OpenPositionDetailsDrawer} from '../../core/store/actions/position-details-drawer.actions';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-position-card',
   templateUrl: './position-card.component.html',
   styleUrls: ['./position-card.component.scss'],
-  providers: [ConfirmationService, PositionUtils],
+  providers: [ConfirmationService, PositionDetailUtilService],
   standalone: true,
   imports: [
     MenuModule,
     DragDropModule,
     TranslateModule,
-    ButtonModule
+    ButtonModule,
+    Tooltip
   ]
 })
 export class PositionCardComponent implements OnInit {
@@ -32,17 +35,22 @@ export class PositionCardComponent implements OnInit {
   constructor(private translate: TranslateService,
               private store: Store,
               private confirmationService: ConfirmationService,
-              private primengConfig: PrimeNGConfig,
               private router: Router,
-              private positionUtils: PositionUtils) {
+              private positionUtils: PositionDetailUtilService) {
   }
 
   ngOnInit(): void {
-    this.primengConfig.ripple = true;
-    this.initializeActionsMenu(this.position.state!);
+    //this.initializeActionsMenu(this.position.state!);
   }
 
-  private initializeActionsMenu(state: PositionState) {
+  public viewPositionDetails() {
+    this.store.dispatch(OpenPositionDetailsDrawer({
+      position: this.position,
+      isDrawerShown: true
+    }));
+  }
+
+  /*private initializeActionsMenu(state: PositionState) {
     this.translate.get(
       ['position-contextual-menu.title',
         'position-contextual-menu.edit',
@@ -81,10 +89,15 @@ export class PositionCardComponent implements OnInit {
         ]
       }];
     });
-  }
+  }*/
 
 
-  private confirmDeletion() {
+  /*public editPosition() {
+    this.store.dispatch(EditPosition({positionToEdit: this.position}));
+    //this.router.navigate(['/', 'position']);
+  }*/
+
+  /*private confirmDeletion() {
     this.translate.get([
       'delete-modal.position.areYouSure',
       'delete-modal.confirmation',
@@ -101,12 +114,15 @@ export class PositionCardComponent implements OnInit {
         }
       });
     });
+  }*/
+
+  public switchPositionState() {
+    this.store.dispatch(
+      UpdatePosition({
+        position: this.positionUtils.updatePositionState(this.position, this.position.state === PositionState.Active ? PositionState.Archived : PositionState.Active)
+      })
+    );
   }
 
-
-  private editPosition() {
-    this.store.dispatch(EditPosition({positionToEdit: this.position}));
-    this.router.navigate(['/', 'position']);
-  }
-
+  protected readonly PositionState = PositionState;
 }

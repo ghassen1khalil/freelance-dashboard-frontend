@@ -8,7 +8,7 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import {Position, PositionState} from '../../../generated';
+import {PositionState} from '../../../generated';
 
 @Component({
   selector: 'app-accordion',
@@ -18,32 +18,23 @@ import {Position, PositionState} from '../../../generated';
 export class AccordionComponent implements OnInit, AfterViewChecked, OnChanges {
 
   @Input() title: string;
-  @Input() positions: Position[];
-  @Input() isArchive: boolean;
-  @Input() onlyArchived: boolean;
-  @Input() isLatestYear: boolean;
-
+  @Input() public isExpanded: boolean;
   @Input() public positionState: PositionState;
-
-  expanded: boolean;
   contentHeight: string;
 
-  constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.isArchive) {
-      this.expanded = this.onlyArchived;
-    } else {
-      this.expanded = this.isLatestYear;
-      this.calculateContentHeight();
-      this.cdRef.detectChanges();
-    }
+  constructor(private elementRef: ElementRef, private cdRef: ChangeDetectorRef) {
   }
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.calculateContentHeight();
+    this.cdRef.detectChanges();
+  }
+
+  ngOnInit(): void {
+  }
 
   public toggleAccordion() {
-    this.expanded = !this.expanded;
+    this.isExpanded = !this.isExpanded;
   }
 
   ngAfterViewChecked() {

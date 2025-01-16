@@ -4,21 +4,9 @@
           (click)="goToAddPosition()"></button>
 
   <ng-container *ngFor="let year of positionsYears">
-    <app-accordion [title]="year"
-                   [positions]="positionsMap[year]"
-                   [isArchive]="false"
-                   [onlyArchived]="onlyArchived"
-                   [isLatestYear]="isLatestYear(year)">
-    </app-accordion>
   </ng-container>
 
   <ng-container *ngIf="positionsMap !== undefined && positionsMap['ARCHIVED'] !== undefined">
-    <app-accordion title="{{'archived' | translate}}"
-                   [positions]="positionsMap['ARCHIVED']"
-                   [isArchive]="true"
-                   [onlyArchived]="onlyArchived"
-                   [isLatestYear]="false">
-    </app-accordion>
   </ng-container>
 
   <div *ngIf="isNoPositionsYet">

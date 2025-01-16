@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-//@import '~gridlex/dist/gridlex.min.css';
-//@import '~primeflex/primeflex.scss';
-@import '../node_modules/primeflex/primeflex';
 @import 'assets/fonts/spoof/stylesheet.css';
 @import 'colors.scss';
+
+
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
 
 html,
 body {
@@ -95,15 +96,9 @@ body {
   margin: auto;
 }
 
-.p-button {
-  border-radius: 1rem !important;
-  height: 45px;
-}
-
 input {
   height: 45px;
   padding-left: 15px !important;
-  border-radius: 1rem !important;
 }
 
 textarea {
@@ -122,4 +117,12 @@ p-dropdown {
 
 .pointer {
   cursor: pointer;
+}
+
+.fd-justify-content-center {
+  justify-content: center;
+}
+
+.fd-justify-content-end {
+  justify-content: flex-end;
 }
