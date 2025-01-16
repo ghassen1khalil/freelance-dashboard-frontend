@@ -7,6 +7,7 @@
   "allRightsReserved": "Tous les droits sont réservés.",
   "app-title": "Freelance Dashboard",
   "archived": "Archivés",
+  "onGoing": "En cours",
   "atLeastOneDigit": "Au moins un chiffre",
   "atLeastOneLowercase": "Au moins une lettre en minuscule",
   "atLeastOneSymbol": "Au moins un caractère spécial",
@@ -154,7 +155,7 @@
   "search": "Rechercher des positionnements",
   "signInViaGoogle": "S'inscrire avec Google",
   "signInViaLinkedIn": "S'inscrire' avec Linkedin",
-  "startingDate": "Date de commencement*",
+  "startingDate": "Date de démarrage prévue*",
   "statusHistory": "Historique des statuts",
   "success": "Succès",
   "suggestions": "Suggestions",
@@ -186,6 +187,14 @@
   "WAITING_FOR_RESPONSE": "En attente du retour client",
   "RESPONSE_RECEIVED": "Réponse reçue",
   "areYouAcceptedHeader" : "Confirmation",
-  "areYouAccepted" : "Avez-vous été retenu(e) pour la mission ?"
+  "areYouAccepted" : "Avez-vous été retenu(e) pour la mission ?",
+  "remote" : "Télétravail",
+  "daysPerWeek": "(j/s)",
+  "team": "Équipe",
+  "notes": "Notes",
+  "ok": "OK",
+  "close": "Fermer",
+  "refreshPosition": "Réactiver le positionnement",
+  "archivePosition": "Archiver le positionnement"
 
 }

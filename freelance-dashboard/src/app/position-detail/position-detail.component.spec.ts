@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrawerComponent } from './drawer.component';
+import { PositionDetailComponent } from './position-detail.component';
 
-describe('DrawerComponent', () => {
-  let component: DrawerComponent;
-  let fixture: ComponentFixture<DrawerComponent>;
+describe('PositionDetailComponent', () => {
+  let component: PositionDetailComponent;
+  let fixture: ComponentFixture<PositionDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DrawerComponent ]
+      imports: [PositionDetailComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DrawerComponent);
+    fixture = TestBed.createComponent(PositionDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

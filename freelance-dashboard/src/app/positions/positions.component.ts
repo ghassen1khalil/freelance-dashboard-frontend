@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Position, PositionState} from '../../../generated';
+import { Component} from '@angular/core';
+import {PositionState} from '../../../generated';
 import {Router} from '@angular/router';
 
 @Component({
@@ -7,23 +7,13 @@ import {Router} from '@angular/router';
   templateUrl: './positions.component.html',
   styleUrls: ['./positions.component.scss']
 })
-export class PositionsComponent implements OnInit {
+export class PositionsComponent  {
 
-  positions: Position[] = [];
-  public isDrawerVisible = false;
+  protected readonly PositionState = PositionState;
 
   constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
-
-  public toggleDrawer(event: boolean) {
-    this.isDrawerVisible = event;
-  }
 
   public goToAddPosition() {
     this.router.navigate(['/', 'position']);
   }
-
-  protected readonly PositionState = PositionState;
 }

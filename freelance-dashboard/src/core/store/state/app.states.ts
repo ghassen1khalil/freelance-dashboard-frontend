@@ -7,7 +7,8 @@ export interface AppState {
   authState: AuthState;
   loaderState: LoaderState;
   filterState: FilterState;
-  passwordResetTokenState: PasswordResetTokenState
+  passwordResetTokenState: PasswordResetTokenState;
+  positionDetailsDrawerState: PositionDetailsDrawerState;
 }
 
 export interface PositionState {
@@ -36,4 +37,9 @@ export interface FilterState {
 
 export interface PasswordResetTokenState {
   isTokenValid: boolean;
+}
+
+export interface PositionDetailsDrawerState {
+  isDrawerShown: boolean;
+  position: Position | undefined;
 }

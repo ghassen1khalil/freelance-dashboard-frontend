@@ -6,14 +6,14 @@ import * as PositionActions from '../../core/store/actions/position.actions';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {getPositionToEdit} from '../../core/store/reducers/position.reducer';
-import {PositionUtils} from '../../core/utils/position-utils';
+import {PositionDetailUtilService} from '../position-detail/position-detail-util.service';
 import {NullityUtilService} from '../../core/utils/nullity-util.service';
 
 @Component({
   selector: 'app-add-position',
   templateUrl: './position.component.html',
   styleUrls: ['./position.component.scss'],
-  providers: [PositionUtils]
+  providers: [PositionDetailUtilService]
 })
 export class PositionComponent implements OnInit, OnDestroy {
 
@@ -26,7 +26,7 @@ export class PositionComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<{ positions: Position[] }>,
               private router: Router,
-              private positionUtils: PositionUtils,
+              private positionUtils: PositionDetailUtilService,
               private nullityUtilService: NullityUtilService) {
   }
 
@@ -66,10 +66,4 @@ export class PositionComponent implements OnInit, OnDestroy {
     this.positionUtils.clearPositionToEditAndForm(this.positionForm, this.positionToEdit);
     this.unsubscribe$.complete();
   }
-
-  /*public addStatus() {
-    if (isNotNullOrUndefined(this.addPositionForm.controls['newStatus'].value)) {
-      this.statusHistory.push(this.addPositionForm.controls['newStatus'].value);
-    }
-  }*/
 }

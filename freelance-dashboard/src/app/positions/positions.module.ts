@@ -6,8 +6,9 @@ import {AccordionModule} from '../accordion/accordion.module';
 import {StatusBoardComponent} from '../positions-board/status-board.component';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
-import {DrawerComponent} from '../drawer/drawer.component';
 import {Drawer} from 'primeng/drawer';
+import {PositionDetailComponent} from '../position-detail/position-detail.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,9 @@ import {Drawer} from 'primeng/drawer';
     StatusBoardComponent,
     ButtonModule,
     RippleModule,
-    DrawerComponent,
-    Drawer
+    Drawer,
+    PositionDetailComponent,
+    TranslatePipe
   ]
 })
 export class PositionsModule { }

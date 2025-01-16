@@ -32,7 +32,7 @@ export class AuthEffects {
 
   Login$: Observable<Action> = createEffect(() => this.action$.pipe(
     ofType(AuthActions.Login),
-    mergeMap(action => this.freelancerService.login(action.email, action.password).pipe(
+    mergeMap(action => this.freelancerService.login({email: action.email, password: action.password}).pipe(
       mergeMap((freelancer) => {
         return [
           AuthActions.SetAuthStatus({isAuthenticated: true}),
