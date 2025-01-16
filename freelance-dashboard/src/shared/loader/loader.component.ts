@@ -6,7 +6,6 @@ import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import {getLoader} from '../../core/store/reducers/loader.reducers';
 import {BlockUIModule} from 'primeng/blockui';
-import {PrimeNGConfig} from 'primeng/api';
 
 @Component({
   selector: 'app-loader',
@@ -22,11 +21,10 @@ export class LoaderComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
 
-  constructor(private store: Store, private primengConfig: PrimeNGConfig) {
+  constructor(private store: Store) {
   }
 
   ngOnInit(): void {
-    this.primengConfig.ripple = true;
     this.store.pipe(
       select(getLoader),
       takeUntil(this.unsubscribe$)
