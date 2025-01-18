@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
 import {PositionState} from '../../../generated';
 import {Router} from '@angular/router';
+import {Store} from "@ngrx/store";
+import {OpenPositionDetailsDrawer} from "../../core/store/actions/position-details-drawer.actions";
 
 @Component({
   selector: 'app-positions',
@@ -11,9 +13,15 @@ export class PositionsComponent  {
 
   protected readonly PositionState = PositionState;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private store: Store) { }
 
   public goToAddPosition() {
-    this.router.navigate(['/', 'position']);
+    let position = {}
+    this.store.dispatch(OpenPositionDetailsDrawer({
+      position: position,
+      isDrawerShown: true,
+      isCreation: true
+    }));
   }
 }

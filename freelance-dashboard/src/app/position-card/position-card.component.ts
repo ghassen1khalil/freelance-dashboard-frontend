@@ -46,7 +46,8 @@ export class PositionCardComponent implements OnInit {
   public viewPositionDetails() {
     this.store.dispatch(OpenPositionDetailsDrawer({
       position: this.position,
-      isDrawerShown: true
+      isDrawerShown: true,
+      isCreation: false
     }));
   }
 
