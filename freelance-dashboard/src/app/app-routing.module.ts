@@ -18,11 +18,6 @@ const routes: Routes = [
     canLoad: [LoggedInGuard]
   },
   {
-    path: 'position',
-    loadChildren: () => import('./position/position.module').then(m => m.PositionModule),
-    canLoad: [LoggedInGuard]
-  },
-  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
     canLoad: [LoggedInGuard]

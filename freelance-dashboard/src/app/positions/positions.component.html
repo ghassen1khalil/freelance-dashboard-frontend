@@ -7,10 +7,12 @@
                  [positionState]="PositionState.Archived"
                  [isExpanded]="false">
   </app-accordion>
+  <p-button rounded="true"
+            icon="pi pi-plus"
+            class="floating"
+            (click)="goToAddPosition()">
 
-  <button style="" pButton pRipple type="button"
-          icon="pi pi-plus" class="floating add-btn p-button-rounded"
-          (click)="goToAddPosition()"></button>
+  </p-button>
 
   <ng-container>
     <app-position-detail></app-position-detail>

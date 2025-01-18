@@ -1,4 +1,4 @@
-import {Position, PositionState} from '../../../generated';
+import {Position, PositionState, StatusLabelEnum} from '../../../generated';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DateService} from '../../core/services/date.service';
 import * as PositionActions from '../../core/store/actions/position.actions';
@@ -53,7 +53,7 @@ export class PositionDetailUtilService {
       client: form.controls['client'].value,
       address: form.controls['address'].value,
       remoteDays: form.controls['remoteDays'].value,
-      isFreelancerAccepted: false,
+      isFreelancerAccepted: isEditMode ? position?.isFreelancerAccepted : false,
       dailyRate: {
         amount: form.controls['dailyRate'].value,
         currency: form.controls['currency'].value
@@ -71,8 +71,9 @@ export class PositionDetailUtilService {
         email: form.controls['intermediaryEmail'].value
       },
       notes: form.controls['notes'].value,
-      statuses: position?.statuses,
-      state: isEditMode ? position?.state : PositionState.Active
+      statuses: isEditMode ? position?.statuses :
+        [{'label': StatusLabelEnum.CommercialSuggestion, 'date': this.dateService.today(DateService.YYYY_MM_DD_FORMAT)}],
+      state: PositionState.Active
     };
   }
 
@@ -108,7 +109,7 @@ export class PositionDetailUtilService {
     };
   }
 
-  public generateOptions(): SelectOption[] {
+  public generateRemoteDaysOptions(): SelectOption[] {
     const options: SelectOption[] = [];
     for (let i = 0; i <= 5; i++) {
       const filledIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-fill.png\">".repeat(i);
@@ -119,7 +120,7 @@ export class PositionDetailUtilService {
     return options;
   }
 
-  public handleSelectedOptionDisplay(selectedOption: SelectOption, options: SelectOption[], position: Position): string {
+  public handleSelectedRemoteDaysOptionDisplay(selectedOption: SelectOption, options: SelectOption[], position: Position): string {
     if (selectedOption) {
       return selectedOption.label;
     } else if (position) {

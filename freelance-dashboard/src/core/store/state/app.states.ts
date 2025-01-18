@@ -42,4 +42,5 @@ export interface PasswordResetTokenState {
 export interface PositionDetailsDrawerState {
   isDrawerShown: boolean;
   position: Position | undefined;
+  isCreation: boolean;
 }
