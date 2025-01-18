@@ -19,6 +19,8 @@ import {SelectOption} from './select-option.interface';
 import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {ConfirmationService} from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import * as PositionActions from "../../core/store/actions/position.actions";
+import {NgIf} from "@angular/common";
 
 
 
@@ -37,7 +39,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     FloatLabel,
     DatePicker,
     Select,
-    ConfirmDialog
+    ConfirmDialog,
+    NgIf
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -49,10 +52,10 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public positionForm: FormGroup;
   public isDrawerVisible = false;
   public currencies: string[] = Object.values(Currency);
-  public isEditMode: boolean = true;
+  public isCreation: boolean;
 
-  public options: SelectOption[] = [];
-  public selectedOption: SelectOption;
+  public remoteDaysOptions: SelectOption[] = [];
+  public remoteDaysSelectedOption: SelectOption;
 
   protected readonly PositionState = PositionState;
 
@@ -64,38 +67,51 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
               private translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.options = this.positionDetailUtil.generateOptions();
+    this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
     this.store.pipe(
       select(getPositionDetailsDrawer),
       takeUntil(this.unsubscribe$)
     ).subscribe(state => {
+      this.isCreation = state.isCreation;
       this.isDrawerVisible = state.isDrawerShown;
       this.position = state.position!;
       this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
     });
   }
 
-  public hasFormChanged(): boolean {
-    return this.positionForm && this.positionForm.dirty;
+  public isButtonShown(button: string): boolean {
+    if (button === 'save') {
+      return this.isCreation;
+    }
+    if (button === 'update') {
+      return !this.isCreation  && !this.positionForm.pristine;
+    }
+    if (button === 'delete') {
+      return !this.isCreation;
+    }
+    return false;
   }
 
-  public closeDrawer(): void {
-    this.isDrawerVisible = false;
-  }
-
-  public onChange(event: any): void {
-    this.selectedOption = {
-      label: this.options.filter(option => event.value === option.value)[0].label,
+  public onRemoteDaysSelectedOptionChange(event: any): void {
+    this.remoteDaysSelectedOption = {
+      label: this.remoteDaysOptions.filter(option => event.value === option.value)[0].label,
       value: event.value
     };
   }
 
-  public switchPositionState(): void {
-    this.store.dispatch(
-      UpdatePosition({
-        position: this.positionDetailUtil.updatePositionState(this.position, undefined)
-      })
-    );
+  public savePosition() {
+    if (this.positionForm.valid) {
+      this.store.dispatch(PositionActions.SavePosition({
+        position: this.positionDetailUtil.createPositionFromForm(false, this.positionForm, this.position)
+      }));
+      this.closeDrawer();
+    }
+  }
+
+  public updatePosition() {
+    this.positionDetailUtil.updatePosition(this.positionForm, this.position);
+    this.closeDrawer();
+
   }
 
 
@@ -114,12 +130,17 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
         key: 'confirmDeletion',
         accept: () => {
           this.store.dispatch(UpdatePosition({position: this.positionDetailUtil.updatePositionState(this.position, PositionState.Deleted)}));
+          this.closeDrawer();
         },
         reject: () => {
           this.confirmationService.close();
         },
       });
     });
+  }
+
+  private closeDrawer() {
+    this.isDrawerVisible = false
   }
 
   ngOnDestroy(): void {

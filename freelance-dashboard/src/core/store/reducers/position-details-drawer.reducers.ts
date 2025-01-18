@@ -4,13 +4,14 @@ import * as PositionDetailsDrawerActions from '../actions/position-details-drawe
 
 export const initialPositionDetailsDrawerState: PositionDetailsDrawerState = {
   isDrawerShown: false,
-  position: undefined
+  position: undefined,
+  isCreation: false
 }
 
 const _positionDetailsDrawerReducer = createReducer(
   initialPositionDetailsDrawerState,
-  on(PositionDetailsDrawerActions.OpenPositionDetailsDrawer, (state, {position}) => {
-    return {...state, isDrawerShown: true, position: position}
+  on(PositionDetailsDrawerActions.OpenPositionDetailsDrawer, (state, {position, isCreation}) => {
+    return {...state, isDrawerShown: true, position: position, isCreation: isCreation}
   }),
   /*on(PositionDetailsDrawerActions.ClosePositionDetailsDrawer, (state) => {
     return {...state, isDrawerShown: false, position: undefined}

@@ -68,9 +68,9 @@ export class PositionEffects {
                   }))
                 );
               }),
-              finalize(() => {
+              /*finalize(() => {
                 this.router.navigate(['/main']);
-              })
+              })*/
             )
           ]),
           mergeAll(),

@@ -3,7 +3,7 @@
   <!--<ng-template #closeicon style="display: none"></ng-template>-->
   <ng-template #header>
     <div>
-      <p class="drawer-title">{{ position?.client }}</p>
+      <p class="drawer-title">{{ isCreation ? ('addPosition' | translate) : position?.client }}</p>
     </div>
   </ng-template>
 
@@ -42,13 +42,13 @@
         <div class="col-12 fd-flex fd-flex-column">
           <p-floatlabel variant="on" class="w-full md:w-56">
             <p-select styleClass="w-full"
-                      [options]="options"
+                      [options]="remoteDaysOptions"
                       inputId="remote"
                       formControlName="remoteDays"
-                      (onChange)="onChange($event)">
+                      (onChange)="onRemoteDaysSelectedOptionChange($event)">
               <ng-template #selectedItem>
                 <span
-                  [innerHTML]="positionDetailUtil.handleSelectedOptionDisplay(selectedOption, options, position)"></span>
+                  [innerHTML]="positionDetailUtil.handleSelectedRemoteDaysOptionDisplay(remoteDaysSelectedOption, remoteDaysOptions, position)"></span>
               </ng-template>
               <ng-template let-option pTemplate="item">
                 <span [innerHTML]="option.label"></span>
@@ -171,25 +171,55 @@
 
   <ng-template #footer>
     <div class="grid">
-      <div class="col-12">
-        @if (hasFormChanged()) {
-          <p-button rounded="true"
-                    label="{{'update' | translate}}"
-                    [style]="{'width':'100%','min-width':'100%'}"
-                    [disabled]="!positionForm.valid"
-                    (click)="positionDetailUtil.updatePosition(positionForm, position)">
-          </p-button>
-        }
-      </div>
+      @if (isButtonShown('save')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'save' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="savePosition()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
 
-      <div class="col-12">
-        <p-button rounded="true"
-                  severity="danger"
-                  label="{{'position-contextual-menu.remove' | translate}}"
-                  [style]="{'width':'100%','min-width':'100%'}"
-                  (click)="confirmDeletion()">
-        </p-button>
-      </div>
+      @if (isButtonShown('update')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'update' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="updatePosition()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      @if (isButtonShown('delete')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      severity="danger"
+                      label="{{'position-contextual-menu.remove' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      (click)="confirmDeletion()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      <ng-container>
+        <div class="col-12">
+          <p-button rounded="true"
+                    variant="outlined"
+                    label="{{'close' | translate}}"
+                    [style]="{'width':'100%','min-width':'100%'}"
+                    (click)="isDrawerVisible = false">
+          </p-button>
+        </div>
+      </ng-container>
     </div>
   </ng-template>
 
