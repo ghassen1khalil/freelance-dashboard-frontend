@@ -1,12 +1,11 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Event} from '../core/store/models/models';
-import {filter, map, Subject, takeUntil} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
-import {getAuth} from '../core/store/reducers/auth.reducers';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',

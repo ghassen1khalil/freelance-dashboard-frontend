@@ -30,7 +30,6 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {providePrimeNG} from 'primeng/config';
 import Material from '@primeng/themes/material';
 import {definePreset, dt} from '@primeng/themes';
-import { $dt } from '@primeng/themes';
 import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
 
 
@@ -72,7 +71,13 @@ const MyPreset = definePreset(Material, {
         `.p-dialog {
             border-radius: 2rem;
         }`
-    }
+    },
+    menu: {
+      css: () =>
+        `.p-menu {
+            border-radius: 0;
+        }`
+    },
   }
 });
 
