@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoggedInGuard} from '../core/guards/logged-in.guard';
 import {AppRoutes} from "../core/utils/app-routes.util";
 
+//TODO handle deprecated canLoad (Use canMatch instead cf. https://angular.dev/api/router/CanMatch)
 export const routes: Routes = [
   {
     path: AppRoutes.ROOT,

@@ -1,13 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Divider} from 'primeng/divider';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {Menu} from 'primeng/menu';
-import {Badge, BadgeDirective} from 'primeng/badge';
-import {Avatar} from 'primeng/avatar';
+import {Badge} from 'primeng/badge';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {NgIf, NgOptimizedImage} from '@angular/common';
-import {Card} from 'primeng/card';
 import {AppRoutes} from "../../core/utils/app-routes.util";
 import {Logout} from "../../core/store/actions/auth.actions";
 import {Store} from "@ngrx/store";
@@ -16,15 +13,10 @@ import {Store} from "@ngrx/store";
   selector: 'app-navigation-menu',
   standalone: true,
   imports: [
-    Divider,
-    RouterLink,
     Menu,
     Badge,
-    Avatar,
     TranslatePipe,
     NgOptimizedImage,
-    Card,
-    BadgeDirective,
     NgIf
   ],
   templateUrl: './navigation-menu.component.html',
