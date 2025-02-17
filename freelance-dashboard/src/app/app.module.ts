@@ -7,7 +7,7 @@ import {ButtonModule} from 'primeng/button';
 import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {RippleModule} from 'primeng/ripple';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BasePathProviderService} from '../core/services/base-path-provider.service';
 import {environment, environment as env} from '../environments/environment';
@@ -30,7 +30,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {providePrimeNG} from 'primeng/config';
 import Material from '@primeng/themes/material';
 import {definePreset, dt} from '@primeng/themes';
-import { $dt } from '@primeng/themes';
+import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -71,7 +71,13 @@ const MyPreset = definePreset(Material, {
         `.p-dialog {
             border-radius: 2rem;
         }`
-    }
+    },
+    menu: {
+      css: () =>
+        `.p-menu {
+            border-radius: 0;
+        }`
+    },
   }
 });
 
@@ -80,32 +86,34 @@ const MyPreset = definePreset(Material, {
     AppComponent,
   ],
   bootstrap: [AppComponent],
-  imports: [
-    /**Angular**/
-    BrowserModule,
-    BrowserAnimationsModule,
-    /**Third parties**/
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'fr'
-    }),
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
-    AuthModule.forRoot({...env.auth}),
-    !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
-    /**PrimeNG**/
-    ButtonModule,
-    RippleModule,
-    ToastModule,
-    /**Freelance Dahsboard**/
-    AppRoutingModule,
-    HeaderModule,
-    LoaderComponent,
-    FooterModule],
+    imports: [
+        /**Angular**/
+        BrowserModule,
+        BrowserAnimationsModule,
+        /**Third parties**/
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            },
+            defaultLanguage: 'fr'
+        }),
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
+        AuthModule.forRoot({...env.auth}),
+        !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
+        /**PrimeNG**/
+        ButtonModule,
+        RippleModule,
+        ToastModule,
+        /**Freelance Dahsboard**/
+        AppRoutingModule,
+        HeaderModule,
+        LoaderComponent,
+        FooterModule,
+        NavigationMenuComponent
+    ],
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
@@ -118,11 +126,9 @@ const MyPreset = definePreset(Material, {
       useClass: LoaderInterceptor,
       multi: true,
     },
-    //HttpClient,
     BasePathProviderService,
     provideAnimations(),
-    //provideHttpClient(withInterceptorsFromDi())
-    provideHttpClient()
+    provideHttpClient(withInterceptorsFromDi())
   ]
 })
 export class AppModule {
