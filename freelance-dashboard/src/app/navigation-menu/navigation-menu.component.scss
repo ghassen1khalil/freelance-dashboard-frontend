@@ -1,0 +1,29 @@
+.navigation-menu {
+  width: 250px;
+  background-color: #f8f9fa;
+  padding: 15px;
+}
+
+.navigation-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.navigation-menu li {
+  margin: 10px 0;
+}
+
+.navigation-menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.navigation-menu a:hover {
+  color: #007bff;
+}
+
+
+.logo {
+  width: 48px;
+}
