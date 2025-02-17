@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Event} from '../core/store/models/models';
 import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
-import {getAuth} from '../core/store/reducers/auth.reducers';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,29 +15,30 @@ import {getAuth} from '../core/store/reducers/auth.reducers';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  public isHeaderShown: boolean;
+  sidebarVisible: boolean = true;
+  isMobile: boolean = false;
+
+  public isLoginOrSignup: boolean;
 
   private unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
-              private messageService: MessageService) {
-    this.translateService.use('fr');
+              private messageService: MessageService,
+              private router: Router) {
+    this.translateService.use('fr'); // TODO to handle translations
     //this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
 
   ngOnInit() {
-    this.checkIfHeaderIsShown();
+    this.checkIfHeaderAndNavigationAreShown();
     this.listenToNotification();
 
   }
 
-  private checkIfHeaderIsShown(): void {
-    this.store.pipe(
-      select(getAuth),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(authState => {
-      this.isHeaderShown = authState.isAuthenticated && (!window.location.href.includes('login') || !window.location.href.includes('signup'));
+  private checkIfHeaderAndNavigationAreShown(): void {
+    this.router.events.subscribe(value => {
+      this.isLoginOrSignup = this.router.url === '/' || this.router.url.includes('/login') ||  this.router.url.includes('/signup');
     });
   }
 
@@ -48,6 +49,14 @@ export class AppComponent implements OnInit, OnDestroy {
     ).subscribe(event => {
       this.messageService.add({severity: event?.type, summary: event?.title, detail: event?.body});
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 992;
+    if (!this.isMobile) {
+      this.sidebarVisible = true;
+    }
   }
 
   ngOnDestroy(): void {

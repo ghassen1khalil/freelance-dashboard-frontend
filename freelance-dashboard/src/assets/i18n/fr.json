@@ -195,6 +195,14 @@
   "ok": "OK",
   "close": "Fermer",
   "refreshPosition": "Réactiver le positionnement",
-  "archivePosition": "Archiver le positionnement"
+  "archivePosition": "Archiver le positionnement",
+  "navigation-menu": {
+    "menu": "Menu",
+    "dashboard": "Tableau de bord",
+    "positions": "Positionnements",
+    "myAccount": "Mon compte",
+    "settings": "Paramètres",
+    "logout": "Se déconnecter"
+  }
 
 }

@@ -1,9 +1,40 @@
-<div class="container">
-  <app-header *ngIf="isHeaderShown"></app-header>
-  <app-loader></app-loader>
-  <p-toast></p-toast>
-  <main class="content">
+<app-loader></app-loader>
+<p-toast></p-toast>
+
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <!--@if (!isLoginOrSignup) {
+    <ng-container *ngIf="!isLoginOrSignup">
+      <header class="header">
+        &lt;!&ndash;<app-header *ngIf="isHeaderShown"></app-header>&ndash;&gt;
+      </header>
+    </ng-container>
+  }-->
+
+
+
+  <!-- Side Navigation -->
+  @if (!isLoginOrSignup) {
+    <ng-container>
+      <aside class="sidebar" [ngClass]="{'sidebar-collapsed': !sidebarVisible}">
+        <app-navigation-menu></app-navigation-menu>
+      </aside>
+
+    </ng-container>
+  }
+
+  <!-- Main Content -->
+  <main class="content" [ngClass]="{'content-expanded': !sidebarVisible, 'margin-top-left': !isLoginOrSignup}">
     <router-outlet></router-outlet>
+    <!--<footer class="footer">
+      <app-footer></app-footer>
+    </footer>-->
   </main>
-  <app-footer></app-footer>
+
+
+  <!-- Mobile Menu Toggle -->
+  <button *ngIf="isMobile" pButton icon="pi pi-bars"
+          class="mobile-menu-toggle"
+          (click)="sidebarVisible = !sidebarVisible"></button>
 </div>
