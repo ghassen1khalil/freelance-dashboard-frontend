@@ -3,17 +3,6 @@
 
 
 <div class="dashboard-container">
-  <!-- Header -->
-  <!--@if (!isLoginOrSignup) {
-    <ng-container *ngIf="!isLoginOrSignup">
-      <header class="header">
-        &lt;!&ndash;<app-header *ngIf="isHeaderShown"></app-header>&ndash;&gt;
-      </header>
-    </ng-container>
-  }-->
-
-
-
   <!-- Side Navigation -->
   @if (!isLoginOrSignup) {
     <ng-container>
@@ -21,6 +10,12 @@
         <app-navigation-menu></app-navigation-menu>
       </aside>
 
+      <!-- Header -->
+      <ng-container *ngIf="!isLoginOrSignup">
+        <div class="header">
+          <app-header></app-header>-
+        </div>
+      </ng-container>
     </ng-container>
   }
 
