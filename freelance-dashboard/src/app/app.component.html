@@ -2,34 +2,71 @@
 <p-toast></p-toast>
 
 
+<!--
 <div class="dashboard-container">
-  <!-- Side Navigation -->
   @if (!isLoginOrSignup) {
     <ng-container>
-      <aside class="sidebar" [ngClass]="{'sidebar-collapsed': !sidebarVisible}">
+      <div class="sidebar show-outline" [ngClass]="{'sidebar-collapsed': !sidebarVisible}">
         <app-navigation-menu></app-navigation-menu>
-      </aside>
-
-      <!-- Header -->
-      <ng-container *ngIf="!isLoginOrSignup">
-        <div class="header">
-          <app-header></app-header>-
-        </div>
-      </ng-container>
+      </div>
     </ng-container>
   }
 
-  <!-- Main Content -->
-  <main class="content" [ngClass]="{'content-expanded': !sidebarVisible, 'margin-top-left': !isLoginOrSignup}">
-    <router-outlet></router-outlet>
-    <!--<footer class="footer">
-      <app-footer></app-footer>
-    </footer>-->
-  </main>
+  <div style="width: 100%" class="show-outline">
+    <div class="flex flex-column show-outline" style="width: 100%; height: 100%;">
+      <ng-container *ngIf="!isLoginOrSignup">
+        <header class="header show-outline">
+          <app-header></app-header>
+        </header>
+      </ng-container>
+
+      <main class="content" [ngClass]="{'content-expanded': !sidebarVisible, 'margin-top-left': !isLoginOrSignup}">
+        <router-outlet></router-outlet>
+      </main>
+
+      <footer class="footer" style="width: 100%; height: 60px;">
+        <app-footer></app-footer>
+      </footer>
+    </div>
+  </div>
+</div>
+-->
+
+<!-- Mobile Menu Toggle -->
+<!--<button *ngIf="isMobile" pButton icon="pi pi-bars"
+        class="mobile-menu-toggle"
+        (click)="sidebarVisible = !sidebarVisible"></button>-->
 
 
-  <!-- Mobile Menu Toggle -->
-  <button *ngIf="isMobile" pButton icon="pi pi-bars"
-          class="mobile-menu-toggle"
-          (click)="sidebarVisible = !sidebarVisible"></button>
+<div style="display: flex; flex-direction: row; width: 100%; height: 100vh;">
+  <aside>
+    @if (!isLoginOrSignup) {
+      <ng-container>
+        <div class="sidebar" [ngClass]="{'sidebar-collapsed': !sidebarVisible}">
+          <app-navigation-menu></app-navigation-menu>
+          <!--<p>Navigation</p>-->
+        </div>
+      </ng-container>
+    }
+  </aside>
+
+  <div style="background-color: darkgray; width: 100%;">
+    <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+      <ng-container *ngIf="!isLoginOrSignup">
+        <header style="width: 100%; height: 60px; background-color: aquamarine;">
+          <header class="header">
+            <app-header></app-header>
+          </header>
+        </header>
+      </ng-container>
+      <main style="width: 100%; height: 100%; background-color: teal;">
+        <p>Content</p>
+      </main>
+
+      <!-- <div style="width: 100%; height: 60px; background-color: darkgreen; position: fixed; bottom: 0; left: 0; right: 0;"> -->
+      <footer style="width: 100%; height: 60px; background-color: darkgreen;">
+        <p>Footer</p>
+      </footer>
+    </div>
+  </div>
 </div>

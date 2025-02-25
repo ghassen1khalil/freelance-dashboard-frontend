@@ -1,11 +1,10 @@
-<!--
 <div class="fd-flex fd-flex-row fd-align-items-center layout-topbar fd-space-between">
-  <div class="fd-flex fd-flex-row fd-align-items-center">
+  <!--<div class="fd-flex fd-flex-row fd-align-items-center">
     <div class="fd-flex fd-flex-row">
       <img alt="freelance dashboard logo" src="../../assets/icons/freelance_dashboard_logo.svg" class="logo pointer" (click)="goToHome()">
       <p class="text-xl font-bold hide-for-mobile pointer" (click)="goToHome()">{{'app-title' | translate}}</p>
     </div>
-  </div>
+  </div>-->
   <div class="fd-flex fd-flex-row fd-align-items-center  fd-full-width search-bar-container">
     <input *ngIf="isMainPage()" type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
            [formControl]="searchControl"/>
@@ -34,8 +33,3 @@
 </div>
 
 <p-menu #menu [popup]="true" [model]="items"></p-menu>
--->
-
-<div class="show-outline" style="width: fit-content; height: 64px; background: white">
-
-</div>
