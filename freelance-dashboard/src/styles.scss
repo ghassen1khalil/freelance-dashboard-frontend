@@ -32,7 +32,7 @@ body {
   //background: #EFF3F8;
   //background: #F7F8FC;
   background: #FAFBFC;
-  color: var(--text-color);
+  //color: var(--text-color);
   margin: 0 !important;
   //height: 100%;
   min-height: 100vh;
@@ -166,15 +166,6 @@ p-dropdown {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.layout-topbar {
-  padding: 1rem;
-  background: var(--surface-card);
-  border-bottom: 1px solid var(--surface-border);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .nav-section {
