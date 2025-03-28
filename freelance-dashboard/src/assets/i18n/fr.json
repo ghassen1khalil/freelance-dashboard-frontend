@@ -203,6 +203,10 @@
     "myAccount": "Mon compte",
     "settings": "Paramètres",
     "logout": "Se déconnecter"
-  }
+  },
+  "generate-followup-mail": "Générer un mail de relance",
+  "generateFollowupMailSuccessMessage": "Mail de relance généré avec succès",
+  "generateFollowupMailErrorMessage": "Erreur lors de la génération du mail de relance",
+  "followupMail": "Mail de relance"
 
 }
