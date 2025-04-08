@@ -40,4 +40,8 @@ export const ResetPositionToEdit = createAction(
   '[POSITION] - Reset Position to edit'
 );
 
+export const GenerateFollowupMail = createAction(
+  '[POSITION] - Generate Followup Mail',
+  props<{ positionId: string }>()
+);
 

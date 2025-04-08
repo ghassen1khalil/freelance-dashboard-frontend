@@ -63,4 +63,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+
 }

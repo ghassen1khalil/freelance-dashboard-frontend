@@ -171,6 +171,20 @@
 
   <ng-template #footer>
     <div class="grid">
+      @if (isButtonShown('generate')) {
+      <ng-container>
+        <div class="col-12">
+          <p-button rounded="true"
+                    label="{{'generate-followup-mail' | translate}}"
+                    [style]="{'width':'100%','min-width':'100%'}"
+                    [disabled]="!positionForm.valid"
+                    (click)="generateFollowupMail()"
+                    [icon]="'pi-sparkles'" [iconPos]="'right'">
+          </p-button>
+        </div>
+      </ng-container>
+      }
+
       @if (isButtonShown('save')) {
         <ng-container>
           <div class="col-12">
@@ -235,5 +249,21 @@
 </p-drawer>
 
 
+
+<div class="card flex justify-center">
+  <p-dialog header="{{'followupMail' | translate}}" [modal]="true" [(visible)]="isFollowupEmailEditorVisible">
+    <div class="card">
+      <p-editor [(ngModel)]="emailBody" [style]="{ height: '320px', width: '600px' }">
+        <ng-template #header>
+        <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+        </span>
+        </ng-template>
+      </p-editor>
+    </div>
+  </p-dialog>
+</div>
 
 

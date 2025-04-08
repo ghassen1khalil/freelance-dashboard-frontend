@@ -1,40 +1,35 @@
 <app-loader></app-loader>
 <p-toast></p-toast>
+<!-- Layout container -->
+<div class="flex relative min-h-screen w-full">
+  <!-- Sidebar -->
+  <aside *ngIf="!isLoginOrSignup" class="fixed top-0 bottom-0 w-64 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0 z-50"
+         [ngClass]="{'translate-x-[-100%]': !sidebarVisible}">
+    <app-navigation-menu></app-navigation-menu>
+  </aside>
 
+  <!-- Main content area -->
+  <div class="flex flex-col flex-1 min-h-screen" [ngClass]="{'lg:ml-64': !isLoginOrSignup}">
+    <!-- Header -->
+    <header *ngIf="!isLoginOrSignup" class="w-full top-0">
+      <!-- Mobile menu button - only visible on small screens -->
+      <div class="block lg:hidden p-4">
+        <button class="flex items-center" (click)="toggleSidebar()">
+          <i class="pi pi-bars text-xl"></i>
+          <span class="ml-2 font-semibold">Application Name</span>
+        </button>
+      </div>
+      <app-header></app-header>
+    </header>
 
-<div class="dashboard-container">
-  <!-- Header -->
-  <!--@if (!isLoginOrSignup) {
-    <ng-container *ngIf="!isLoginOrSignup">
-      <header class="header">
-        &lt;!&ndash;<app-header *ngIf="isHeaderShown"></app-header>&ndash;&gt;
-      </header>
-    </ng-container>
-  }-->
+    <!-- Main content -->
+    <main class="flex-1 p-4 overflow-auto">
+      <router-outlet></router-outlet>
+    </main>
 
-
-
-  <!-- Side Navigation -->
-  @if (!isLoginOrSignup) {
-    <ng-container>
-      <aside class="sidebar" [ngClass]="{'sidebar-collapsed': !sidebarVisible}">
-        <app-navigation-menu></app-navigation-menu>
-      </aside>
-
-    </ng-container>
-  }
-
-  <!-- Main Content -->
-  <main class="content" [ngClass]="{'content-expanded': !sidebarVisible, 'margin-top-left': !isLoginOrSignup}">
-    <router-outlet></router-outlet>
-    <!--<footer class="footer">
+    <!-- Footer -->
+    <footer *ngIf="!isLoginOrSignup" class="w-full shadow-sm mt-auto">
       <app-footer></app-footer>
-    </footer>-->
-  </main>
-
-
-  <!-- Mobile Menu Toggle -->
-  <button *ngIf="isMobile" pButton icon="pi pi-bars"
-          class="mobile-menu-toggle"
-          (click)="sidebarVisible = !sidebarVisible"></button>
+    </footer>
+  </div>
 </div>

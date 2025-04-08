@@ -7,17 +7,26 @@ import {debounceTime, Subject, takeUntil} from 'rxjs';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {Logout} from '../../core/store/actions/auth.actions';
 import {FetchPositions} from '../../core/store/actions/position.actions';
-import {FormControl} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {NavigationEnd, Router} from '@angular/router';
 import {FilterPositions, ResetFilter} from '../../core/store/actions/filter.actions';
-import {TranslateService} from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {NullityUtilService} from '../../core/utils/nullity-util.service';
+import {CommonModule} from '@angular/common';
+import {ButtonModule} from 'primeng/button';
+import {AvatarModule} from 'primeng/avatar';
+import {BadgeModule} from 'primeng/badge';
+import {MenuModule} from 'primeng/menu';
+import {InputTextModule} from 'primeng/inputtext';
+import {DropdownModule} from 'primeng/dropdown';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ButtonModule, TranslateModule, AvatarModule, BadgeModule, MenuModule, InputTextModule, DropdownModule, FormsModule, ReactiveFormsModule]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 

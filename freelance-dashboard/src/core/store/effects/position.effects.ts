@@ -4,7 +4,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, finalize, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
 import {Action} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpContext, HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {LaunchEvent} from '../actions/event.actions';
 import {EventType} from '../models/models';
@@ -136,4 +136,28 @@ export class PositionEffects {
       )
     ) as Observable<Action>
   );
+
+  GenerateFollowupMail$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(PositionActions.GenerateFollowupMail),
+      switchMap(action =>
+        this.positionService.generateFollowupMail(action.positionId).pipe(
+          switchMap(() => this.translate.get(['success', 'generateFollowupMailSuccessMessage']).pipe(
+            map((res) => LaunchEvent({
+              event: this.eventService.createEventFromLocalizedMessage(res, 'success', 'generateFollowupMailSuccessMessage', EventType.SUCCESS)
+            }))
+          )),
+          catchError((error: HttpErrorResponse) => {
+            return this.translate.get(['error', 'generateFollowupMailErrorMessage']).pipe(
+              map((res) => LaunchEvent({
+                event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'generateFollowupMailErrorMessage', EventType.ERROR)
+              }))
+            );
+          })
+        )
+      )
+    ) as Observable<Action>
+  );
+
+
 }

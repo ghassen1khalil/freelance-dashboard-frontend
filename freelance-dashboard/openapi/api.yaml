@@ -59,6 +59,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /position/{id}/followup-mail:
+    get:
+      summary: Generate a follow-up mail
+      description: Generate a follow-up mail for a position
+      operationId: generateFollowupMail
+      tags:
+        - positions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of position to generate follow-up mail
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
   /position/{id}:
     get:
       summary: Return a position by ID
