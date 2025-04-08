@@ -17,7 +17,6 @@ import {StoreModule} from '@ngrx/store';
 import {PositionEffects} from '../core/store/effects/position.effects';
 import {reducers} from '../core/store/reducers/reducers';
 import {ToastModule} from 'primeng/toast';
-import {HeaderModule} from '../shared/header/header.module';
 import {AuthModule} from '@auth0/auth0-angular';
 import {AuthEffects} from '../core/store/effects/auth.effects';
 import {LoaderComponent} from '../shared/loader/loader.component';
@@ -31,6 +30,7 @@ import {providePrimeNG} from 'primeng/config';
 import Material from '@primeng/themes/material';
 import {definePreset, dt} from '@primeng/themes';
 import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
+import {HeaderComponent} from './header/header.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,34 +86,34 @@ const MyPreset = definePreset(Material, {
     AppComponent,
   ],
   bootstrap: [AppComponent],
-    imports: [
-        /**Angular**/
-        BrowserModule,
-        BrowserAnimationsModule,
-        /**Third parties**/
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            },
-            defaultLanguage: 'fr'
-        }),
-        StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
-        AuthModule.forRoot({...env.auth}),
-        !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
-        /**PrimeNG**/
-        ButtonModule,
-        RippleModule,
-        ToastModule,
-        /**Freelance Dahsboard**/
-        AppRoutingModule,
-        HeaderModule,
-        LoaderComponent,
-        FooterModule,
-        NavigationMenuComponent
-    ],
+  imports: [
+    /**Angular**/
+    BrowserModule,
+    BrowserAnimationsModule,
+    /**Third parties**/
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'fr'
+    }),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
+    AuthModule.forRoot({...env.auth}),
+    !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
+    /**PrimeNG**/
+    ButtonModule,
+    RippleModule,
+    ToastModule,
+    /**Freelance Dahsboard**/
+    AppRoutingModule,
+    LoaderComponent,
+    FooterModule,
+    NavigationMenuComponent,
+    HeaderComponent
+  ],
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({

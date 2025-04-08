@@ -1,6 +1,6 @@
 import {Component, computed, effect, OnDestroy, OnInit, Signal, signal} from '@angular/core';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Currency, Position, PositionState} from '../../../generated';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Currency, Position, PositionsService, PositionState} from '../../../generated';
 import {Subject, takeUntil} from 'rxjs';
 import {PositionDetailUtilService} from './position-detail-util.service';
 import {Drawer} from 'primeng/drawer';
@@ -16,11 +16,13 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
 import {SelectOption} from './select-option.interface';
-import {UpdatePosition} from '../../core/store/actions/position.actions';
+import {GenerateFollowupMail, UpdatePosition} from '../../core/store/actions/position.actions';
 import {ConfirmationService} from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import * as PositionActions from "../../core/store/actions/position.actions";
 import {NgIf} from "@angular/common";
+import {Dialog} from 'primeng/dialog';
+import {Editor} from 'primeng/editor';
 
 
 
@@ -40,7 +42,10 @@ import {NgIf} from "@angular/common";
     DatePicker,
     Select,
     ConfirmDialog,
-    NgIf
+    NgIf,
+    Dialog,
+    Editor,
+    FormsModule
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -57,6 +62,9 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public remoteDaysOptions: SelectOption[] = [];
   public remoteDaysSelectedOption: SelectOption;
 
+  public isFollowupEmailEditorVisible: boolean = false;
+  public emailBody: string | undefined;
+
   protected readonly PositionState = PositionState;
 
   private unsubscribe$ = new Subject<void>();
@@ -64,7 +72,8 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   constructor(private store: Store,
               protected positionDetailUtil: PositionDetailUtilService,
               private confirmationService: ConfirmationService,
-              private translate: TranslateService) {}
+              private translate: TranslateService,
+              private positionService: PositionsService) {}
 
   ngOnInit(): void {
     this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
@@ -88,6 +97,9 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     }
     if (button === 'delete') {
       return !this.isCreation;
+    }
+    if (button === 'generate') {
+      return !this.isCreation
     }
     return false;
   }
@@ -143,8 +155,22 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.isDrawerVisible = false
   }
 
+  public generateFollowupMail() {
+    //this.store.dispatch(GenerateFollowupMail({positionId: this.position.id!}));
+
+    this.positionService.generateFollowupMail(this.position.id!).subscribe(
+      messageBody => {
+        this.emailBody = messageBody;
+        this.isFollowupEmailEditorVisible = true;
+      }
+    );
+
+    /*this.emailBody = "<p>Test<br>Test</p>";
+    this.isFollowupEmailEditorVisible = true;*/
+
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.complete();
   }
-
 }
