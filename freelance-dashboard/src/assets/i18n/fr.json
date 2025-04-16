@@ -207,6 +207,12 @@
   "generate-followup-mail": "Générer un mail de relance",
   "generateFollowupMailSuccessMessage": "Mail de relance généré avec succès",
   "generateFollowupMailErrorMessage": "Erreur lors de la génération du mail de relance",
-  "followupMail": "Mail de relance"
-
+  "followupMail": "Mail de relance",
+  "darkMode": "Mode sombre",
+  "darkModeSettings": {
+    "title": "Apparence",
+    "dark": "Mode sombre",
+    "light": "Mode clair",
+    "system": "Automatique"
+  }
 }

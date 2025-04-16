@@ -80,6 +80,20 @@
     </p-fieldset>
   </div>
 
+  <div class="col-12">
+    <p-fieldset legend="{{'darkModeSettings.title' | translate}}">
+      <div class="grid">
+        <div class="col-12">
+          <p-selectButton [options]="themeOptions" 
+                         [(ngModel)]="selectedTheme" 
+                         (onChange)="onThemeChange($event)"
+                         optionLabel="label">
+          </p-selectButton>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+
 
   <div class="col-12">
     <p-fieldset legend="{{'deleteMyAccount' | translate}}">

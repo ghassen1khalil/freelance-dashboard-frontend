@@ -14,6 +14,8 @@ import {
 } from '../../core/store/actions/freelancer.actions';
 import {EncryptionService} from '../../core/services/encryption.service';
 import {UpdateType} from '../../core/domain/update-type.enum';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { ThemeService } from '../core/services/theme.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +27,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public personalInformationForm: FormGroup;
   public passwordModificationForm: FormGroup;
+  public themeOptions: any[] = [];
+  public selectedTheme: any;
 
   protected readonly UpdateType = UpdateType;
 
@@ -34,11 +38,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private translate: TranslateService,
               private store: Store,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private themeService: ThemeService) {
   }
 
   ngOnInit(): void {
     this.buildPasswordModificationForm();
+    this.initializeThemeOptions();
+    this.loadCurrentTheme();
 
     this.store.pipe(
       select(getAuthState),
@@ -49,6 +56,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.freelancer = authState.freelancer;
       }
     });
+  }
+
+  private initializeThemeOptions() {
+    this.translate.get([
+      'darkModeSettings.dark',
+      'darkModeSettings.light',
+      'darkModeSettings.system'
+    ]).subscribe(translations => {
+      this.themeOptions = [
+        { label: translations['darkModeSettings.dark'], value: 'dark' },
+        { label: translations['darkModeSettings.light'], value: 'light' },
+        { label: translations['darkModeSettings.system'], value: 'system' }
+      ];
+    });
+  }
+
+  private loadCurrentTheme() {
+    const currentTheme = this.themeService.getCurrentTheme();
+    this.selectedTheme = this.themeOptions.find(option => option.value === currentTheme);
+  }
+
+  public onThemeChange(event: any) {
+    if (event.value && event.value.value) {
+      this.themeService.setTheme(event.value.value);
+    }
   }
 
   private buildPasswordModificationForm() {
