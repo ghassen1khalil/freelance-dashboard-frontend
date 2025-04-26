@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Event} from '../core/store/models/models';
 import {Subject, takeUntil} from 'rxjs';
@@ -6,6 +6,7 @@ import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.scss'],
   providers: [MessageService]
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   sidebarVisible: boolean = true;
   isMobile: boolean = false;
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
               private messageService: MessageService,
-              private router: Router) {
+              private router: Router,
+              @Inject(DOCUMENT) private document: Document) {
     this.translateService.use('fr'); // TODO to handle translations
     //this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
@@ -34,6 +36,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.checkIfHeaderAndNavigationAreShown();
     this.listenToNotification();
 
+  }
+
+  ngAfterViewInit(): void {
+    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      this.document.querySelector('html')?.classList.remove('dark-theme') // dark-theme class
+    } else {
+      this.document.querySelector('html')?.classList.add('dark-theme') // dark-theme class
+    }
   }
 
   private checkIfHeaderAndNavigationAreShown(): void {

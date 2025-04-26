@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
-  darkMode: "selector",
+  //darkMode: "selector",
   theme: {
-    extend: {},
+    extend: {
+      darkMode: ['selector', '[data-mode="dark-theme"]'],  // dark-theme class
+    },
   },
   plugins: [require('tailwindcss-primeui')]
 };

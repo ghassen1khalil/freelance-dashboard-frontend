@@ -28,9 +28,25 @@
   @tailwind utilities;
 }
 
+:root {
+  --background-color: #FAFBFC;
+  --text-color: #000;
+}
+
+[data-theme='dark'] {
+  --background-color: #121212;
+  --text-color: #FFF;
+}
+
+[data-theme='light'] {
+  --background-color: #FAFBFC;
+  --text-color: #000;
+}
 
 html,
 body {
+  background-color: var(--background-color);
+  color: var(--text-color);
   //font-family: 'Spoof', sans-serif;
   //background: #EFF3F8;
   //background: #F7F8FC;
@@ -179,3 +195,4 @@ p-dropdown {
 .nav-section:last-child {
   border-bottom: none;
 }
+

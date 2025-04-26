@@ -31,6 +31,7 @@ import Material from '@primeng/themes/material';
 import {definePreset, dt} from '@primeng/themes';
 import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
 import {HeaderComponent} from './header/header.component';
+import {ThemeService} from './core/services/theme.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -115,10 +116,15 @@ const MyPreset = definePreset(Material, {
     HeaderComponent
   ],
   providers: [
+    ThemeService,
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: MyPreset
+        preset: MyPreset,
+        options: {
+          prefix: 'p',
+          darkModeSelector: '.dark-theme' // dark theme class
+        }
       }
     }),
     {

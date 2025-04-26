@@ -74,12 +74,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private loadCurrentTheme() {
     const currentTheme = this.themeService.getCurrentTheme();
-    this.selectedTheme = this.themeOptions.find(option => option.value === currentTheme);
+    this.selectedTheme = currentTheme; // Set the value directly to match the select button's binding
   }
 
   public onThemeChange(event: any) {
-    if (event.value && event.value.value) {
-      this.themeService.setTheme(event.value.value);
+    if (event) {
+      this.selectedTheme = event; // Update the selected theme
+      this.themeService.setTheme(event); // Apply the theme using ThemeService
     }
   }
 

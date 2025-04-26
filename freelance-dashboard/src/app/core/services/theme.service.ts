@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ export class ThemeService {
   private readonly DARK_THEME = 'dark';
   private readonly LIGHT_THEME = 'light';
   private readonly SYSTEM_THEME = 'system';
+
+  public themeChange = new BehaviorSubject<string>(this.getCurrentTheme());
 
   constructor() {
     this.initializeTheme();
@@ -26,13 +29,14 @@ export class ThemeService {
     if (theme && [this.DARK_THEME, this.LIGHT_THEME, this.SYSTEM_THEME].includes(theme)) {
       localStorage.setItem(this.THEME_KEY, theme);
       this.applyTheme(theme);
+      this.themeChange.next(theme);
     }
   }
 
   public getCurrentTheme(): string {
     const savedTheme = localStorage.getItem(this.THEME_KEY);
-    return savedTheme && [this.DARK_THEME, this.LIGHT_THEME, this.SYSTEM_THEME].includes(savedTheme) 
-      ? savedTheme 
+    return savedTheme && [this.DARK_THEME, this.LIGHT_THEME, this.SYSTEM_THEME].includes(savedTheme)
+      ? savedTheme
       : this.SYSTEM_THEME;
   }
 
@@ -51,4 +55,9 @@ export class ThemeService {
       document.documentElement.setAttribute('data-theme', this.LIGHT_THEME);
     }
   }
-} 
+
+  private getSystemTheme(): string {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? this.DARK_THEME : this.LIGHT_THEME;
+  }
+}
+
