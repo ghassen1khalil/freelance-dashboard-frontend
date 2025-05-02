@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Position, PositionState} from '../../../generated';
+import {Position, PositionState, StatusLabelEnum} from '../../../generated';
 import {select, Store} from '@ngrx/store';
 import {Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import * as filterReducer from '../../core/store/reducers/filter.reducer'
 import {Router} from '@angular/router';
 import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main',
@@ -15,32 +16,102 @@ import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
 export class MainComponent implements OnInit, OnDestroy {
 
   public positionsMap: {[key: string]: Array<Position>};
-  public onlyArchived: boolean;
   public positionsYears: string[] = [];
+  public statusDoughnutChartData: any | undefined;
+  public statusCounts: { [key: string]: number } | undefined;
+  public chartOptions: any = {
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          font: {
+            size: 12
+          },
+          color: 'rgb(51, 51, 51)' // Dark text for light mode
+        }
+      },
+      title: {
+        display: true,
+        text: this.translateService.instant('positionsByStatus'),
+        font: {
+          size: 16
+        },
+        color: 'rgb(51, 51, 51)' // Dark text for light mode
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            const label = context.label || '';
+            const value = context.raw || 0;
+            const total = context.chart.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
+            const percentage = Math.round((value / total) * 100);
+            return `${label}: ${value} (${percentage}%)`;
+          }
+        }
+      }
+    },
+    cutout: '60%',
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
+  // Update chart options for dark mode
+  private updateChartOptionsForDarkMode(isDarkMode: boolean): void {
+    const textColor = isDarkMode ? 'rgb(229, 231, 235)' : 'rgb(51, 51, 51)';
+
+    this.chartOptions = {
+      ...this.chartOptions,
+      plugins: {
+        ...this.chartOptions.plugins,
+        legend: {
+          ...this.chartOptions.plugins.legend,
+          labels: {
+            ...this.chartOptions.plugins.legend.labels,
+            color: textColor
+          }
+        },
+        title: {
+          ...this.chartOptions.plugins.title,
+          color: textColor
+        }
+      }
+    };
+  }
 
   public isFilterSet: boolean | undefined;
   public isNoPositionsYet: boolean | undefined;
   public isNoResultForFilter: boolean | undefined;
 
+  private totalPositionings: number = 0;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private router: Router,
-              private store: Store) {
+              private store: Store,
+              private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
+    // Check for dark mode on initialization
+    this.checkDarkMode();
+
+    // Listen for language changes to update chart labels
+    this.translateService.onLangChange
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        if (this.statusCounts) {
+          this.updateStatusDoughnutChartData();
+        }
+      });
+
     this.store.pipe(
       select(positionReducer.getPositions),
       takeUntil(this.unsubscribe$)
     ).subscribe((positions) => {
-      /*if (positions !== undefined) {
-        this.positionsMap = positions;
-        this.onlyArchived = Object.keys(this.positionsMap).length === 1 && isNotNullOrUndefined(this.positionsMap[PositionState.Archived]);
-        this.positionsYears = this.getPositionsYears();
-
-        this.isNoPositionsYet = this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
-        this.isNoResultForFilter = this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
-      }*/
+      if (positions !== undefined) {
+        this.calculateStatusCounts(positions[PositionState.Active]);
+        this.totalPositionings = this.calculateTotalPositionings(positions[PositionState.Active]);
+      }
     });
 
     this.store.pipe(
@@ -55,35 +126,190 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getPositionsYears(): string[] {
-    let years: string[] = [];
-    Object.keys(this.positionsMap).forEach(key => {
-      if (PositionState.Archived !== key) {
-        years.push(key);
-      }
+  private calculateStatusCounts(positions: { [stateKey: string]: Array<Position> }): void {
+    const counts: { [key: string]: number } = {};
+
+    // Initialize counts for all statuses in StatusLabelEnum
+    Object.values(StatusLabelEnum).forEach(status => {
+      counts[status] = 0;
     });
-    years.sort((a, b) => parseInt(b) - parseInt(a));
-    return years;
+
+    // Calculate counts based on the last status in Position.statuses[]
+    Object.values(positions).forEach(positionList => {
+      positionList.forEach(position => {
+        const lastStatus = position.statuses?.[position.statuses.length - 1];
+        if (lastStatus?.label) {
+          counts[lastStatus.label] = (counts[lastStatus.label] || 0) + 1;
+        }
+      });
+    });
+
+    this.statusCounts = counts;
+    this.updateStatusDoughnutChartData();
   }
 
-  /**
-   * return True is year is the biggest one
-   */
-  public isLatestYear(key: any): boolean {
-    return key === Math.max(...Array.from(this.positionsYears).map(Number)).toString();
+  private updateStatusDoughnutChartData(): void {
+    if (this.statusCounts) {
+      const statusKeys = Object.keys(this.statusCounts);
+      const data = Object.values(this.statusCounts);
+      const backgroundColors = statusKeys.map(key => this.getStatusBackgroundColor(key));
+      const hoverBackgroundColors = statusKeys.map(key => this.getStatusHoverBackgroundColor(key));
+
+      // Translate the status labels
+      const translatedLabels = statusKeys.map(key => {
+        return this.translateService.instant(key);
+      });
+
+      this.statusDoughnutChartData = {
+        labels: translatedLabels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: backgroundColors,
+            hoverBackgroundColor: hoverBackgroundColors
+          }
+        ]
+      };
+
+      // Update the chart title with translation
+      this.chartOptions = {
+        ...this.chartOptions,
+        plugins: {
+          ...this.chartOptions.plugins,
+          title: {
+            ...this.chartOptions.plugins.title,
+            text: this.translateService.instant('positionsByStatus')
+          }
+        }
+      };
+    }
+  }
+
+  private getStatusBackgroundColor(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return '#36A2EB';
+      case StatusLabelEnum.Positioned:
+        return '#4BC0C0';
+      case StatusLabelEnum.InterviewPlanned:
+        return '#9966FF';
+      case StatusLabelEnum.WaitingForResponse:
+        return '#FFCE56';
+      case StatusLabelEnum.ResponseReceived:
+        return '#FF6384';
+      default:
+        return '#C9CBCF';
+    }
+  }
+
+  private getStatusHoverBackgroundColor(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return '#36A2EBD9';
+      case StatusLabelEnum.Positioned:
+        return '#4BC0C0D9';
+      case StatusLabelEnum.InterviewPlanned:
+        return '#9966FFD9';
+      case StatusLabelEnum.WaitingForResponse:
+        return '#FFCE56D9';
+      case StatusLabelEnum.ResponseReceived:
+        return '#FF6384D9';
+      default:
+        return '#C9CBCFD9';
+    }
+  }
+
+  private calculateTotalPositionings(positions: { [stateKey: string]: Array<Position> }): number {
+    return Object.values(positions).reduce((total, positionList) => total + positionList.length, 0);
+  }
+
+  public calculatePercentage(count: number): number {
+    return this.totalPositionings > 0 ? Math.round((count / this.totalPositionings) * 100) : 0;
   }
 
   public goToAddPosition() {
     this.router.navigate(['/', 'position']);
   }
 
-  /*public isNoResultForFilter(): boolean {
-    return this.isFilterSet !== undefined && Object.keys(this.positionsMap)?.length === 0;
+  public getStatusIcon(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return 'pi pi-briefcase';
+      case StatusLabelEnum.Positioned:
+        return 'pi pi-check-circle';
+      case StatusLabelEnum.InterviewPlanned:
+        return 'pi pi-calendar';
+      case StatusLabelEnum.WaitingForResponse:
+        return 'pi pi-clock';
+      case StatusLabelEnum.ResponseReceived:
+        return 'pi pi-envelope';
+      default:
+        return 'pi pi-tag';
+    }
   }
 
-  public isNoPositionsYet(): boolean {
-    return this.isFilterSet === undefined && Object.keys(this.positionsMap)?.length === 0;
-  }*/
+  public getStatusIconClass(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return 'bg-blue-100 dark:bg-blue-900';
+      case StatusLabelEnum.Positioned:
+        return 'bg-green-100 dark:bg-green-900';
+      case StatusLabelEnum.InterviewPlanned:
+        return 'bg-purple-100 dark:bg-purple-900';
+      case StatusLabelEnum.WaitingForResponse:
+        return 'bg-yellow-100 dark:bg-yellow-900';
+      case StatusLabelEnum.ResponseReceived:
+        return 'bg-red-100 dark:bg-red-900';
+      default:
+        return 'bg-gray-100 dark:bg-gray-900';
+    }
+  }
+
+  public getStatusColorClass(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        //return 'bg-blue-500';
+        return 'blue';
+      case StatusLabelEnum.Positioned:
+        return 'bg-green-500';
+      case StatusLabelEnum.InterviewPlanned:
+        return 'bg-purple-500';
+      case StatusLabelEnum.WaitingForResponse:
+        return 'bg-yellow-500';
+      case StatusLabelEnum.ResponseReceived:
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
+    }
+  }
+
+  private checkDarkMode(): void {
+    // Check if the document body or html has a dark mode class
+    const isDarkMode = document.body.classList.contains('dark-mode') ||
+                       document.documentElement.classList.contains('dark-mode') ||
+                       document.body.classList.contains('dark-theme') ||
+                       document.documentElement.classList.contains('dark-theme');
+
+    // Update chart options based on dark mode
+    this.updateChartOptionsForDarkMode(isDarkMode);
+
+    // Listen for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const newIsDarkMode = document.body.classList.contains('dark-mode') ||
+                               document.documentElement.classList.contains('dark-mode') ||
+                               document.body.classList.contains('dark-theme') ||
+                               document.documentElement.classList.contains('dark-theme');
+          this.updateChartOptionsForDarkMode(newIsDarkMode);
+        }
+      });
+    });
+
+    // Observe both body and html for class changes
+    observer.observe(document.body, { attributes: true });
+    observer.observe(document.documentElement, { attributes: true });
+  }
 
   ngOnDestroy(): void {
     this.store.dispatch(SetFilteredPositions({positions: undefined}))
