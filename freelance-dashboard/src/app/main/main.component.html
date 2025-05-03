@@ -1,10 +1,15 @@
 <div>
-  <div *ngIf="statusDoughnutChartData" class="status-chart-container">
-    <p-chart height="500px" type="doughnut" [data]="statusDoughnutChartData" [options]="chartOptions"></p-chart>
+  <div class="charts-container">
+    <div *ngIf="statusDoughnutChartData" class="chart-container">
+      <p-chart height="500px" type="doughnut" [data]="statusDoughnutChartData" [options]="chartOptions"></p-chart>
+    </div>
+    <div *ngIf="freelancerAcceptanceChartData" class="chart-container">
+      <p-chart height="500px" type="doughnut" [data]="freelancerAcceptanceChartData" [options]="freelancerAcceptanceChartOptions"></p-chart>
+    </div>
   </div>
 
   <div class="status-cards" *ngIf="statusCounts">
-    <div *ngFor="let status of statusCounts | keyvalue" class="status-card">
+    <div *ngFor="let status of statusCounts | keyvalue: compareStatus" class="status-card">
       <p-card styleClass="status-card-container bg-white dark:bg-gray-800">
         <ng-template pTemplate="header">
           <div class="status-header">

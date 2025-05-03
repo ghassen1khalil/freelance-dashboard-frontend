@@ -19,6 +19,20 @@ export class MainComponent implements OnInit, OnDestroy {
   public positionsYears: string[] = [];
   public statusDoughnutChartData: any | undefined;
   public statusCounts: { [key: string]: number } | undefined;
+
+  // New properties for the freelancer acceptance chart
+  public freelancerAcceptanceChartData: any | undefined;
+  public freelancerAcceptanceCounts: { accepted: number, rejected: number } | undefined;
+  public freelancerAcceptanceChartOptions: any;
+
+  // Define the order of status cards
+  public statusOrder = [
+    StatusLabelEnum.CommercialSuggestion,
+    StatusLabelEnum.Positioned,
+    StatusLabelEnum.InterviewPlanned,
+    StatusLabelEnum.WaitingForResponse,
+    StatusLabelEnum.ResponseReceived
+  ];
   public chartOptions: any = {
     plugins: {
       legend: {
@@ -77,6 +91,65 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       }
     };
+
+    if (this.freelancerAcceptanceChartOptions) {
+      this.freelancerAcceptanceChartOptions = {
+        ...this.freelancerAcceptanceChartOptions,
+        plugins: {
+          ...this.freelancerAcceptanceChartOptions.plugins,
+          legend: {
+            ...this.freelancerAcceptanceChartOptions.plugins.legend,
+            labels: {
+              ...this.freelancerAcceptanceChartOptions.plugins.legend.labels,
+              color: textColor
+            }
+          },
+          title: {
+            ...this.freelancerAcceptanceChartOptions.plugins.title,
+            color: textColor
+          }
+        }
+      };
+    }
+  }
+
+  private initializeFreelancerAcceptanceChartOptions(): void {
+    this.freelancerAcceptanceChartOptions = {
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            font: {
+              size: 12
+            },
+            color: 'rgb(51, 51, 51)' // Dark text for light mode
+          }
+        },
+        title: {
+          display: true,
+          text: this.translateService.instant('freelancerAcceptance'),
+          font: {
+            size: 16
+          },
+          color: 'rgb(51, 51, 51)' // Dark text for light mode
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context: any) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const total = context.chart.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
+              const percentage = Math.round((value / total) * 100);
+              return `${label}: ${value} (${percentage}%)`;
+            }
+          }
+        }
+      },
+      cutout: '60%',
+      responsive: true,
+      maintainAspectRatio: false
+    };
   }
 
   public isFilterSet: boolean | undefined;
@@ -95,12 +168,18 @@ export class MainComponent implements OnInit, OnDestroy {
     // Check for dark mode on initialization
     this.checkDarkMode();
 
+    // Initialize freelancer acceptance chart options
+    this.initializeFreelancerAcceptanceChartOptions();
+
     // Listen for language changes to update chart labels
     this.translateService.onLangChange
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
         if (this.statusCounts) {
           this.updateStatusDoughnutChartData();
+        }
+        if (this.freelancerAcceptanceCounts) {
+          this.updateFreelancerAcceptanceChartData();
         }
       });
 
@@ -128,6 +207,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private calculateStatusCounts(positions: { [stateKey: string]: Array<Position> }): void {
     const counts: { [key: string]: number } = {};
+    const freelancerAcceptanceCounts = { accepted: 0, rejected: 0 };
 
     // Initialize counts for all statuses in StatusLabelEnum
     Object.values(StatusLabelEnum).forEach(status => {
@@ -140,18 +220,33 @@ export class MainComponent implements OnInit, OnDestroy {
         const lastStatus = position.statuses?.[position.statuses.length - 1];
         if (lastStatus?.label) {
           counts[lastStatus.label] = (counts[lastStatus.label] || 0) + 1;
+
+          // Calculate freelancer acceptance counts for positions with ResponseReceived status
+          if (lastStatus.label === StatusLabelEnum.ResponseReceived) {
+            if (position.isFreelancerAccepted === true) {
+              freelancerAcceptanceCounts.accepted++;
+            } else if (position.isFreelancerAccepted === false) {
+              freelancerAcceptanceCounts.rejected++;
+            }
+          }
         }
       });
     });
 
     this.statusCounts = counts;
+    this.freelancerAcceptanceCounts = freelancerAcceptanceCounts;
+
     this.updateStatusDoughnutChartData();
+    this.updateFreelancerAcceptanceChartData();
   }
 
   private updateStatusDoughnutChartData(): void {
     if (this.statusCounts) {
-      const statusKeys = Object.keys(this.statusCounts);
-      const data = Object.values(this.statusCounts);
+      // Get status keys in the specified order
+      const statusKeys = this.statusOrder.filter(status => status in this.statusCounts!);
+
+      // Get data, background colors, and hover background colors in the same order
+      const data = statusKeys.map(key => this.statusCounts![key]);
       const backgroundColors = statusKeys.map(key => this.getStatusBackgroundColor(key));
       const hoverBackgroundColors = statusKeys.map(key => this.getStatusHoverBackgroundColor(key));
 
@@ -179,6 +274,48 @@ export class MainComponent implements OnInit, OnDestroy {
           title: {
             ...this.chartOptions.plugins.title,
             text: this.translateService.instant('positionsByStatus')
+          }
+        }
+      };
+    }
+  }
+
+  private updateFreelancerAcceptanceChartData(): void {
+    if (this.freelancerAcceptanceCounts) {
+      // Define labels and data
+      const labels = [
+        this.translateService.instant('accepted'),
+        this.translateService.instant('rejected')
+      ];
+
+      const data = [
+        this.freelancerAcceptanceCounts.accepted,
+        this.freelancerAcceptanceCounts.rejected
+      ];
+
+      // Define colors
+      const backgroundColors = ['#4BC0C0', '#FF6384']; // Green for accepted, Red for rejected
+      const hoverBackgroundColors = ['#4BC0C0D9', '#FF6384D9'];
+
+      this.freelancerAcceptanceChartData = {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: backgroundColors,
+            hoverBackgroundColor: hoverBackgroundColors
+          }
+        ]
+      };
+
+      // Update the chart title with translation
+      this.freelancerAcceptanceChartOptions = {
+        ...this.freelancerAcceptanceChartOptions,
+        plugins: {
+          ...this.freelancerAcceptanceChartOptions.plugins,
+          title: {
+            ...this.freelancerAcceptanceChartOptions.plugins.title,
+            text: this.translateService.instant('freelancerAcceptance')
           }
         }
       };
@@ -268,8 +405,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public getStatusColorClass(status: string): string {
     switch (status) {
       case StatusLabelEnum.CommercialSuggestion:
-        //return 'bg-blue-500';
-        return 'blue';
+        return 'bg-blue-500';
       case StatusLabelEnum.Positioned:
         return 'bg-green-500';
       case StatusLabelEnum.InterviewPlanned:
@@ -314,5 +450,27 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(SetFilteredPositions({positions: undefined}))
     this.unsubscribe$.complete();
+  }
+
+  // Custom comparator function for keyvalue pipe to sort status cards
+  public compareStatus = (a: { key: string, value: number }, b: { key: string, value: number }): number => {
+    const indexA = this.statusOrder.indexOf(a.key as StatusLabelEnum);
+    const indexB = this.statusOrder.indexOf(b.key as StatusLabelEnum);
+
+    // If both keys are in the statusOrder array, sort by their position in the array
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    }
+
+    // If only one key is in the statusOrder array, prioritize it
+    if (indexA !== -1) {
+      return -1;
+    }
+    if (indexB !== -1) {
+      return 1;
+    }
+
+    // If neither key is in the statusOrder array, maintain original order
+    return 0;
   }
 }

@@ -1,7 +1,19 @@
-.status-chart-container {
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
+  max-width: calc(1600px + 20px); /* Match the max width of two cards (500px each) plus the gap */
+}
+
+.chart-container {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px; /* Match the max-width of cards */
+  margin: 20px 0;
   padding: 20px;
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -15,6 +27,8 @@
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  max-width: calc(1600px + 20px); /* Match the max width of charts container */
+  width: 100%;
 }
 
 .status-card {
@@ -92,15 +106,33 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .charts-container {
+    max-width: calc(600px + 20px);
+  }
+
+  .chart-container {
+    max-width: 300px;
+  }
+
   .status-cards {
     grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+    max-width: calc(600px + 20px);
     justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
+  .charts-container {
+    max-width: 100%;
+  }
+
+  .chart-container {
+    max-width: 100%;
+  }
+
   .status-cards {
     grid-template-columns: minmax(200px, 1fr);
+    max-width: 100%;
     justify-content: center;
   }
 }

@@ -208,6 +208,8 @@
   "generateFollowupMailSuccessMessage": "Mail de relance généré avec succès",
   "generateFollowupMailErrorMessage": "Erreur lors de la génération du mail de relance",
   "followupMail": "Mail de relance",
-  "positionsByStatus": "Positionnements par statut"
-
+  "positionsByStatus": "Positionnements par statut",
+  "freelancerAcceptance": "Taux d'acceptation",
+  "accepted": "Accepté",
+  "rejected": "Refusé"
 }
