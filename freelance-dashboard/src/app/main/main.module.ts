@@ -12,26 +12,28 @@ import {CardModule} from 'primeng/card';
 import {MenuModule} from 'primeng/menu';
 import {AccordionModule} from '../accordion/accordion.module';
 import {EmojiComponent} from '../emoji/emoji.component';
+import {UIChart} from 'primeng/chart';
 
 @NgModule({
   declarations: [
     MainComponent
   ],
   exports: [],
-  imports: [
-    CommonModule,
-    MainRoutingModule,
-    TableModule,
-    TranslateModule,
-    ButtonModule,
-    InputTextModule,
-    RippleModule,
-    DialogModule,
-    CardModule,
-    MenuModule,
-    AccordionModule,
-    EmojiComponent
-  ]
+    imports: [
+        CommonModule,
+        MainRoutingModule,
+        TableModule,
+        TranslateModule,
+        ButtonModule,
+        InputTextModule,
+        RippleModule,
+        DialogModule,
+        CardModule,
+        MenuModule,
+        AccordionModule,
+        EmojiComponent,
+        UIChart
+    ]
 })
 export class MainModule {
 }
