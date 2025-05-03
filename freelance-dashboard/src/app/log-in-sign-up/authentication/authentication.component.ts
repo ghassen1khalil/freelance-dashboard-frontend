@@ -21,7 +21,6 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private freelancerService: FreelancerService,
               private router: Router,
-              private encryptionService: EncryptionService,
               private store: Store,
               private loaderManager: LoaderManagerService) {
   }
