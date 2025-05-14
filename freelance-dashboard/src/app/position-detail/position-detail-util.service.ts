@@ -134,6 +134,7 @@ export class PositionDetailUtilService {
   public updatePosition(positionForm: FormGroup, position: Position) {
     let editedPosition = this.createPositionFromForm(true, positionForm, position);
     editedPosition.id = position?.id;
+    editedPosition.freelancerId = position?.freelancerId;
     this.store.dispatch(PositionActions.UpdatePosition({position: editedPosition}))
   }
 }

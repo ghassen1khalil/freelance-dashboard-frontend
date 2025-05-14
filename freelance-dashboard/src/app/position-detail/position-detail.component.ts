@@ -1,4 +1,4 @@
-import {Component, computed, effect, OnDestroy, OnInit, Signal, signal} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Currency, Position, PositionsService, PositionState} from '../../../generated';
 import {Subject, takeUntil} from 'rxjs';
@@ -6,6 +6,7 @@ import {PositionDetailUtilService} from './position-detail-util.service';
 import {Drawer} from 'primeng/drawer';
 import {select, Store} from '@ngrx/store';
 import {getPositionDetailsDrawer} from '../../core/store/reducers/position-details-drawer.reducers';
+import {getAuth} from '../../core/store/reducers/auth.reducers';
 import {Button} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {Fieldset} from 'primeng/fieldset';
@@ -16,14 +17,12 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {DatePicker} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
 import {SelectOption} from './select-option.interface';
-import {GenerateFollowupMail, UpdatePosition} from '../../core/store/actions/position.actions';
+import * as PositionActions from '../../core/store/actions/position.actions';
+import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {ConfirmationService} from 'primeng/api';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import * as PositionActions from "../../core/store/actions/position.actions";
-import {NgIf} from "@angular/common";
+import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
-
 
 
 @Component({
@@ -42,7 +41,6 @@ import {Editor} from 'primeng/editor';
     DatePicker,
     Select,
     ConfirmDialog,
-    NgIf,
     Dialog,
     Editor,
     FormsModule
@@ -65,6 +63,8 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public isFollowupEmailEditorVisible: boolean = false;
   public emailBody: string | undefined;
 
+  private freelancerId: string | undefined;
+
   protected readonly PositionState = PositionState;
 
   private unsubscribe$ = new Subject<void>();
@@ -85,6 +85,15 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       this.isDrawerVisible = state.isDrawerShown;
       this.position = state.position!;
       this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+    });
+
+    this.store.pipe(
+      select(getAuth),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(authState => {
+      if (authState.freelancer) {
+        this.freelancerId = authState.freelancer.id;
+      }
     });
   }
 
@@ -113,8 +122,10 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   public savePosition() {
     if (this.positionForm.valid) {
+      const position = this.positionDetailUtil.createPositionFromForm(false, this.positionForm, this.position);
+      position.freelancerId = this.freelancerId;
       this.store.dispatch(PositionActions.SavePosition({
-        position: this.positionDetailUtil.createPositionFromForm(false, this.positionForm, this.position)
+        position: position
       }));
       this.closeDrawer();
     }

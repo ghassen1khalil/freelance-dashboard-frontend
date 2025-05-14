@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, User} from '@auth0/auth0-angular';
 import {FreelancerService} from '../../../../generated';
 import {Router} from '@angular/router';
-import {EncryptionService} from '../../../core/services/encryption.service';
 import {Store} from '@ngrx/store';
 import {SetAuthStatus, SetFreelancer} from '../../../core/store/actions/auth.actions';
 import {FetchPositions} from '../../../core/store/actions/position.actions';
@@ -34,7 +33,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
           this.freelancerService.getFreelancerByEmail(user?.email!).subscribe(freelancer => {
             if (freelancer) {
               this.store.dispatch(SetFreelancer({freelancer: this.constructFreelancer(user)}));
-              this.store.dispatch(FetchPositions());
+              this.store.dispatch(FetchPositions({tenantId: freelancer.email}));
               this.router.navigate(['main']);
             } else {
               this.router.navigateByUrl('signup', {
