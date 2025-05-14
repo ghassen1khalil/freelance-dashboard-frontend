@@ -14,6 +14,13 @@ paths:
       operationId: findPositions
       tags:
         - positions
+      parameters:
+        - in: header
+          name: x-tenant-id
+          schema:
+            type: string
+          required: false
+          description: Freelancer ID to be used as tenant identifier
       responses:
         '200':
           description: Success
@@ -384,6 +391,9 @@ components:
       properties:
         id:
           type: string
+        freelancerId:
+          type: string
+          description: 'The ID of the freelancer who created the position'
         client:
           type: string
         mission:

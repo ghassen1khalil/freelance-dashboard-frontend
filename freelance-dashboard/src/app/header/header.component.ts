@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.nullityUtilService.isNotNullOrUndefined(searchKeyword)) {
           if (searchKeyword.length === 0) {
             this.store.dispatch(ResetFilter());
-            this.store.dispatch(FetchPositions());
+            this.store.dispatch(FetchPositions({tenantId: this.freelancer?.email}));
           } else {
             this.store.dispatch(FilterPositions({keyword: searchKeyword}));
           }

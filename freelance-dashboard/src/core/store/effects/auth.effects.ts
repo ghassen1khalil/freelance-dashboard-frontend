@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FreelancerService} from '../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, finalize, map, mergeMap, Observable, of, switchMap, tap} from 'rxjs';
+import {catchError, filter, finalize, map, mergeMap, Observable, of, switchMap, tap} from 'rxjs';
 import {Action} from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
 import {
@@ -13,7 +13,7 @@ import {
 } from '../actions/auth.actions';
 import * as PositionActions from '../actions/position.actions';
 import {LaunchEvent} from '../actions/event.actions';
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AuthService} from '@auth0/auth0-angular';
 import {EventType} from '../models/models';
@@ -37,17 +37,19 @@ export class AuthEffects {
         return [
           AuthActions.SetAuthStatus({isAuthenticated: true}),
           AuthActions.SetFreelancer({freelancer: freelancer}),
-          PositionActions.FetchPositions()
+          PositionActions.FetchPositions({tenantId: freelancer.email}),
         ]
       }),
       catchError((error: HttpErrorResponse) => {
         return this.translate.get(['error', 'verifyCredentials']).pipe(
-          map((res) => LaunchEvent({event: this.eventService.createEventFromLocalizedMessage(
-            res,
+          map((res) => LaunchEvent({
+            event: this.eventService.createEventFromLocalizedMessage(
+              res,
               'error',
               'verifyCredentials',
               EventType.ERROR
-            )}))
+            )
+          }))
         );
       }),
       //tap(() => this.router.navigate(['main']))
@@ -58,10 +60,21 @@ export class AuthEffects {
 
   LoginViaSocial$: Observable<Action> = createEffect(() => this.action$.pipe(
       ofType(AuthActions.LoginViaSocial),
-      switchMap(() => this.authService.loginWithRedirect().pipe(
-        map(() => PositionActions.FetchPositions()),
+    switchMap(() => {
+      // Start the login process
+      this.authService.loginWithRedirect();
+
+      // Return an observable that emits when the user is authenticated
+      return this.authService.isAuthenticated$.pipe(
+        // Filter to only proceed when authentication is successful
+        filter(isAuthenticated => isAuthenticated),
+        // Then get the user information
+        switchMap(() => this.authService.user$),
+        // Then dispatch the FetchPositions action with the user's email
+        map((user) => PositionActions.FetchPositions({tenantId: user?.email})),
         catchError(error => of(LoginFailure({error: error}))) //TODO : replace err with an implicit error message instead of returning technical items
-      ))
+      );
+    })
     )
   );
 
