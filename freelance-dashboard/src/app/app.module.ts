@@ -28,7 +28,7 @@ import {PasswordResetTokenEffects} from '../core/store/effects/password-reset-to
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Material from '@primeng/themes/material';
-import {definePreset, dt} from '@primeng/themes';
+import {definePreset} from '@primeng/themes';
 import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
 import {HeaderComponent} from './header/header.component';
 
@@ -101,7 +101,13 @@ const MyPreset = definePreset(Material, {
     }),
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
-    AuthModule.forRoot({...env.auth}),
+    AuthModule.forRoot({
+      domain: env.auth.domain,
+      clientId: env.auth.clientId,
+      authorizationParams: {
+        redirect_uri: env.auth.redirectUri
+      }
+    }),
     !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
     /**PrimeNG**/
     ButtonModule,

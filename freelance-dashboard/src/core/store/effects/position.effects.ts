@@ -1,32 +1,28 @@
 import {Injectable} from '@angular/core';
 import {Position, PositionsService, PositionState} from '../../../../generated';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, finalize, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
-import {Action} from '@ngrx/store';
+import {catchError, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
+import {Action, select, Store} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
-import {HttpContext, HttpErrorResponse} from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {LaunchEvent} from '../actions/event.actions';
 import {EventType} from '../models/models';
 import {TranslateService} from '@ngx-translate/core';
 import {EventService} from '../../services/event.service';
-import {switchMap} from 'rxjs/operators'; // Import merge operator from RxJS
+import {switchMap} from 'rxjs/operators';
+import {EncryptionService} from '../../services/encryption.service'; // Import merge operator from RxJS
+import {getAuthState} from '../reducers/auth.reducers';
+import {AuthState} from '../state/app.states';
 
 
 @Injectable()
 export class PositionEffects {
-  constructor(private positionService: PositionsService,
-              private action$: Actions,
-              private router: Router,
-              private translate: TranslateService,
-              private eventService: EventService) {
-  }
-
   FetchPositions$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.FetchPositions),
-      mergeMap(() =>
-        this.positionService.findPositions().pipe(
+      mergeMap((action) =>
+        this.positionService.findPositions(this.encryptionService.encrypt(action.tenantId!)).pipe(
           map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }): Action => { // specify type explicitly
             return PositionActions.FetchPositionsSuccess({payload: positions});
           }),
@@ -45,8 +41,6 @@ export class PositionEffects {
       )
     )
   );
-
-
   SavePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.SavePosition),
@@ -59,18 +53,26 @@ export class PositionEffects {
           )),
           switchMap((successEvent) => [
             of(successEvent),
-            this.positionService.findPositions().pipe(
-              map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }) => PositionActions.FetchPositionsSuccess({payload: positions})),
-              catchError((error: HttpErrorResponse) => {
-                return this.translate.get(['error', 'findAllErrorMessage']).pipe(
-                  map((res) => LaunchEvent({
-                    event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'findAllErrorMessage', EventType.ERROR)
-                  }))
+            this.store.pipe(
+              select(getAuthState),
+              switchMap((authState: AuthState) => {
+                const freelancerId = authState.freelancer?.id;
+                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerId!)).pipe(
+                  map((positions: {
+                    [stateKey: string]: { [statusKey: string]: Array<Position>; };
+                  }) => PositionActions.FetchPositionsSuccess({payload: positions})),
+                  catchError((error: HttpErrorResponse) => {
+                    return this.translate.get(['error', 'findAllErrorMessage']).pipe(
+                      map((res) => LaunchEvent({
+                        event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'findAllErrorMessage', EventType.ERROR)
+                      }))
+                    );
+                  }),
+                  /*finalize(() => {
+                    this.router.navigate(['/main']);
+                  })*/
                 );
-              }),
-              /*finalize(() => {
-                this.router.navigate(['/main']);
-              })*/
+              })
             )
           ]),
           mergeAll(),
@@ -89,13 +91,11 @@ export class PositionEffects {
       )
     ) as Observable<Action>
   );
-
-
   UpdatePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.UpdatePosition),
       switchMap(action =>
-        this.positionService.update(action.position.id ? action.position.id : '', action.position).pipe(
+        this.positionService.update(action.position.id!, action.position).pipe(
           switchMap(() => this.translate.get(['success', 'updatePositionSuccessMessage', 'deletePositionSuccessMessage']).pipe(
             map((res) =>
               LaunchEvent({
@@ -105,18 +105,28 @@ export class PositionEffects {
           )),
           switchMap((successEvent) => [
             of(successEvent),
-            this.positionService.findPositions().pipe(
-              map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }) => PositionActions.FetchPositionsSuccess({payload: positions})),
-              catchError((error: HttpErrorResponse) => {
-                return this.translate.get(['error', 'findAllErrorMessage']).pipe(
-                  map((res) => LaunchEvent({
-                    event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'findAllErrorMessage', EventType.ERROR)
-                  }))
+            this.store.pipe(
+              select(getAuthState),
+              switchMap((authState: AuthState) => {
+                const freelancerId = authState.freelancer?.id;
+                if (authState.freelancer?.id === undefined) {
+                  throw new Error('Freelancer ID is undefined');
+                }
+                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerId!)).pipe(
+                  map((positions: {
+                    [stateKey: string]: { [statusKey: string]: Array<Position>; };
+                  }) => PositionActions.FetchPositionsSuccess({payload: positions})),
+                  catchError((error: HttpErrorResponse) => {
+                    return this.translate.get(['error', 'findAllErrorMessage']).pipe(
+                      map((res) => LaunchEvent({
+                        event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'findAllErrorMessage', EventType.ERROR)
+                      }))
+                    );
+                  }),
+                  /*finalize(() => {
+                    this.router.navigate(['/main']);
+                  })*/
                 );
-              }),
-              finalize(() => {
-                // Navigate to /main after the FetchPositionsSuccess action is dispatched.
-                //this.router.navigate(['/positions']);
               })
             )
           ]),
@@ -136,6 +146,15 @@ export class PositionEffects {
       )
     ) as Observable<Action>
   );
+
+  constructor(private positionService: PositionsService,
+              private action$: Actions,
+              private router: Router,
+              private translate: TranslateService,
+              private eventService: EventService,
+              private encryptionService: EncryptionService,
+              private store: Store) {
+  }
 
   GenerateFollowupMail$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
