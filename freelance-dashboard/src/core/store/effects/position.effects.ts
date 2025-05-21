@@ -5,7 +5,6 @@ import {catchError, map, mergeAll, mergeMap, Observable, of} from 'rxjs';
 import {Action, select, Store} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {LaunchEvent} from '../actions/event.actions';
 import {EventType} from '../models/models';
 import {TranslateService} from '@ngx-translate/core';
@@ -18,29 +17,7 @@ import {AuthState} from '../state/app.states';
 
 @Injectable()
 export class PositionEffects {
-  FetchPositions$: Observable<Action> = createEffect(() =>
-    this.action$.pipe(
-      ofType(PositionActions.FetchPositions),
-      mergeMap((action) =>
-        this.positionService.findPositions(this.encryptionService.encrypt(action.tenantId!)).pipe(
-          map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }): Action => { // specify type explicitly
-            return PositionActions.FetchPositionsSuccess({payload: positions});
-          }),
-          catchError((error: HttpErrorResponse) => {
-            return new Observable<Action>((observer) => { // specify type explicitly
-              this.translate.get(['error', 'fetchPositionsErrorMessage']).subscribe((res) => {
-                observer.next(PositionActions.FetchPositionsFailure({payload: error}));
-                observer.next(LaunchEvent({
-                  event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'fetchPositionsErrorMessage', EventType.ERROR)
-                }));
-                observer.complete();
-              });
-            });
-          })
-        )
-      )
-    )
-  );
+
   SavePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.SavePosition),
@@ -56,8 +33,8 @@ export class PositionEffects {
             this.store.pipe(
               select(getAuthState),
               switchMap((authState: AuthState) => {
-                const freelancerId = authState.freelancer?.id;
-                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerId!)).pipe(
+                const freelancerEmail = authState.freelancer?.email;
+                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerEmail!)).pipe(
                   map((positions: {
                     [stateKey: string]: { [statusKey: string]: Array<Position>; };
                   }) => PositionActions.FetchPositionsSuccess({payload: positions})),
@@ -91,6 +68,31 @@ export class PositionEffects {
       )
     ) as Observable<Action>
   );
+
+
+  FetchPositions$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(PositionActions.FetchPositions),
+      mergeMap((action) =>
+        this.positionService.findPositions(this.encryptionService.encrypt(action.tenantId!)).pipe(
+          map((positions: { [stateKey: string]: { [statusKey: string]: Array<Position>; }; }): Action => { // specify type explicitly
+            return PositionActions.FetchPositionsSuccess({payload: positions});
+          }),
+          catchError((error: HttpErrorResponse) => {
+            return new Observable<Action>((observer) => { // specify type explicitly
+              this.translate.get(['error', 'fetchPositionsErrorMessage']).subscribe((res) => {
+                observer.next(PositionActions.FetchPositionsFailure({payload: error}));
+                observer.next(LaunchEvent({
+                  event: this.eventService.createEventFromLocalizedMessage(res, 'error', 'fetchPositionsErrorMessage', EventType.ERROR)
+                }));
+                observer.complete();
+              });
+            });
+          })
+        )
+      )
+    )
+  );
   UpdatePosition$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(PositionActions.UpdatePosition),
@@ -108,11 +110,11 @@ export class PositionEffects {
             this.store.pipe(
               select(getAuthState),
               switchMap((authState: AuthState) => {
-                const freelancerId = authState.freelancer?.id;
+                const freelancerEmail = authState.freelancer?.email;
                 if (authState.freelancer?.id === undefined) {
                   throw new Error('Freelancer ID is undefined');
                 }
-                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerId!)).pipe(
+                return this.positionService.findPositions(this.encryptionService.encrypt(freelancerEmail!)).pipe(
                   map((positions: {
                     [stateKey: string]: { [statusKey: string]: Array<Position>; };
                   }) => PositionActions.FetchPositionsSuccess({payload: positions})),
@@ -149,7 +151,6 @@ export class PositionEffects {
 
   constructor(private positionService: PositionsService,
               private action$: Actions,
-              private router: Router,
               private translate: TranslateService,
               private eventService: EventService,
               private encryptionService: EncryptionService,
@@ -177,6 +178,4 @@ export class PositionEffects {
       )
     ) as Observable<Action>
   );
-
-
 }
