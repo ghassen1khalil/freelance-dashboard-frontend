@@ -65,7 +65,7 @@
   "modifyInformations": "Modifier les informations",
   "name": "Nom*",
   "no": "Non",
-  "noPositionsYet": "Vous n'avez pas encore créé des positionnements ‍️!",
+  "noPositionsYet": "Vous n'avez pas encore des positionnements dans cette section !",
   "noResult": "Pas de résultat ",
   "orConnect": "ou <a href={{url}}> Connecte toi</a>",
   "orCreateAccount": "ou <a href={{url}}> Crée ton compte</a>",
