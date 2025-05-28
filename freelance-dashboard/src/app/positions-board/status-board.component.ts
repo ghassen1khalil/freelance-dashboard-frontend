@@ -59,6 +59,10 @@ export class StatusBoardComponent implements OnInit, OnDestroy {
     return this.statusBoardService.findStatusLabelFromValue(literalStatusValue);
   }
 
+  public isPositionsEmpty(): boolean {
+    return Object.values(this.positions).every(arr => arr.length === 0);
+  }
+
   onDragStart(position: Position) {
     this.draggedPosition = position;
   }

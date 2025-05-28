@@ -2,7 +2,6 @@
   display: flex;
   gap: 1rem;
   padding: 1rem;
-  min-height: 600px;
   overflow-x: auto;
 }
 
@@ -46,13 +45,11 @@
 /* Modified card styling without a white background */
 .kanban-card {
   padding: 1rem 0.5rem;
-  //cursor: grab;
   width: 100%; /* Make the card take full width of the column */
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .kanban-card:active {
-  //cursor: grabbing;
   transform: scale(1.01);
 }
 
@@ -65,7 +62,6 @@
 .status-column.drop-target {
   border: 2px dashed #d0d0d0;
   border-radius: 1rem;
-  //background-color: #f8f8f8;
   transition: all 0.2s ease;
 }
 
@@ -87,4 +83,23 @@
   text-align: center;
   border-radius: 14px;
   padding: 0.25rem 0.5rem;
+}
+
+/* Styling for empty positions message */
+.empty-positions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.empty-positions-message {
+  padding: 2rem 3rem;
+  text-align: center;
+}
+
+.empty-positions-message span {
+  color: #555;
 }
