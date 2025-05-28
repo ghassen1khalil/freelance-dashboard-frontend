@@ -1,11 +1,18 @@
 <div class="status-board">
   <div *ngFor="let status of statusLabels"
        class="status-column"
+       (onDragEnter)="onDragEnter(status)"
        pDroppable="position"
-       (onDrop)="onDrop(status)">
+       (onDragLeave)="onDragLeave(status)"
+       (onDrop)="onDrop(status)"
+       [ngClass]="{'drop-target': currentDropTarget === status}">
 
     <header class="status-header">
-      <h2>{{ status | translate }}</h2>
+      <div class="header-content">
+        <h2>{{ status | translate }}</h2>
+        <p-chip [label]="getPositionsForStatus(findStatusLabelFromValue(status)).length.toString()"
+                styleClass="status-count-chip"></p-chip>
+      </div>
     </header>
 
     <div class="cards-container">
