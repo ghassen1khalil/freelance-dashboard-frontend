@@ -3,40 +3,35 @@
   gap: 1rem;
   padding: 1rem;
   min-height: 600px;
-  background: #f9f9f9; /* Subtle background for the entire board */
   overflow-x: auto;
 }
 
 .status-column {
   flex: 1;
-  background: linear-gradient(to bottom, #fafafa, #f2f2f2);
+  background: #FAFBFC;
   padding: 1rem;
-  border-radius: 8px;
   min-width: 250px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.status-column:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .status-header {
-  display: flex;
-  justify-content: center;  /* Centering the column label */
+  background-color: #FAFBFC;
+  padding: 0.75rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.5rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status-header h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
   margin: 0;
   color: #333;
-  text-align: center; /* Ensure text is centered */
 }
 
 .cards-container {
@@ -45,26 +40,33 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%; /* Ensure container takes full width */
 }
 
 /* Modified card styling without a white background */
 .kanban-card {
-  padding: 1rem;
-  cursor: grab;
-  //transition: transform 0.1s ease, box-shadow 0.1s ease;
+  padding: 1rem 0.5rem;
+  //cursor: grab;
+  width: 100%; /* Make the card take full width of the column */
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .kanban-card:active {
-  cursor: grabbing;
+  //cursor: grabbing;
   transform: scale(1.01);
-  //transform: scale(1);
 }
 
 /* Highlight column during drag */
 .status-column.p-droppable-highlight {
   background: #e6f7ff;
-  border: 2px dashed #1890ff;
-  box-shadow: none;
+}
+
+/* Gray border for drop target */
+.status-column.drop-target {
+  border: 2px dashed #d0d0d0;
+  border-radius: 1rem;
+  //background-color: #f8f8f8;
+  transition: all 0.2s ease;
 }
 
 @media (max-width: 768px) {
@@ -74,4 +76,15 @@
   }
 }
 
-
+/* Styling for the status count chip */
+:host ::ng-deep .status-count-chip {
+  margin-left: 0.5rem;
+  background-color: #f0f0f0;
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 28px;
+  text-align: center;
+  border-radius: 14px;
+  padding: 0.25rem 0.5rem;
+}

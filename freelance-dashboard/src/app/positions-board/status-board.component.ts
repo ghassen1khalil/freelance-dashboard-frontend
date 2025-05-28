@@ -13,6 +13,7 @@ import {PositionCardComponent} from '../position-card/position-card.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {StatusBoardService} from './status-board.service';
+import {ChipModule} from 'primeng/chip';
 
 
 @Component({
@@ -21,7 +22,7 @@ import {StatusBoardService} from './status-board.service';
   styleUrls: ['./status-board.component.scss'],
   standalone: true,
   providers: [StatusBoardService, ConfirmationService],
-  imports: [NgFor, OrderListModule, CardModule, DragDropModule, CommonModule, TranslateModule, PositionCardComponent, ConfirmDialogModule]
+  imports: [NgFor, OrderListModule, CardModule, DragDropModule, CommonModule, TranslateModule, PositionCardComponent, ConfirmDialogModule, ChipModule]
 })
 export class StatusBoardComponent implements OnInit, OnDestroy {
 
@@ -30,6 +31,7 @@ export class StatusBoardComponent implements OnInit, OnDestroy {
   public positions: { [statusKey: string]: Array<Position> } = {};
   public statusLabels = Object.values(StatusLabelEnum);
   public draggedPosition: Position | undefined;
+  public currentDropTarget: string | null = null;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -62,6 +64,17 @@ export class StatusBoardComponent implements OnInit, OnDestroy {
   }
 
   onDragEnd(status: String) {
+    this.currentDropTarget = null;
+  }
+
+  onDragEnter(status: string) {
+    this.currentDropTarget = status;
+  }
+
+  onDragLeave(status: string) {
+    if (this.currentDropTarget === status) {
+      this.currentDropTarget = null;
+    }
   }
 
   ngOnDestroy(): void {
