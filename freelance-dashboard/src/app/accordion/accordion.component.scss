@@ -1,47 +1,61 @@
+// Variables
+$accordion-padding: 10px;
+$arrow-size: 10px;
+$arrow-border-width: 2px;
+$transition-duration: 0.3s;
+$spacing: 10px;
+$line-thickness: 2px;
+
 .accordion {
+  // Header styles
   .accordion-header {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: $accordion-padding;
+    overflow-x: auto;
 
+    // Arrow indicator
     .arrow {
-      width: 10px;
-      height: 10px;
+      width: $arrow-size;
+      height: $arrow-size;
       border: solid black;
-      border-width: 0 2px 2px 0;
+      border-width: 0 $arrow-border-width $arrow-border-width 0;
       transform: rotate(45deg);
-      transition: transform 0.3s;
+      transition: transform $transition-duration;
 
       &.expanded {
         transform: rotate(-135deg);
       }
     }
 
+    // Title styling
     .title {
-      margin-left: 10px;
+      margin-left: $spacing;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    // Horizontal line
+    .line {
+      margin-left: $spacing;
+      width: 100%;
+      border-bottom: $line-thickness solid;
+      flex-shrink: 1;
+      min-width: 20px;
     }
   }
 
+  // Content area
   .accordion-content {
-
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s;
-    padding-left: 10px;
-    padding-right: 10px;
+    transition: max-height $transition-duration;
+    padding-left: $accordion-padding;
+    padding-right: $accordion-padding;
 
     &.expanded {
       max-height: fit-content;
     }
-  }
-
-  .line {
-    /*border: none;
-    border-top: 1px solid black;
-    margin: 10px 0;*/
-    margin-left: 10px;
-    width: 100%;
-    border-bottom: 2px solid;
   }
 }
