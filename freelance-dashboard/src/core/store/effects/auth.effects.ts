@@ -19,6 +19,7 @@ import {AuthService} from '@auth0/auth0-angular';
 import {EventType} from '../models/models';
 import {TranslateService} from '@ngx-translate/core';
 import {EventService} from '../../services/event.service';
+import {AppRoutes} from '../../utils/app-routes.util';
 
 @Injectable()
 export class AuthEffects {
@@ -53,7 +54,7 @@ export class AuthEffects {
         );
       }),
       //tap(() => this.router.navigate(['main']))
-      tap(() => this.router.navigate(['positions']))
+      tap(() => this.router.navigate([AppRoutes.MAIN]))
     ))
   ));
 
@@ -83,7 +84,7 @@ export class AuthEffects {
     mergeMap(action => this.freelancerService.signup(action.freelancer).pipe(
       map((freelancer) => SetFreelancer({freelancer: freelancer})),
       catchError(err => of(SignupFailure({error: err}))), //TODO : replace err with an implicit error message instead of returning technical items
-      tap(() => this.router.navigate(['main']))
+      tap(() => this.router.navigate([AppRoutes.MAIN]))
     )),
   ));
 
@@ -156,7 +157,7 @@ export class AuthEffects {
       ),
       finalize(() => {
         //TODO create an Enum for all routes
-        this.router.navigate(['/login']);
+        this.router.navigate([AppRoutes.LOGIN]);
       })
     ))
   ));

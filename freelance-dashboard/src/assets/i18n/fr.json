@@ -66,6 +66,7 @@
   "name": "Nom*",
   "no": "Non",
   "noPositionsYet": "Vous n'avez pas encore des positionnements dans cette section !",
+  "createPositionsBefore": "Allez dans la section <u><b>Positionnements</b></u> et créez-en pour visualiser les stats",
   "noResult": "Pas de résultat ",
   "orConnect": "ou <a href={{url}}> Connecte toi</a>",
   "orCreateAccount": "ou <a href={{url}}> Crée ton compte</a>",
