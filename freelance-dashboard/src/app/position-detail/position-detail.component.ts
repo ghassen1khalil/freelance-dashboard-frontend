@@ -11,7 +11,6 @@ import {Button} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
-import {Textarea} from 'primeng/textarea';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FloatLabel} from 'primeng/floatlabel';
 import {DatePicker} from 'primeng/datepicker';
@@ -23,6 +22,8 @@ import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
+import {NgForOf, NgIf} from '@angular/common';
+import {Divider} from 'primeng/divider';
 
 
 @Component({
@@ -35,7 +36,6 @@ import {Editor} from 'primeng/editor';
     DropdownModule,
     Fieldset,
     InputText,
-    Textarea,
     TranslatePipe,
     FloatLabel,
     DatePicker,
@@ -43,7 +43,10 @@ import {Editor} from 'primeng/editor';
     ConfirmDialog,
     Dialog,
     Editor,
-    FormsModule
+    FormsModule,
+    NgIf,
+    NgForOf,
+    Divider
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -182,6 +185,8 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
+    this.isDrawerVisible = false;
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 }

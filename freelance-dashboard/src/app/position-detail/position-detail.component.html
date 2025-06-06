@@ -1,9 +1,11 @@
 <!--<p-drawer header="{{position?.client}}" [(visible)]="isDrawerVisible" position="right" style="width: 32rem">-->
-<p-drawer [(visible)]="isDrawerVisible" position="right" style="width: 32rem">
+<p-drawer [(visible)]="isDrawerVisible" position="right" styleClass="!w-[600px]">
   <!--<ng-template #closeicon style="display: none"></ng-template>-->
   <ng-template #header>
     <div>
+      <p class="drawer-title">{{ ('positionDetail' | translate) }}</p>
       <p class="drawer-title">{{ isCreation ? ('addPosition' | translate) : position?.client }}</p>
+      <p-divider styleClass="!w-[600px]"/>
     </div>
   </ng-template>
 
@@ -155,13 +157,21 @@
           </p-fieldset>
         </div>
 
-        <!--Remarks-->
-        <div class="col-12 fd-flex fd-flex-row">
-          <p-floatlabel variant="on">
-            <textarea pTextarea id="notes" formControlName="notes" rows="10" cols="30" style="resize: none"
-                      class="h-full"></textarea>
-            <label for="notes">{{ 'notes' | translate }}</label>
-          </p-floatlabel>
+        <!--Notes-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-fieldset class="fd-flex fd-flex-row fd-full-width" legend="{{'notes' | translate}}">
+            <p-floatlabel variant="on">
+              <input autocomplete="off" formControlName="note" id="note" pInputText/>
+              <label for="note">{{ 'note' | translate }}</label>
+            </p-floatlabel>
+
+            <div class="flex flex-col">
+              <ng-container *ngIf="position.notes && position.notes.length > 0">
+                <span *ngFor="let note of position.notes">{{ note }}</span>
+              </ng-container>
+            </div>
+          </p-fieldset>
+
         </div>
 
 

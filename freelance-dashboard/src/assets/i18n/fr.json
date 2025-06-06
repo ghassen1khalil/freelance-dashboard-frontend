@@ -193,6 +193,7 @@
   "daysPerWeek": "(j/s)",
   "team": "Équipe",
   "notes": "Notes",
+  "note": "Note",
   "ok": "OK",
   "close": "Fermer",
   "refreshPosition": "Réactiver le positionnement",
@@ -212,5 +213,6 @@
   "positionsByStatus": "Positionnements par statut",
   "freelancerAcceptance": "Taux d'acceptation",
   "accepted": "Accepté",
-  "rejected": "Refusé"
+  "rejected": "Refusé",
+  "positionDetail": "Détail du positionnement"
 }
