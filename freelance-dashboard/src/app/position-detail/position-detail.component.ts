@@ -24,6 +24,7 @@ import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
 import {NgForOf, NgIf} from '@angular/common';
 import {Divider} from 'primeng/divider';
+import {DateService} from '../../core/services/date.service';
 
 
 @Component({
@@ -76,7 +77,9 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
               protected positionDetailUtil: PositionDetailUtilService,
               private confirmationService: ConfirmationService,
               private translate: TranslateService,
-              private positionService: PositionsService) {}
+              private positionService: PositionsService,
+              private dateService: DateService) {
+  }
 
   ngOnInit(): void {
     this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
@@ -137,7 +140,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public updatePosition() {
     this.positionDetailUtil.updatePosition(this.positionForm, this.position);
     this.closeDrawer();
-
   }
 
 
@@ -188,5 +190,29 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.isDrawerVisible = false;
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  public onEnter() {
+    this.position = this.addNoteToPosition();
+    this.store.dispatch(UpdatePosition({position: this.position}));
+    this.resetNoteInput();
+  }
+
+  private addNoteToPosition(): Position {
+    return {
+      ...this.position,
+      notes: [
+        ...(this.position.notes ?? []),
+        {
+          content: this.positionForm.get('note')?.value,
+          addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT),
+        }
+      ]
+    };
+  }
+
+  // Create a method to set note form input to empty after saving
+  private resetNoteInput() {
+    this.positionForm.get('note')?.setValue('');
   }
 }

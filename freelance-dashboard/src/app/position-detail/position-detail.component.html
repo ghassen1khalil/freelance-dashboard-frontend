@@ -161,13 +161,13 @@
         <div class="col-12 fd-flex fd-flex-column">
           <p-fieldset class="fd-flex fd-flex-row fd-full-width" legend="{{'notes' | translate}}">
             <p-floatlabel variant="on">
-              <input autocomplete="off" formControlName="note" id="note" pInputText/>
+              <input (keyup.enter)="onEnter()" autocomplete="off" formControlName="note" id="note" pInputText/>
               <label for="note">{{ 'note' | translate }}</label>
             </p-floatlabel>
 
             <div class="flex flex-col">
               <ng-container *ngIf="position.notes && position.notes.length > 0">
-                <span *ngFor="let note of position.notes">{{ note }}</span>
+                <span *ngFor="let note of position.notes">{{ note.addedOn }} {{ note.content }}</span>
               </ng-container>
             </div>
           </p-fieldset>
