@@ -90,4 +90,31 @@ textarea {
     white-space: normal !important;
     max-width: 426px !important;
   }
+
+  .note-container {
+    position: relative;
+
+    .delete-note-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      background-color: transparent;
+      border: none;
+      color: var(--red-500);
+      width: 2rem;
+      height: 2rem;
+
+      &:hover {
+        background-color: var(--red-50);
+      }
+    }
+
+    &:hover {
+      .delete-note-btn {
+        opacity: 1;
+      }
+    }
+  }
 }

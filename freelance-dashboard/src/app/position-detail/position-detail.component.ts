@@ -7,7 +7,7 @@ import {Drawer} from 'primeng/drawer';
 import {select, Store} from '@ngrx/store';
 import {getPositionDetailsDrawer} from '../../core/store/reducers/position-details-drawer.reducers';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
@@ -48,7 +48,8 @@ import {Timeline} from 'primeng/timeline';
     FormsModule,
     NgIf,
     Divider,
-    Timeline
+    Timeline,
+    ButtonDirective
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -224,5 +225,24 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public formatDate(dateString: string | undefined): string {
     if (!dateString) return '';
     return this.dateService.format(dateString, 'MMM D, YYYY HH:mm');
+  }
+
+  /**
+   * Delete a note from the position
+   * @param index The index of the note to delete
+   */
+  public deleteNote(index: number): void {
+    if (!this.position.notes || this.position.notes.length === 0) return;
+
+    const updatedNotes = [...this.position.notes];
+    updatedNotes.splice(index, 1);
+
+    const updatedPosition = {
+      ...this.position,
+      notes: updatedNotes
+    };
+
+    this.position = updatedPosition;
+    this.store.dispatch(UpdatePosition({position: updatedPosition}));
   }
 }
