@@ -162,19 +162,31 @@
           <p-fieldset class="fd-flex fd-flex-row fd-full-width" legend="{{'notes' | translate}}">
             <p-floatlabel variant="on">
               <input (keyup.enter)="onEnter()" autocomplete="off" formControlName="note" id="note" pInputText/>
-              <label for="note">{{ 'note' | translate }}</label>
+              <label for="note">{{ 'addNote' | translate }}</label>
             </p-floatlabel>
 
-            <div class="flex flex-col">
+            <div class="flex flex-col w-full">
               <ng-container *ngIf="position.notes && position.notes.length > 0">
-                <span *ngFor="let note of position.notes">{{ note.addedOn }} {{ note.content }}</span>
+                <p-timeline [value]="position.notes" align="left" styleClass="mt-3">
+                  <ng-template let-note pTemplate="marker">
+                    <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
+                      <i class="pi pi-comment-fill"></i>
+                    </span>
+                  </ng-template>
+                  <ng-template let-note pTemplate="content">
+                    <div class="p-3 bg-surface-100 rounded-lg shadow-sm mb-3">
+                      <p class="text-sm text-gray-500 mb-1">{{ formatDate(note.addedOn) }}</p>
+                      <p class="text-base note-content">{{ note.content }}</p>
+                    </div>
+                  </ng-template>
+                </p-timeline>
               </ng-container>
+              <div *ngIf="!position.notes || position.notes.length === 0" class="text-center p-4 text-gray-500 italic">
+                {{ 'noNotesYet' | translate }}
+              </div>
             </div>
           </p-fieldset>
-
         </div>
-
-
       </div>
     </form>
   </ng-template>
@@ -275,5 +287,3 @@
     </div>
   </p-dialog>
 </div>
-
-

@@ -194,6 +194,8 @@
   "team": "Équipe",
   "notes": "Notes",
   "note": "Note",
+  "addNote": "Ajouter une note",
+  "noNotesYet": "Aucune note pour le moment",
   "ok": "OK",
   "close": "Fermer",
   "refreshPosition": "Réactiver le positionnement",

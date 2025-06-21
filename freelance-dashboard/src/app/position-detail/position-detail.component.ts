@@ -22,9 +22,10 @@ import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgIf} from '@angular/common';
 import {Divider} from 'primeng/divider';
 import {DateService} from '../../core/services/date.service';
+import {Timeline} from 'primeng/timeline';
 
 
 @Component({
@@ -46,8 +47,8 @@ import {DateService} from '../../core/services/date.service';
     Editor,
     FormsModule,
     NgIf,
-    NgForOf,
-    Divider
+    Divider,
+    Timeline
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -211,8 +212,17 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     };
   }
 
-  // Create a method to set note form input to empty after saving
   private resetNoteInput() {
     this.positionForm.get('note')?.setValue('');
+  }
+
+  /**
+   * Format the date for display in the timeline
+   * @param dateString The date string to format
+   * @returns Formatted date string
+   */
+  public formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    return this.dateService.format(dateString, 'MMM D, YYYY HH:mm');
   }
 }
