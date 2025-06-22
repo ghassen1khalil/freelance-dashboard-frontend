@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Currency, Position, PositionsService, PositionState} from '../../../generated';
+import {Currency, Note, Position, PositionsService, PositionState} from '../../../generated';
 import {Subject, takeUntil} from 'rxjs';
 import {PositionDetailUtilService} from './position-detail-util.service';
 import {Drawer} from 'primeng/drawer';
@@ -231,11 +231,17 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
    * Delete a note from the position
    * @param index The index of the note to delete
    */
-  public deleteNote(index: number): void {
+  public deleteNote(note: Note): void {
     if (!this.position.notes || this.position.notes.length === 0) return;
 
+    const noteIndex = this.position.notes.findIndex(n =>
+      n.content === note.content && n.addedOn === note.addedOn
+    );
+
+    if (noteIndex === -1) return;
+
     const updatedNotes = [...this.position.notes];
-    updatedNotes.splice(index, 1);
+    updatedNotes.splice(noteIndex, 1);
 
     const updatedPosition = {
       ...this.position,
