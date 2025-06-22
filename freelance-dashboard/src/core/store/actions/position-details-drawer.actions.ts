@@ -10,3 +10,7 @@ export const OpenPositionDetailsDrawer = createAction(
     isCreation: boolean
   }>()
 );
+
+export const ClosePositionDetailsDrawer = createAction(
+  '[POSITION DETAILS DRAWER] - Close Position Details Drawer'
+);

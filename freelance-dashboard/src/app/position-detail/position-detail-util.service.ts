@@ -32,8 +32,9 @@ export class PositionDetailUtilService {
       intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.name : '', [Validators.required]),
       intermediaryPhones: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.phones : ''),
       intermediaryEmail: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.email : '', [Validators.email]),
-      notes: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.notes : ''),
-      initialStatus: new FormControl('', this.nullityUtilService.isNotNullOrUndefined(position) ? [] : [Validators.required]),
+     //notes: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.notes : ''),
+     note: new FormControl(''),
+     //initialStatus: new FormControl('', this.nullityUtilService.isNotNullOrUndefined(position) ? [] : [Validators.required]),
     });
    this.handleFormDisable(positionForm, position);
    return positionForm;
@@ -70,7 +71,7 @@ export class PositionDetailUtilService {
         phones: form.controls['intermediaryPhones'].value,
         email: form.controls['intermediaryEmail'].value
       },
-      notes: form.controls['notes'].value,
+      //notes: isEditMode ? [...(position?.notes ?? []), form.get('notes')?.value] : form.controls['notes'].value,
       statuses: isEditMode ? position?.statuses :
         [{'label': StatusLabelEnum.CommercialSuggestion, 'date': this.dateService.today(DateService.YYYY_MM_DD_FORMAT)}],
       state: PositionState.Active

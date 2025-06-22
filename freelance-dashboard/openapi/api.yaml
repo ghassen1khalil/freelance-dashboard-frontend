@@ -379,14 +379,13 @@ components:
             type: string
   schemas:
     Position:
-      x-java-class-annotations:
-        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "positions")'
-        - '@lombok.Data'
-        - '@lombok.Builder'
-        - '@lombok.AllArgsConstructor'
-        - '@lombok.NoArgsConstructor'
-        - |
-          @org.springframework.data.mongodb.core.index.CompoundIndexes({@org.springframework.data.mongodb.core.index.CompoundIndex(name = "text_idx", def = "{'client': 'text', 'address': 'text', 'isFullRemote': 'text', 'notes': 'text', 'mission.role': 'text', 'mission.project': 'text', 'mission.team': 'text', 'mission.manager': 'text', 'intermediary.corporation': 'text', 'intermediary.name': 'text', 'dailyRate.amount': text}")})
+      x-class-extra-annotation: |-
+        @org.springframework.data.mongodb.core.mapping.Document(collection = "positions")
+        @lombok.Data
+        @lombok.Builder
+        @lombok.AllArgsConstructor
+        @lombok.NoArgsConstructor
+        @org.springframework.data.mongodb.core.index.CompoundIndexes({@org.springframework.data.mongodb.core.index.CompoundIndex(name = "text_idx", def = "{'client': 'text', 'address': 'text', 'isFullRemote': 'text', 'mission.role': 'text', 'mission.project': 'text', 'mission.team': 'text', 'mission.manager': 'text', 'intermediary.corporation': 'text', 'intermediary.name': 'text', 'dailyRate.amount': text}")})
       type: object
       properties:
         id:
@@ -402,8 +401,6 @@ components:
           type: string
         remoteDays:
           type: number
-        notes:
-          type: string
         creationDate:
           type: string
           format: date
@@ -425,6 +422,20 @@ components:
             $ref: '#/components/schemas/Status'
         state:
           $ref: '#/components/schemas/PositionState'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'
+    Note:
+      type: object
+      properties:
+        content:
+          type: string
+        addedOn:
+          x-field-extra-annotation: |-
+            @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+          type: string
+          format: date-time
     Mission:
       type: object
       properties:
@@ -469,12 +480,12 @@ components:
       enum: [ 'CHF','€', '$', '£' ]
       x-enum-varnames: [ 'SWISS_FRANC','EURO','DOLLAR','POUND' ]
     Freelancer:
-      x-java-class-annotations:
-        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "freelancers")'
-        - '@lombok.Data'
-        - '@lombok.Builder'
-        - '@lombok.AllArgsConstructor'
-        - '@lombok.NoArgsConstructor'
+      x-class-extra-annotation: |-
+        @org.springframework.data.mongodb.core.mapping.Document(collection = "freelancers")
+        @lombok.Data
+        @lombok.Builder
+        @lombok.AllArgsConstructor
+        @lombok.NoArgsConstructor
       type: object
       properties:
         id:
@@ -532,12 +543,12 @@ components:
         password:
           type: string
     PasswordResetToken:
-      x-java-class-annotations:
-        - '@org.springframework.data.mongodb.core.mapping.Document(collection = "password_reset_tokens")'
-        - '@lombok.Data'
-        - '@lombok.Builder'
-        - '@lombok.AllArgsConstructor'
-        - '@lombok.NoArgsConstructor'
+      x-class-extra-annotation: |-
+        @org.springframework.data.mongodb.core.mapping.Document(collection = "password_reset_tokens")
+        @lombok.Data
+        @lombok.Builder
+        @lombok.AllArgsConstructor
+        @lombok.NoArgsConstructor
       type: object
       properties:
         id:

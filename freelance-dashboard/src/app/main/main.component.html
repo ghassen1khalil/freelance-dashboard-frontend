@@ -1,50 +1,61 @@
-<div>
-  <div class="charts-container">
-    <div *ngIf="statusDoughnutChartData" class="chart-container">
-      <p-chart height="500px" type="doughnut" [data]="statusDoughnutChartData" [options]="chartOptions"></p-chart>
-    </div>
-    <div *ngIf="freelancerAcceptanceChartData" class="chart-container">
-      <p-chart height="500px" type="doughnut" [data]="freelancerAcceptanceChartData" [options]="freelancerAcceptanceChartOptions"></p-chart>
+@if (totalPositions === 0) {
+  <div class="flex justify-center items-center min-h-[300px]">
+    <div class="text-center p-8 dark:bg-gray-800 rounded-lg">
+      <span class="text-4xl font-light text-gray-700 dark:text-gray-200"
+            [innerHTML]="'createPositionsBefore' | translate"></span>
     </div>
   </div>
+} @else {
+  <div>
+    <div class="charts-container">
+      <div *ngIf="statusDoughnutChartData" class="chart-container">
+        <p-chart height="500px" type="doughnut" [data]="statusDoughnutChartData" [options]="chartOptions"></p-chart>
+      </div>
+      <div *ngIf="freelancerAcceptanceChartData" class="chart-container">
+        <p-chart height="500px" type="doughnut" [data]="freelancerAcceptanceChartData"
+                 [options]="freelancerAcceptanceChartOptions"></p-chart>
+      </div>
+    </div>
 
-  <div class="status-cards" *ngIf="statusCounts">
-    <div *ngFor="let status of statusCounts | keyvalue: compareStatus" class="status-card">
-      <p-card styleClass="status-card-container bg-white dark:bg-gray-800">
-        <ng-template pTemplate="header">
-          <div class="status-header">
+    <div class="status-cards" *ngIf="statusCounts">
+      <div *ngFor="let status of statusCounts | keyvalue: compareStatus" class="status-card">
+        <p-card styleClass="status-card-container bg-white dark:bg-gray-800">
+          <ng-template pTemplate="header">
+            <div class="status-header">
             <span class="status-icon" [ngClass]="getStatusIconClass(status.key)">
               <i [ngClass]="getStatusIcon(status.key)"></i>
             </span>
-            <span class="status-label text-gray-800 dark:text-gray-200">{{ status.key | translate }}</span>
-          </div>
-        </ng-template>
-        <div class="status-content">
-          <div class="flex justify-between items-center">
-            <p class="status-count text-3xl font-bold text-gray-900 dark:text-white">{{ status.value }}</p>
-            <div class="percentage-badge" [ngClass]="getStatusColorClass(status.key)">
-              {{ calculatePercentage(status.value) }}%
+              <span class="status-label text-gray-800 dark:text-gray-200">{{ status.key | translate }}</span>
+            </div>
+          </ng-template>
+          <div class="status-content">
+            <div class="flex justify-between items-center">
+              <p class="status-count text-3xl font-bold text-gray-900 dark:text-white">{{ status.value }}</p>
+              <div class="percentage-badge" [ngClass]="getStatusColorClass(status.key)">
+                {{ calculatePercentage(status.value) }}%
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="progress-bar">
+                <div class="progress-value" [style.width.%]="calculatePercentage(status.value)"
+                     [ngClass]="getStatusColorClass(status.key)"></div>
+              </div>
             </div>
           </div>
-          <div class="mt-4">
-            <div class="progress-bar">
-              <div class="progress-value" [style.width.%]="calculatePercentage(status.value)" [ngClass]="getStatusColorClass(status.key)"></div>
-            </div>
-          </div>
-        </div>
-      </p-card>
+        </p-card>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="isNoPositionsYet">
-    <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
-      <p class="text-4xl font-bold">{{'noPositionsYet' | translate}}</p>
-    </div>
+    <!--<div *ngIf="isNoPositionsYet">
+      <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
+        <p class="text-4xl font-bold">{{'noPositionsYet' | translate}}</p>
+      </div>
+    </div>-->
+    <!--<div *ngIf="isNoResultForFilter">
+      <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
+        <p class="text-4xl font-bold margin-left-right-8">{{'noResult' | translate}}</p>
+        <app-emoji emoji="👀" size="50"></app-emoji>
+      </div>
+    </div>-->
   </div>
-  <!--<div *ngIf="isNoResultForFilter">
-    <div class="fd-flex fd-flex-row fd-align-items-center fd-justify-content-center">
-      <p class="text-4xl font-bold margin-left-right-8">{{'noResult' | translate}}</p>
-      <app-emoji emoji="👀" size="50"></app-emoji>
-    </div>
-  </div>-->
-</div>
+}

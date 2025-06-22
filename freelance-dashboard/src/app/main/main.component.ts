@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Position, PositionState, StatusLabelEnum} from '../../../generated';
 import {select, Store} from '@ngrx/store';
-import {Subject, takeUntil} from 'rxjs';
+import {count, Subject, takeUntil} from 'rxjs';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import * as filterReducer from '../../core/store/reducers/filter.reducer'
 import {Router} from '@angular/router';
@@ -15,8 +15,6 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  public positionsMap: {[key: string]: Array<Position>};
-  public positionsYears: string[] = [];
   public statusDoughnutChartData: any | undefined;
   public statusCounts: { [key: string]: number } | undefined;
 
@@ -69,100 +67,16 @@ export class MainComponent implements OnInit, OnDestroy {
     responsive: true,
     maintainAspectRatio: false
   };
-
-  // Update chart options for dark mode
-  private updateChartOptionsForDarkMode(isDarkMode: boolean): void {
-    const textColor = isDarkMode ? 'rgb(229, 231, 235)' : 'rgb(51, 51, 51)';
-
-    this.chartOptions = {
-      ...this.chartOptions,
-      plugins: {
-        ...this.chartOptions.plugins,
-        legend: {
-          ...this.chartOptions.plugins.legend,
-          labels: {
-            ...this.chartOptions.plugins.legend.labels,
-            color: textColor
-          }
-        },
-        title: {
-          ...this.chartOptions.plugins.title,
-          color: textColor
-        }
-      }
-    };
-
-    if (this.freelancerAcceptanceChartOptions) {
-      this.freelancerAcceptanceChartOptions = {
-        ...this.freelancerAcceptanceChartOptions,
-        plugins: {
-          ...this.freelancerAcceptanceChartOptions.plugins,
-          legend: {
-            ...this.freelancerAcceptanceChartOptions.plugins.legend,
-            labels: {
-              ...this.freelancerAcceptanceChartOptions.plugins.legend.labels,
-              color: textColor
-            }
-          },
-          title: {
-            ...this.freelancerAcceptanceChartOptions.plugins.title,
-            color: textColor
-          }
-        }
-      };
-    }
-  }
-
-  private initializeFreelancerAcceptanceChartOptions(): void {
-    this.freelancerAcceptanceChartOptions = {
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            font: {
-              size: 12
-            },
-            color: 'rgb(51, 51, 51)' // Dark text for light mode
-          }
-        },
-        title: {
-          display: true,
-          text: this.translateService.instant('freelancerAcceptance'),
-          font: {
-            size: 16
-          },
-          color: 'rgb(51, 51, 51)' // Dark text for light mode
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context: any) {
-              const label = context.label || '';
-              const value = context.raw || 0;
-              const total = context.chart.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
-              const percentage = Math.round((value / total) * 100);
-              return `${label}: ${value} (${percentage}%)`;
-            }
-          }
-        }
-      },
-      cutout: '60%',
-      responsive: true,
-      maintainAspectRatio: false
-    };
-  }
-
   public isFilterSet: boolean | undefined;
-  public isNoPositionsYet: boolean | undefined;
-  public isNoResultForFilter: boolean | undefined;
 
-  private totalPositionings: number = 0;
+  public totalPositions: number = 0;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private router: Router,
               private store: Store,
               private translateService: TranslateService) {
   }
+  protected readonly count = count;
 
   ngOnInit(): void {
     // Check for dark mode on initialization
@@ -189,7 +103,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe((positions) => {
       if (positions !== undefined) {
         this.calculateStatusCounts(positions[PositionState.Active]);
-        this.totalPositionings = this.calculateTotalPositionings(positions[PositionState.Active]);
+        this.totalPositions = this.calculateTotalPositionings(positions[PositionState.Active]);
       }
     });
 
@@ -203,6 +117,66 @@ export class MainComponent implements OnInit, OnDestroy {
         this.isFilterSet = undefined;
       }
     });
+  }
+
+  // Custom comparator function for keyvalue pipe to sort status cards
+  public compareStatus = (a: { key: string, value: number }, b: { key: string, value: number }): number => {
+    const indexA = this.statusOrder.indexOf(a.key as StatusLabelEnum);
+    const indexB = this.statusOrder.indexOf(b.key as StatusLabelEnum);
+
+    // If both keys are in the statusOrder array, sort by their position in the array
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    }
+
+    // If only one key is in the statusOrder array, prioritize it
+    if (indexA !== -1) {
+      return -1;
+    }
+    if (indexB !== -1) {
+      return 1;
+    }
+
+    // If neither key is in the statusOrder array, maintain original order
+    return 0;
+  }
+
+  public calculatePercentage(count: number): number {
+    return this.totalPositions > 0 ? Math.round((count / this.totalPositions) * 100) : 0;
+  }
+
+  public getStatusIcon(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return 'pi pi-briefcase';
+      case StatusLabelEnum.Positioned:
+        return 'pi pi-check-circle';
+      case StatusLabelEnum.InterviewPlanned:
+        return 'pi pi-calendar';
+      case StatusLabelEnum.WaitingForResponse:
+        return 'pi pi-clock';
+      case StatusLabelEnum.ResponseReceived:
+        return 'pi pi-envelope';
+      default:
+        return 'pi pi-tag';
+    }
+  }
+
+  public getStatusIconClass(status: string): string {
+    switch (status) {
+      case StatusLabelEnum.CommercialSuggestion:
+        return 'bg-blue-100 dark:bg-blue-900';
+      case StatusLabelEnum.Positioned:
+        return 'bg-green-100 dark:bg-green-900';
+      case StatusLabelEnum.InterviewPlanned:
+        return 'bg-purple-100 dark:bg-purple-900';
+      case StatusLabelEnum.WaitingForResponse:
+        return 'bg-yellow-100 dark:bg-yellow-900';
+      case StatusLabelEnum.ResponseReceived:
+        return 'bg-red-100 dark:bg-red-900';
+      default:
+        return 'bg-gray-100 dark:bg-gray-900';
+    }
   }
 
   private calculateStatusCounts(positions: { [stateKey: string]: Array<Position> }): void {
@@ -360,48 +334,6 @@ export class MainComponent implements OnInit, OnDestroy {
     return Object.values(positions).reduce((total, positionList) => total + positionList.length, 0);
   }
 
-  public calculatePercentage(count: number): number {
-    return this.totalPositionings > 0 ? Math.round((count / this.totalPositionings) * 100) : 0;
-  }
-
-  public goToAddPosition() {
-    this.router.navigate(['/', 'position']);
-  }
-
-  public getStatusIcon(status: string): string {
-    switch (status) {
-      case StatusLabelEnum.CommercialSuggestion:
-        return 'pi pi-briefcase';
-      case StatusLabelEnum.Positioned:
-        return 'pi pi-check-circle';
-      case StatusLabelEnum.InterviewPlanned:
-        return 'pi pi-calendar';
-      case StatusLabelEnum.WaitingForResponse:
-        return 'pi pi-clock';
-      case StatusLabelEnum.ResponseReceived:
-        return 'pi pi-envelope';
-      default:
-        return 'pi pi-tag';
-    }
-  }
-
-  public getStatusIconClass(status: string): string {
-    switch (status) {
-      case StatusLabelEnum.CommercialSuggestion:
-        return 'bg-blue-100 dark:bg-blue-900';
-      case StatusLabelEnum.Positioned:
-        return 'bg-green-100 dark:bg-green-900';
-      case StatusLabelEnum.InterviewPlanned:
-        return 'bg-purple-100 dark:bg-purple-900';
-      case StatusLabelEnum.WaitingForResponse:
-        return 'bg-yellow-100 dark:bg-yellow-900';
-      case StatusLabelEnum.ResponseReceived:
-        return 'bg-red-100 dark:bg-red-900';
-      default:
-        return 'bg-gray-100 dark:bg-gray-900';
-    }
-  }
-
   public getStatusColorClass(status: string): string {
     switch (status) {
       case StatusLabelEnum.CommercialSuggestion:
@@ -422,9 +354,9 @@ export class MainComponent implements OnInit, OnDestroy {
   private checkDarkMode(): void {
     // Check if the document body or html has a dark mode class
     const isDarkMode = document.body.classList.contains('dark-mode') ||
-                       document.documentElement.classList.contains('dark-mode') ||
-                       document.body.classList.contains('dark-theme') ||
-                       document.documentElement.classList.contains('dark-theme');
+      document.documentElement.classList.contains('dark-mode') ||
+      document.body.classList.contains('dark-theme') ||
+      document.documentElement.classList.contains('dark-theme');
 
     // Update chart options based on dark mode
     this.updateChartOptionsForDarkMode(isDarkMode);
@@ -434,9 +366,9 @@ export class MainComponent implements OnInit, OnDestroy {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
           const newIsDarkMode = document.body.classList.contains('dark-mode') ||
-                               document.documentElement.classList.contains('dark-mode') ||
-                               document.body.classList.contains('dark-theme') ||
-                               document.documentElement.classList.contains('dark-theme');
+            document.documentElement.classList.contains('dark-mode') ||
+            document.body.classList.contains('dark-theme') ||
+            document.documentElement.classList.contains('dark-theme');
           this.updateChartOptionsForDarkMode(newIsDarkMode);
         }
       });
@@ -447,30 +379,90 @@ export class MainComponent implements OnInit, OnDestroy {
     observer.observe(document.documentElement, { attributes: true });
   }
 
+  // Update chart options for dark mode
+  private updateChartOptionsForDarkMode(isDarkMode: boolean): void {
+    const textColor = isDarkMode ? 'rgb(229, 231, 235)' : 'rgb(51, 51, 51)';
+
+    this.chartOptions = {
+      ...this.chartOptions,
+      plugins: {
+        ...this.chartOptions.plugins,
+        legend: {
+          ...this.chartOptions.plugins.legend,
+          labels: {
+            ...this.chartOptions.plugins.legend.labels,
+            color: textColor
+          }
+        },
+        title: {
+          ...this.chartOptions.plugins.title,
+          color: textColor
+        }
+      }
+    };
+
+    if (this.freelancerAcceptanceChartOptions) {
+      this.freelancerAcceptanceChartOptions = {
+        ...this.freelancerAcceptanceChartOptions,
+        plugins: {
+          ...this.freelancerAcceptanceChartOptions.plugins,
+          legend: {
+            ...this.freelancerAcceptanceChartOptions.plugins.legend,
+            labels: {
+              ...this.freelancerAcceptanceChartOptions.plugins.legend.labels,
+              color: textColor
+            }
+          },
+          title: {
+            ...this.freelancerAcceptanceChartOptions.plugins.title,
+            color: textColor
+          }
+        }
+      };
+    }
+  }
+
   ngOnDestroy(): void {
     this.store.dispatch(SetFilteredPositions({positions: undefined}))
     this.unsubscribe$.complete();
   }
 
-  // Custom comparator function for keyvalue pipe to sort status cards
-  public compareStatus = (a: { key: string, value: number }, b: { key: string, value: number }): number => {
-    const indexA = this.statusOrder.indexOf(a.key as StatusLabelEnum);
-    const indexB = this.statusOrder.indexOf(b.key as StatusLabelEnum);
-
-    // If both keys are in the statusOrder array, sort by their position in the array
-    if (indexA !== -1 && indexB !== -1) {
-      return indexA - indexB;
-    }
-
-    // If only one key is in the statusOrder array, prioritize it
-    if (indexA !== -1) {
-      return -1;
-    }
-    if (indexB !== -1) {
-      return 1;
-    }
-
-    // If neither key is in the statusOrder array, maintain original order
-    return 0;
+  private initializeFreelancerAcceptanceChartOptions(): void {
+    this.freelancerAcceptanceChartOptions = {
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            font: {
+              size: 12
+            },
+            color: 'rgb(51, 51, 51)' // Dark text for light mode
+          }
+        },
+        title: {
+          display: true,
+          text: this.translateService.instant('freelancerAcceptance'),
+          font: {
+            size: 16
+          },
+          color: 'rgb(51, 51, 51)' // Dark text for light mode
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context: any) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const total = context.chart.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
+              const percentage = Math.round((value / total) * 100);
+              return `${label}: ${value} (${percentage}%)`;
+            }
+          }
+        }
+      },
+      cutout: '60%',
+      responsive: true,
+      maintainAspectRatio: false
+    };
   }
 }
