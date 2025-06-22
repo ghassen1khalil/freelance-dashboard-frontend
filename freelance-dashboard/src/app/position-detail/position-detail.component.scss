@@ -3,6 +3,17 @@
   font-size: var(--p-drawer-title-font-size);
 }
 
+.drawer-title-flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.drawer-title-flex span:first-child {
+  margin-right: 8px;
+}
+
 .drawer-width {
   width: 32rem!important;
 }
