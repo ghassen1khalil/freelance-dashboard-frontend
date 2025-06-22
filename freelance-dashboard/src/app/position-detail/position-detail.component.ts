@@ -111,6 +111,11 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     });
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   public isButtonShown(button: string): boolean {
     if (button === 'save') {
       return this.isCreation;
@@ -205,14 +210,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.resetNoteInput();
   }
 
-  ngOnDestroy(): void {
-    this.isDrawerVisible = false;
-    this.store.dispatch(ClosePositionDetailsDrawer())
-    this.notes.set([]);
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
   private addNoteToPosition(): Position {
     return {
       ...this.position,
@@ -268,5 +265,10 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT)
     };
   }
-}
 
+  public onDismiss() {
+    this.isDrawerVisible = false;
+    this.store.dispatch(ClosePositionDetailsDrawer())
+    this.notes.set([]);
+  }
+}
