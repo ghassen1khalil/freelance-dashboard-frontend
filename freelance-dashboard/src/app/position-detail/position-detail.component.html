@@ -1,11 +1,18 @@
 <!--<p-drawer header="{{position?.client}}" [(visible)]="isDrawerVisible" position="right" style="width: 32rem">-->
-<p-drawer [(visible)]="isDrawerVisible" position="right" styleClass="!w-[600px]">
+<p-drawer (onHide)="onDismiss()" [(visible)]="isDrawerVisible" position="right" showCloseIcon="false"
+          styleClass="!w-[600px]">
   <!--<ng-template #closeicon style="display: none"></ng-template>-->
   <ng-template #header>
-    <div>
-      <p class="drawer-title">{{ ('positionDetail' | translate) }}</p>
-      <p class="drawer-title">{{ isCreation ? ('addPosition' | translate) : position?.client }}</p>
-      <p-divider styleClass="!w-[600px]"/>
+    <div class="w-full">
+      @if (isCreation) {
+        <p class="drawer-title">{{ ('addPosition' | translate) }}</p>
+      } @else {
+        <p class="drawer-title drawer-title-flex">
+          <span>{{ ('addPosition' | translate) }}</span>
+          <span>{{ position?.client }}</span>
+        </p>
+      }
+      <p-divider styleClass="w-full"></p-divider>
     </div>
   </ng-template>
 

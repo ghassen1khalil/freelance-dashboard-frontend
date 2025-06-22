@@ -43,7 +43,6 @@
   },
   "deleteAccountError": "Une erreur est survenue lors de la suppression de votre compte ! Veuillez réessayer plus tard.",
   "deleteMyAccount": "Supprimer mon compte",
-  "deleteNote": "Supprimer la note",
   "deletePositionErrorMessage": "Erreur lors de la suppression d'un positionnement",
   "deletePositionSuccessMessage": "Positionnement supprimé avec succés",
   "email": "Email",
