@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Currency, Note, Position, PositionsService, PositionState} from '../../../generated';
 import {Subject, takeUntil} from 'rxjs';
@@ -26,8 +26,9 @@ import {NgIf} from '@angular/common';
 import {Divider} from 'primeng/divider';
 import {DateService} from '../../core/services/date.service';
 import {Timeline} from 'primeng/timeline';
+import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-details-drawer.actions';
 
-
+//TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
   selector: 'app-position-detail',
   standalone: true,
@@ -68,6 +69,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   public isFollowupEmailEditorVisible: boolean = false;
   public emailBody: string | undefined;
+  public notes = signal<Note[]>([]);
 
   private freelancerId: string | undefined;
 
@@ -85,15 +87,19 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
-    this.store.pipe(
-      select(getPositionDetailsDrawer),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(state => {
-      this.isCreation = state.isCreation;
-      this.isDrawerVisible = state.isDrawerShown;
-      this.position = state.position!;
-      this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
-    });
+    //Only when EDITING an existing position, the position is fetched from the store
+    if (!this.isCreation) {
+      this.store.pipe(
+        select(getPositionDetailsDrawer),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(state => {
+        this.isCreation = state.isCreation;
+        this.isDrawerVisible = state.isDrawerShown;
+        this.position = state.position!;
+        this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+      });
+    }
+
 
     this.store.pipe(
       select(getAuth),
@@ -132,6 +138,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     if (this.positionForm.valid) {
       const position = this.positionDetailUtil.createPositionFromForm(false, this.positionForm, this.position);
       position.freelancerId = this.freelancerId;
+      position.notes = this.notes() ?? [];
       this.store.dispatch(PositionActions.SavePosition({
         position: position
       }));
@@ -188,16 +195,22 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   }
 
-  ngOnDestroy(): void {
-    this.isDrawerVisible = false;
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+  public onEnter() {
+    if (!this.isCreation) {
+      this.position = this.addNoteToPosition();
+      this.store.dispatch(UpdatePosition({position: this.position}));
+    } else {
+      this.notes.update(notes => [...notes, this.createNoteFromForm()]);
+    }
+    this.resetNoteInput();
   }
 
-  public onEnter() {
-    this.position = this.addNoteToPosition();
-    this.store.dispatch(UpdatePosition({position: this.position}));
-    this.resetNoteInput();
+  ngOnDestroy(): void {
+    this.isDrawerVisible = false;
+    this.store.dispatch(ClosePositionDetailsDrawer())
+    this.notes.set([]);
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private addNoteToPosition(): Position {
@@ -205,10 +218,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       ...this.position,
       notes: [
         ...(this.position.notes ?? []),
-        {
-          content: this.positionForm.get('note')?.value,
-          addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT),
-        }
+        this.createNoteFromForm()
       ]
     };
   }
@@ -251,4 +261,12 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.position = updatedPosition;
     this.store.dispatch(UpdatePosition({position: updatedPosition}));
   }
+
+  private createNoteFromForm(): Note {
+    return {
+      content: this.positionForm.get('note')?.value,
+      addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT)
+    };
+  }
 }
+
