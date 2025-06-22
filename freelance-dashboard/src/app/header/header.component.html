@@ -5,10 +5,12 @@
       <p class="text-xl font-bold hide-for-mobile pointer" (click)="goToHome()">{{'app-title' | translate}}</p>
     </div>
   </div>-->
-  <div class="fd-flex fd-flex-row fd-align-items-center  fd-full-width search-bar-container">
+
+
+  <!--<div class="fd-flex fd-flex-row fd-align-items-center  fd-full-width search-bar-container">
     <input *ngIf="isMainPage()" type="text" pInputText placeholder="{{'search' | translate}}" class="search-field"
            [formControl]="searchControl"/>
-  </div>
+  </div>-->
 
   <div class="fd-flex fd-flex-row-reverse fd-align-items-center ">
     <div *ngIf="freelancer" class="connected-user-container" (click)="menu.toggle($event)">

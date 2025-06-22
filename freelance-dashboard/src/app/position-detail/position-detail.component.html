@@ -1,9 +1,11 @@
 <!--<p-drawer header="{{position?.client}}" [(visible)]="isDrawerVisible" position="right" style="width: 32rem">-->
-<p-drawer [(visible)]="isDrawerVisible" position="right" style="width: 32rem">
+<p-drawer [(visible)]="isDrawerVisible" position="right" styleClass="!w-[600px]">
   <!--<ng-template #closeicon style="display: none"></ng-template>-->
   <ng-template #header>
     <div>
+      <p class="drawer-title">{{ ('positionDetail' | translate) }}</p>
       <p class="drawer-title">{{ isCreation ? ('addPosition' | translate) : position?.client }}</p>
+      <p-divider styleClass="!w-[600px]"/>
     </div>
   </ng-template>
 
@@ -155,16 +157,71 @@
           </p-fieldset>
         </div>
 
-        <!--Remarks-->
-        <div class="col-12 fd-flex fd-flex-row">
-          <p-floatlabel variant="on">
-            <textarea pTextarea id="notes" formControlName="notes" rows="10" cols="30" style="resize: none"
-                      class="h-full"></textarea>
-            <label for="notes">{{ 'notes' | translate }}</label>
-          </p-floatlabel>
+        <!--Notes-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-fieldset class="fd-flex fd-flex-row fd-full-width" legend="{{'notes' | translate}}">
+            <p-floatlabel variant="on">
+              <input (keyup.enter)="onEnter()" autocomplete="off" formControlName="note" id="note" pInputText/>
+              <label for="note">{{ 'addNote' | translate }}</label>
+            </p-floatlabel>
+
+            <div class="flex flex-col w-full">
+              @if (isCreation) {
+                <p-timeline [value]="notes()" align="left" styleClass="mt-3">
+                  <ng-template let-note pTemplate="marker">
+                    <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
+                      <i class="pi pi-comment-fill"></i>
+                    </span>
+                  </ng-template>
+                  <ng-template let-i="index" let-note pTemplate="content">
+                    <div class="p-3 bg-surface-100 rounded-lg shadow-sm mb-3 note-container">
+                      <p class="text-sm text-gray-500 mb-1">{{ formatDate(note.addedOn) }}</p>
+                      <p class="text-base note-content">{{ note.content }}</p>
+                      <button
+                        (click)="deleteNote(note)"
+                        *ngIf="position.state === PositionState.Active"
+                        [attr.aria-label]="'deleteNote' | translate"
+                        class="delete-note-btn"
+                        icon="pi pi-trash"
+                        pButton
+                        type="button">
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-timeline>
+              }
+              @if (position.notes && position.notes.length > 0) {
+                <p-timeline [value]="position.notes" align="left" styleClass="mt-3">
+                  <ng-template let-note pTemplate="marker">
+                    <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
+                      <i class="pi pi-comment-fill"></i>
+                    </span>
+                  </ng-template>
+                  <ng-template let-i="index" let-note pTemplate="content">
+                    <div class="p-3 bg-surface-100 rounded-lg shadow-sm mb-3 note-container">
+                      <p class="text-sm text-gray-500 mb-1">{{ formatDate(note.addedOn) }}</p>
+                      <p class="text-base note-content">{{ note.content }}</p>
+                      <button
+                        (click)="deleteNote(note)"
+                        *ngIf="position.state === PositionState.Active"
+                        [attr.aria-label]="'deleteNote' | translate"
+                        class="delete-note-btn"
+                        icon="pi pi-trash"
+                        pButton
+                        type="button">
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-timeline>
+              } @else if ((!isCreation && (!position.notes || position.notes.length === 0)) || (isCreation && (!notes() || notes().length === 0))) {
+                <div class="text-center p-4 text-gray-500 italic">
+                  {{ 'noNotesYet' | translate }}
+                </div>
+              }
+
+            </div>
+          </p-fieldset>
         </div>
-
-
       </div>
     </form>
   </ng-template>
@@ -265,5 +322,3 @@
     </div>
   </p-dialog>
 </div>
-
-

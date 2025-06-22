@@ -1,17 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Currency, Position, PositionsService, PositionState} from '../../../generated';
+import {Currency, Note, Position, PositionsService, PositionState} from '../../../generated';
 import {Subject, takeUntil} from 'rxjs';
 import {PositionDetailUtilService} from './position-detail-util.service';
 import {Drawer} from 'primeng/drawer';
 import {select, Store} from '@ngrx/store';
 import {getPositionDetailsDrawer} from '../../core/store/reducers/position-details-drawer.reducers';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
-import {Textarea} from 'primeng/textarea';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FloatLabel} from 'primeng/floatlabel';
 import {DatePicker} from 'primeng/datepicker';
@@ -23,8 +22,13 @@ import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
+import {NgIf} from '@angular/common';
+import {Divider} from 'primeng/divider';
+import {DateService} from '../../core/services/date.service';
+import {Timeline} from 'primeng/timeline';
+import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-details-drawer.actions';
 
-
+//TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
   selector: 'app-position-detail',
   standalone: true,
@@ -35,7 +39,6 @@ import {Editor} from 'primeng/editor';
     DropdownModule,
     Fieldset,
     InputText,
-    Textarea,
     TranslatePipe,
     FloatLabel,
     DatePicker,
@@ -43,7 +46,11 @@ import {Editor} from 'primeng/editor';
     ConfirmDialog,
     Dialog,
     Editor,
-    FormsModule
+    FormsModule,
+    NgIf,
+    Divider,
+    Timeline,
+    ButtonDirective
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -62,6 +69,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   public isFollowupEmailEditorVisible: boolean = false;
   public emailBody: string | undefined;
+  public notes = signal<Note[]>([]);
 
   private freelancerId: string | undefined;
 
@@ -73,19 +81,25 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
               protected positionDetailUtil: PositionDetailUtilService,
               private confirmationService: ConfirmationService,
               private translate: TranslateService,
-              private positionService: PositionsService) {}
+              private positionService: PositionsService,
+              private dateService: DateService) {
+  }
 
   ngOnInit(): void {
     this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
-    this.store.pipe(
-      select(getPositionDetailsDrawer),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(state => {
-      this.isCreation = state.isCreation;
-      this.isDrawerVisible = state.isDrawerShown;
-      this.position = state.position!;
-      this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
-    });
+    //Only when EDITING an existing position, the position is fetched from the store
+    if (!this.isCreation) {
+      this.store.pipe(
+        select(getPositionDetailsDrawer),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(state => {
+        this.isCreation = state.isCreation;
+        this.isDrawerVisible = state.isDrawerShown;
+        this.position = state.position!;
+        this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+      });
+    }
+
 
     this.store.pipe(
       select(getAuth),
@@ -124,6 +138,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     if (this.positionForm.valid) {
       const position = this.positionDetailUtil.createPositionFromForm(false, this.positionForm, this.position);
       position.freelancerId = this.freelancerId;
+      position.notes = this.notes() ?? [];
       this.store.dispatch(PositionActions.SavePosition({
         position: position
       }));
@@ -134,7 +149,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public updatePosition() {
     this.positionDetailUtil.updatePosition(this.positionForm, this.position);
     this.closeDrawer();
-
   }
 
 
@@ -181,7 +195,78 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   }
 
+  public onEnter() {
+    if (!this.isCreation) {
+      this.position = this.addNoteToPosition();
+      this.store.dispatch(UpdatePosition({position: this.position}));
+    } else {
+      this.notes.update(notes => [...notes, this.createNoteFromForm()]);
+    }
+    this.resetNoteInput();
+  }
+
   ngOnDestroy(): void {
+    this.isDrawerVisible = false;
+    this.store.dispatch(ClosePositionDetailsDrawer())
+    this.notes.set([]);
+    this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
+  private addNoteToPosition(): Position {
+    return {
+      ...this.position,
+      notes: [
+        ...(this.position.notes ?? []),
+        this.createNoteFromForm()
+      ]
+    };
+  }
+
+  private resetNoteInput() {
+    this.positionForm.get('note')?.setValue('');
+  }
+
+  /**
+   * Format the date for display in the timeline
+   * @param dateString The date string to format
+   * @returns Formatted date string
+   */
+  public formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    return this.dateService.format(dateString, 'MMM D, YYYY HH:mm');
+  }
+
+  /**
+   * Delete a note from the position
+   * @param index The index of the note to delete
+   */
+  public deleteNote(note: Note): void {
+    if (!this.position.notes || this.position.notes.length === 0) return;
+
+    const noteIndex = this.position.notes.findIndex(n =>
+      n.content === note.content && n.addedOn === note.addedOn
+    );
+
+    if (noteIndex === -1) return;
+
+    const updatedNotes = [...this.position.notes];
+    updatedNotes.splice(noteIndex, 1);
+
+    const updatedPosition = {
+      ...this.position,
+      notes: updatedNotes
+    };
+
+    this.position = updatedPosition;
+    this.store.dispatch(UpdatePosition({position: updatedPosition}));
+  }
+
+  private createNoteFromForm(): Note {
+    return {
+      content: this.positionForm.get('note')?.value,
+      addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT)
+    };
+  }
 }
+

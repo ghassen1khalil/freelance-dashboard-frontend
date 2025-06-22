@@ -13,9 +13,9 @@ const _positionDetailsDrawerReducer = createReducer(
   on(PositionDetailsDrawerActions.OpenPositionDetailsDrawer, (state, {position, isCreation}) => {
     return {...state, isDrawerShown: true, position: position, isCreation: isCreation}
   }),
-  /*on(PositionDetailsDrawerActions.ClosePositionDetailsDrawer, (state) => {
+  on(PositionDetailsDrawerActions.ClosePositionDetailsDrawer, (state) => {
     return {...state, isDrawerShown: false, position: undefined}
-  })*/
+  })
 );
 
 export function positionDetailsDrawerReducer(
