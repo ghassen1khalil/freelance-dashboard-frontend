@@ -13,9 +13,8 @@ import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FloatLabel} from 'primeng/floatlabel';
-import {DatePicker} from 'primeng/datepicker';
+import {DatePicker, DatePickerModule} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
-import {SelectOption} from './select-option.interface';
 import * as PositionActions from '../../core/store/actions/position.actions';
 import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {ConfirmationService} from 'primeng/api';
@@ -50,7 +49,8 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     NgIf,
     Divider,
     Timeline,
-    ButtonDirective
+    ButtonDirective,
+    DatePickerModule
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -63,9 +63,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public isDrawerVisible = false;
   public currencies: string[] = Object.values(Currency);
   public isCreation: boolean;
-
-  public remoteDaysOptions: SelectOption[] = [];
-  public remoteDaysSelectedOption: SelectOption;
 
   public isFollowupEmailEditorVisible: boolean = false;
   public emailBody: string | undefined;
@@ -86,7 +83,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.remoteDaysOptions = this.positionDetailUtil.generateRemoteDaysOptions();
     //Only when EDITING an existing position, the position is fetched from the store
     if (!this.isCreation) {
       this.store.pipe(
@@ -130,13 +126,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       return !this.isCreation
     }
     return false;
-  }
-
-  public onRemoteDaysSelectedOptionChange(event: any): void {
-    this.remoteDaysSelectedOption = {
-      label: this.remoteDaysOptions.filter(option => event.value === option.value)[0].label,
-      value: event.value
-    };
   }
 
   public savePosition() {

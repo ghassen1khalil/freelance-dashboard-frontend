@@ -5,7 +5,6 @@ import * as PositionActions from '../../core/store/actions/position.actions';
 import {Store} from '@ngrx/store';
 import {Injectable} from '@angular/core';
 import {NullityUtilService} from '../../core/utils/nullity-util.service';
-import {SelectOption} from './select-option.interface';
 
 
 @Injectable()
@@ -108,27 +107,6 @@ export class PositionDetailUtilService {
       updateDate: this.dateService.today(DateService.YYYY_MM_DD_FORMAT),
       state: state === undefined ? (position.state === PositionState.Active ? PositionState.Archived : PositionState.Active) : state
     };
-  }
-
-  public generateRemoteDaysOptions(): SelectOption[] {
-    const options: SelectOption[] = [];
-    for (let i = 0; i <= 5; i++) {
-      const filledIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-fill.png\">".repeat(i);
-      const outlineIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-line.png\">".repeat(5 - i);
-      const label = `${filledIcons}${outlineIcons}`;
-      options.push({ label, value: i });
-    }
-    return options;
-  }
-
-  public handleSelectedRemoteDaysOptionDisplay(selectedOption: SelectOption, options: SelectOption[], position: Position): string {
-    if (selectedOption) {
-      return selectedOption.label;
-    } else if (position) {
-      return options.filter(option => option.value === position.remoteDays)[0]?.label;
-    } else {
-      return options[0]?.label;
-    }
   }
 
 
