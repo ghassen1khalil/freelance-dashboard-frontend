@@ -5,6 +5,7 @@ import * as PositionActions from '../../core/store/actions/position.actions';
 import {Store} from '@ngrx/store';
 import {Injectable} from '@angular/core';
 import {NullityUtilService} from '../../core/utils/nullity-util.service';
+import {SelectOption} from './select-option.interface';
 
 
 @Injectable()
@@ -16,11 +17,11 @@ export class PositionDetailUtilService {
   }
 
   public initPositionFormGroup(position: Position | undefined): FormGroup {
-   let positionForm =  new FormGroup({
+    let positionForm = new FormGroup({
       startingDate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.startingDate : '', [Validators.required]),
       client: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.client : '', [Validators.required]),
       address: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.address : '', [Validators.required]),
-      remoteDays: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.remoteDays : ''),
+      remoteDays: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? this.getRemoteDaysByValue(position?.remoteDays!) : ''),
       dailyRate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.dailyRate?.amount : '', [Validators.required]),
       currency: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.dailyRate?.currency : '', [Validators.required]),
       role: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.role : '', [Validators.required]),
@@ -31,18 +32,10 @@ export class PositionDetailUtilService {
       intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.name : '', [Validators.required]),
       intermediaryPhones: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.phones : ''),
       intermediaryEmail: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.email : '', [Validators.email]),
-     //notes: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.notes : ''),
-     note: new FormControl(''),
-     //initialStatus: new FormControl('', this.nullityUtilService.isNotNullOrUndefined(position) ? [] : [Validators.required]),
+      note: new FormControl(''),
     });
-   this.handleFormDisable(positionForm, position);
-   return positionForm;
-  }
-
-  private handleFormDisable(positionForm: FormGroup, position: Position | undefined) {
-    if (position?.state === PositionState.Archived) {
-      positionForm.disable();
-    }
+    this.handleFormDisable(positionForm, position);
+    return positionForm;
   }
 
   public createPositionFromForm(isEditMode: boolean, form: FormGroup, position: Position | undefined): Position {
@@ -70,11 +63,27 @@ export class PositionDetailUtilService {
         phones: form.controls['intermediaryPhones'].value,
         email: form.controls['intermediaryEmail'].value
       },
-      //notes: isEditMode ? [...(position?.notes ?? []), form.get('notes')?.value] : form.controls['notes'].value,
       statuses: isEditMode ? position?.statuses :
-        [{'label': StatusLabelEnum.CommercialSuggestion, 'date': this.dateService.today(DateService.YYYY_MM_DD_FORMAT)}],
+        [{
+          'label': StatusLabelEnum.CommercialSuggestion,
+          'date': this.dateService.today(DateService.YYYY_MM_DD_FORMAT)
+        }],
       state: PositionState.Active
     };
+  }
+
+  public buildRemoteDaysOptions(): SelectOption[] {
+    return Array.from({length: 6}, (_, i) => ({
+      value: i,
+      label: "<div class=\"fd-flex fd-flex-row\">" + "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-fill.png\">".repeat(i)
+        + "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-line.png\">".repeat(5 - i) + "</div>",
+    }));
+  }
+
+  public getRemoteDaysByValue(value: number): string {
+    const remoteDaysOptions = this.buildRemoteDaysOptions();
+    const option = remoteDaysOptions.find(option => option.value === value);
+    return option ? option.label : '';
   }
 
   public clearPositionToEditAndForm(form: FormGroup, position: Position | undefined) {
@@ -109,11 +118,16 @@ export class PositionDetailUtilService {
     };
   }
 
-
   public updatePosition(positionForm: FormGroup, position: Position) {
     let editedPosition = this.createPositionFromForm(true, positionForm, position);
     editedPosition.id = position?.id;
     editedPosition.freelancerId = position?.freelancerId;
     this.store.dispatch(PositionActions.UpdatePosition({position: editedPosition}))
+  }
+
+  private handleFormDisable(positionForm: FormGroup, position: Position | undefined) {
+    if (position?.state === PositionState.Archived) {
+      positionForm.disable();
+    }
   }
 }

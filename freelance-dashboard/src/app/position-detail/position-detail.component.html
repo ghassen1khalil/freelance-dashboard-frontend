@@ -47,6 +47,45 @@
           </p-floatlabel>
         </div>
 
+        <!--Remote Days-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-floatlabel variant="on">
+            <p-select
+              (onChange)="onRemoteDaysSelectedOptionChange($event)"
+              [options]="remoteDaysOptions"
+              [showClear]="true"
+              formControlName="remoteDays"
+              inputId="remoteDays"
+              optionLabel="label"
+              styleClass="w-full remote-days-select">
+              <ng-template #selectedItem let-value pTemplate="selectedItem">
+                <!--<span class="flex gap-1 items-center"-->
+                <span [innerHTML]="remoteDaysSelectedOption.label"
+                      class="">
+                  <!--<ng-container *ngFor="let icon of value?.icons">
+                    <img [src]="icon" alt="remote day icon" width="22" height="22" />
+                  </ng-container>-->
+                </span>
+              </ng-template>
+
+              <ng-template let-option pTemplate="item">
+                <!--<span class="flex gap-1 items-center">
+                  <ng-container *ngFor="let icon of option.icons">
+                    <img [src]="icon" alt="remote day icon" width="22" height="22" />
+                  </ng-container>
+                </span>-->
+                <span [innerHTML]="option.label"></span>
+              </ng-template>
+
+              <!--<ng-template let-option pTemplate="item">
+                <span [innerHTML]="option.icons"></span>
+              </ng-template>-->
+
+            </p-select>
+            <label for="remoteDays">{{ 'remote' | translate }} {{ 'daysPerWeek' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
         <!--Daily Rate-->
         <div class="col-8 fd-flex fd-flex-column">
           <p-floatlabel variant="on">
@@ -177,7 +216,7 @@
                   </ng-template>
                 </p-timeline>
               }
-              @if (position.notes && position.notes.length > 0) {
+              @if (position && position.notes && position.notes.length > 0) {
                 <p-timeline [value]="position.notes" align="left" styleClass="mt-3">
                   <ng-template let-note pTemplate="marker">
                     <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">

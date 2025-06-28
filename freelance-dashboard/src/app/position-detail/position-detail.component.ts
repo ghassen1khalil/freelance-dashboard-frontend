@@ -26,6 +26,7 @@ import {Divider} from 'primeng/divider';
 import {DateService} from '../../core/services/date.service';
 import {Timeline} from 'primeng/timeline';
 import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-details-drawer.actions';
+import {SelectOption} from './select-option.interface';
 
 //TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
@@ -50,13 +51,13 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     Divider,
     Timeline,
     ButtonDirective,
-    DatePickerModule
+    DatePickerModule,
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
   providers: [PositionDetailUtilService, ConfirmationService]
 })
-export class PositionDetailComponent implements OnInit, OnDestroy{
+export class PositionDetailComponent implements OnInit, OnDestroy {
 
   public position: Position;
   public positionForm: FormGroup;
@@ -68,10 +69,10 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public emailBody: string | undefined;
   public notes = signal<Note[]>([]);
 
-  private freelancerId: string | undefined;
-
+  public remoteDaysSelectedOption: SelectOption;
+  public remoteDaysOptions: SelectOption[] = [];
   protected readonly PositionState = PositionState;
-
+  private freelancerId: string | undefined;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store,
@@ -80,21 +81,26 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
               private translate: TranslateService,
               private positionService: PositionsService,
               private dateService: DateService) {
+    this.remoteDaysOptions = this.positionDetailUtil.buildRemoteDaysOptions();
   }
 
   ngOnInit(): void {
-    //Only when EDITING an existing position, the position is fetched from the store
-    if (!this.isCreation) {
-      this.store.pipe(
-        select(getPositionDetailsDrawer),
-        takeUntil(this.unsubscribe$)
-      ).subscribe(state => {
-        this.isCreation = state.isCreation;
-        this.isDrawerVisible = state.isDrawerShown;
+    this.store.pipe(
+      select(getPositionDetailsDrawer),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(state => {
+      this.isCreation = state.isCreation;
+      this.isDrawerVisible = state.isDrawerShown;
+      if (!this.isCreation) {
         this.position = state.position!;
-        this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
-      });
-    }
+      }
+
+      this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+      // Pré-sélectionne la valeur remoteDays en mode consultation
+      if (this.position && this.position.remoteDays !== undefined && this.positionForm) {
+        this.positionForm.get('remoteDays')?.setValue(this.position.remoteDays);
+      }
+    });
 
 
     this.store.pipe(
@@ -117,7 +123,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       return this.isCreation;
     }
     if (button === 'update') {
-      return !this.isCreation  && !this.positionForm.pristine;
+      return !this.isCreation && !this.positionForm.pristine;
     }
     if (button === 'delete') {
       return !this.isCreation;
@@ -145,7 +151,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.closeDrawer();
   }
 
-
   public confirmDeletion() {
     this.translate.get([
       'delete-modal.position.areYouSure',
@@ -168,10 +173,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
         },
       });
     });
-  }
-
-  private closeDrawer() {
-    this.isDrawerVisible = false
   }
 
   public generateFollowupMail() {
@@ -197,20 +198,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       this.notes.update(notes => [...notes, this.createNoteFromForm()]);
     }
     this.resetNoteInput();
-  }
-
-  private addNoteToPosition(): Position {
-    return {
-      ...this.position,
-      notes: [
-        ...(this.position.notes ?? []),
-        this.createNoteFromForm()
-      ]
-    };
-  }
-
-  private resetNoteInput() {
-    this.positionForm.get('note')?.setValue('');
   }
 
   /**
@@ -248,16 +235,41 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.store.dispatch(UpdatePosition({position: updatedPosition}));
   }
 
+  public onDismiss() {
+    this.isDrawerVisible = false;
+    this.store.dispatch(ClosePositionDetailsDrawer())
+    this.notes.set([]);
+  }
+
+  public onRemoteDaysSelectedOptionChange(event: any): void {
+    this.remoteDaysSelectedOption = {
+      label: this.remoteDaysOptions.filter(option => event.value.value === option.value)[0].label,
+      value: event.value.value
+    };
+  }
+
+  private closeDrawer() {
+    this.isDrawerVisible = false
+  }
+
+  private addNoteToPosition(): Position {
+    return {
+      ...this.position,
+      notes: [
+        ...(this.position.notes ?? []),
+        this.createNoteFromForm()
+      ]
+    };
+  }
+
+  private resetNoteInput() {
+    this.positionForm.get('note')?.setValue('');
+  }
+
   private createNoteFromForm(): Note {
     return {
       content: this.positionForm.get('note')?.value,
       addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT)
     };
-  }
-
-  public onDismiss() {
-    this.isDrawerVisible = false;
-    this.store.dispatch(ClosePositionDetailsDrawer())
-    this.notes.set([]);
   }
 }
