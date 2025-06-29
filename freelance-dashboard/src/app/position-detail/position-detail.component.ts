@@ -50,7 +50,7 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     NgIf,
     Divider,
     Timeline,
-    ButtonDirective
+    ButtonDirective,
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
