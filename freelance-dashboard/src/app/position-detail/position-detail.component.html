@@ -8,7 +8,6 @@
         <p class="drawer-title">{{ ('addPosition' | translate) }}</p>
       } @else {
         <p class="drawer-title drawer-title-flex">
-          <!--<span>{{ ('positionDetail' | translate) }}</span>-->
           <span>{{ position?.client }}</span>
         </p>
       }
@@ -59,28 +58,14 @@
               optionLabel="label"
               styleClass="w-full remote-days-select">
               <ng-template #selectedItem let-value pTemplate="selectedItem">
-                <!--<span class="flex gap-1 items-center"-->
                 <span [innerHTML]="remoteDaysSelectedOption.label"
                       class="">
-                  <!--<ng-container *ngFor="let icon of value?.icons">
-                    <img [src]="icon" alt="remote day icon" width="22" height="22" />
-                  </ng-container>-->
                 </span>
               </ng-template>
 
               <ng-template let-option pTemplate="item">
-                <!--<span class="flex gap-1 items-center">
-                  <ng-container *ngFor="let icon of option.icons">
-                    <img [src]="icon" alt="remote day icon" width="22" height="22" />
-                  </ng-container>
-                </span>-->
                 <span [innerHTML]="option.label"></span>
               </ng-template>
-
-              <!--<ng-template let-option pTemplate="item">
-                <span [innerHTML]="option.icons"></span>
-              </ng-template>-->
-
             </p-select>
             <label for="remoteDays">{{ 'remote' | translate }} {{ 'daysPerWeek' | translate }}</label>
           </p-floatlabel>
