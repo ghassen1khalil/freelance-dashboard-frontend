@@ -115,7 +115,7 @@ export class PositionDetailUtilService {
     for (let i = 0; i <= 5; i++) {
       const filledIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-fill.png\">".repeat(i);
       const outlineIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-line.png\">".repeat(5 - i);
-      const label = `${filledIcons}${outlineIcons}`;
+      const label = `<div class="fd-flex fd-flex-row">${filledIcons}${outlineIcons}</div>`;
       options.push({ label, value: i });
     }
     return options;

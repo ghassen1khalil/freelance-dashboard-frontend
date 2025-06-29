@@ -8,7 +8,6 @@
         <p class="drawer-title">{{ ('addPosition' | translate) }}</p>
       } @else {
         <p class="drawer-title drawer-title-flex">
-          <span>{{ ('addPosition' | translate) }}</span>
           <span>{{ position?.client }}</span>
         </p>
       }
@@ -197,7 +196,7 @@
                   </ng-template>
                 </p-timeline>
               }
-              @if (position.notes && position.notes.length > 0) {
+              @if (position && position.notes && position.notes.length > 0) {
                 <p-timeline [value]="position.notes" align="left" styleClass="mt-3">
                   <ng-template let-note pTemplate="marker">
                     <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
