@@ -93,13 +93,14 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
       this.isDrawerVisible = state.isDrawerShown;
       if (!this.isCreation) {
         this.position = state.position!;
+        this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+        // Pré-sélectionne la valeur remoteDays en mode consultation
+        /*if (this.position && this.position.remoteDays !== undefined && this.positionForm) {
+          this.positionForm.get('remoteDays')?.setValue(this.position.remoteDays);
+        }*/
       }
 
-      this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
-      // Pré-sélectionne la valeur remoteDays en mode consultation
-      if (this.position && this.position.remoteDays !== undefined && this.positionForm) {
-        this.positionForm.get('remoteDays')?.setValue(this.position.remoteDays);
-      }
+
     });
 
 
