@@ -216,5 +216,7 @@
   "freelancerAcceptance": "Taux d'acceptation",
   "accepted": "Accepté",
   "rejected": "Refusé",
-  "positionDetail": "Détail du positionnement chez "
+  "positionDetail": "Détail du positionnement chez ",
+  "generateCalendarEventHeader": "Calendrier",
+  "generateCalendarEventMessage": "Voulez-vous générer un événement dans votre calendrier pour cet entretien ?"
 }

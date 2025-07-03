@@ -29,6 +29,8 @@ export class StatusBoardService {
 
       if (StatusLabelEnum.ResponseReceived === targetedStatusLiteralValue) {
         this.showIsFreelancerAcceptedConfirmationDialog(updatedPosition, targetedStatusLiteralValue);
+      } else if (StatusLabelEnum.InterviewPlanned === targetedStatusLiteralValue) {
+        this.showGenerateCalendarEventConfirmationDialog(updatedPosition, targetedStatusLiteralValue);
       } else {
         this.store.dispatch(UpdatePosition({position: this.setIsFreelancerAccepted(updatedPosition, false)}));
       }
@@ -93,5 +95,28 @@ export class StatusBoardService {
     return {
       ...updatedPosition, 'isFreelancerAccepted': isFreelancerAccepted,
     };
+  }
+
+  private showGenerateCalendarEventConfirmationDialog = (updatedPosition: Position, status: string) => {
+    this.translate.get(['generateCalendarEventHeader', 'generateCalendarEventMessage', 'yes', 'no']).subscribe(res => {
+      this.confirmationService.confirm({
+        message: res['generateCalendarEventMessage'],
+        header: res['generateCalendarEventHeader'],
+        icon: 'pi pi-calendar',
+        accept: () => {
+          // Here you would add logic to generate a calendar event
+          // For now, we just update the position
+          this.store.dispatch(UpdatePosition({
+            position: updatedPosition
+          }));
+        },
+        reject: () => {
+          // User doesn't want to generate a calendar event
+          this.store.dispatch(UpdatePosition({
+            position: updatedPosition
+          }));
+        }
+      });
+    });
   }
 }
