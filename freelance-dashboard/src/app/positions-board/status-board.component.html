@@ -16,7 +16,7 @@
 
       <header class="status-header">
         <div class="header-content">
-          <h2>{{ status | translate }}</h2>
+          <h2>{{ status | translate | uppercase }}</h2>
           <p-chip [label]="getPositionsForStatus(findStatusLabelFromValue(status)).length.toString()"
                   styleClass="status-count-chip"></p-chip>
         </div>
@@ -35,6 +35,119 @@
     </div>
   </div>
 }
+
+<p-dialog (onHide)="onCalendarFormHide()"
+          [(visible)]="showCalendarForm"
+          [@dialogAnimation]="showCalendarForm ? 'visible' : 'hidden'"
+          [contentStyle]="{overflow: 'visible'}"
+          [draggable]="false"
+          [modal]="true"
+          [resizable]="false"
+          [style]="{width: '500px', height: 'auto', overflow: 'visible'}">
+  <ng-template #header>
+    <div class="inline-flex items-center justify-center gap-2">
+      <span class="font-bold whitespace-nowrap"> {{ 'calendarEvent.title' | translate }}</span>
+    </div>
+  </ng-template>
+  <form [formGroup]="calendarForm" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <div class="grid">
+      <div class="col-12 fd-flex fd-flex-column">
+
+        <!--Event name-->
+        <p-float-label variant="on">
+          <input class="w-full" formControlName="eventName" id="eventName" pInputText type="text"/>
+          <label for="eventName">{{ 'calendarEvent.eventName' | translate }}</label>
+        </p-float-label>
+      </div>
+
+      <!--Event start date and time-->
+      <div class="col-12 fd-flex fd-flex-column">
+        <p-float-label variant="on">
+          <p-datepicker [showSeconds]="false" [showTime]="true"
+                        appendTo="body" class="w-full"
+                        dateFormat="dd/mm/yy"
+                        formControlName="startDateTime" id="startDateTime"></p-datepicker>
+          <label for="startDateTime">{{ 'calendarEvent.startDateTime' | translate }}</label>
+        </p-float-label>
+      </div>
+
+      <!--Event end date and time-->
+      <div class="col-12 fd-flex fd-flex-column">
+        <p-float-label variant="on">
+          <p-datepicker [showSeconds]="false" [showTime]="true"
+                        appendTo="body" class="w-full"
+                        dateFormat="dd/mm/yy"
+                        formControlName="endDateTime" id="endDateTime"></p-datepicker>
+          <label for="endDateTime">{{ 'calendarEvent.endDateTime' | translate }}</label>
+        </p-float-label>
+      </div>
+
+      <!--Event location-->
+      <div class="col-12 fd-flex fd-flex-column">
+        <p-float-label variant="on">
+          <input class="w-full" formControlName="location" id="location" pInputText type="text"/>
+          <label for="location">{{ 'calendarEvent.location' | translate }}</label>
+        </p-float-label>
+      </div>
+
+      <!--Event description-->
+      <div class="col-12 fd-flex fd-flex-column">
+        <p-float-label variant="on">
+          <input class="w-full" formControlName="description" id="description" pInputText type="text"/>
+          <label for="description">{{ 'calendarEvent.description' | translate }}</label>
+        </p-float-label>
+      </div>
+
+      <!--Event reminder value-->
+      <div class="col-12 fd-flex gap-2">
+        <div class="flex-1">
+          <p-float-label variant="on">
+            <p-inputNumber [min]="1"
+                           [showButtons]="false" class="w-full"
+                           formControlName="reminderValue"></p-inputNumber>
+            <label for="reminderValue">{{ 'calendarEvent.reminderValue' | translate }}</label>
+          </p-float-label>
+        </div>
+
+        <!--Event reminder units-->
+        <div class="flex-1">
+          <p-float-label variant="on">
+            <p-select (onChange)="onReminderUnitChange($event)"
+                      [options]="reminderUnits"
+                      appendTo="body"
+                      class="w-full"
+                      formControlName="reminderUnit"
+                      inputId="reminder_unit"
+                      optionLabel="label">
+              <ng-template #selectedItem>
+                <span>{{ selectedCalendarReminderUnit.label }}</span>
+              </ng-template>
+              <ng-template let-option pTemplate="item">
+                <span [innerHTML]="option.label"></span>
+              </ng-template>
+            </p-select>
+            <label for="reminder_unit">{{ 'calendarEvent.reminderUnit' | translate }}</label>
+          </p-float-label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template #footer>
+    <p-button (click)="onCalendarFormHide()" [label]="'cancel' | translate"
+              class="p-button-text"
+              rounded="true"
+              type="button">
+    </p-button>
+
+    <p-button (onClick)="onSubmitCalendarEvent()"
+              [disabled]="!calendarForm.valid"
+              [label]="'calendarEvent.createEvent' | translate"
+              rounded="true">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
 <p-confirmDialog [style]="{width: '500px'}" [baseZIndex]="10000" acceptLabel="{{'yes' | translate}}"
                  rejectLabel="{{'no' | translate}}" rejectButtonStyleClass="p-button-text"
                  acceptButtonStyleClass="p-button"></p-confirmDialog>

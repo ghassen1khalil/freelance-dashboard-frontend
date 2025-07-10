@@ -1,18 +1,25 @@
 import {Injectable} from '@angular/core';
-import {Position, Status, StatusLabelEnum} from '../../../generated';
+import {CalendarEventService, Position, Status, StatusLabelEnum} from '../../../generated';
 import {PositionsByStatus} from '../../core/types/types';
 import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {Store} from '@ngrx/store';
 import {ConfirmationService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
+import {Subject} from 'rxjs';
+import {CalendarEvent} from '../../core/domain/calendar-event';
 
 @Injectable({
   providedIn: 'root',
 })
+
+// TODO refactor this service to separate the status board logic from the calendar event logic
 export class StatusBoardService {
+  private showCalendarForm = new Subject<boolean>();
+  showCalendarForm$ = this.showCalendarForm.asObservable();
 
   constructor(private store: Store,
               private confirmationService: ConfirmationService,
+              private calendarEventService: CalendarEventService,
               private translate: TranslateService) {}
 
   public handlePositionWhenStatusChanged(positions: PositionsByStatus, draggedPosition: Position, targetedStatusLiteralValue: string): PositionsByStatus {
@@ -29,6 +36,8 @@ export class StatusBoardService {
 
       if (StatusLabelEnum.ResponseReceived === targetedStatusLiteralValue) {
         this.showIsFreelancerAcceptedConfirmationDialog(updatedPosition, targetedStatusLiteralValue);
+      } else if (StatusLabelEnum.InterviewPlanned === targetedStatusLiteralValue) {
+        this.showGenerateCalendarEventConfirmationDialog(updatedPosition, targetedStatusLiteralValue);
       } else {
         this.store.dispatch(UpdatePosition({position: this.setIsFreelancerAccepted(updatedPosition, false)}));
       }
@@ -93,5 +102,47 @@ export class StatusBoardService {
     return {
       ...updatedPosition, 'isFreelancerAccepted': isFreelancerAccepted,
     };
+  }
+
+  createCalendarEvent(eventData: CalendarEvent) {
+    this.calendarEventService.generateIcsFile(eventData).subscribe({
+      next: (result) => {
+        const downloadURL = window.URL.createObjectURL(result);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = `event.ics`;
+        link.click();
+        URL.revokeObjectURL(downloadURL);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+
+    // Hide the calendar form
+    this.showCalendarForm.next(false);
+  }
+
+  private showGenerateCalendarEventConfirmationDialog = (updatedPosition: Position, status: string) => {
+    this.translate.get(['generateCalendarEventHeader', 'generateCalendarEventMessage', 'yes', 'no']).subscribe(res => {
+      this.confirmationService.confirm({
+        message: res['generateCalendarEventMessage'],
+        header: res['generateCalendarEventHeader'],
+        icon: 'pi pi-calendar',
+        accept: () => {
+          // Show calendar form dialog
+          this.showCalendarForm.next(true);
+          // Position update will be handled after calendar event creation
+        },
+        reject: () => {
+          // User doesn't want to generate a calendar event
+
+        }
+      });
+
+      this.store.dispatch(UpdatePosition({
+        position: updatedPosition
+      }));
+    });
   }
 }

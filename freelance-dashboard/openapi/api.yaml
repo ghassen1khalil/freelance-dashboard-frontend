@@ -369,6 +369,40 @@ paths:
           description: OK
         500:
           description: Internal Server Error
+  /calender/event:
+    post:
+      summary: "Generates an iCalendar (.ics) file"
+      description: "Takes event details as a JSON payload and returns a downloadable .ics file."
+      operationId: generateIcsFile
+      tags:
+        - calendar-event
+      requestBody:
+        description: "Event details to be included in the ICS file."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventPayload'
+      responses:
+        '200':
+          description: "Successfully generated iCalendar file."
+          content:
+            text/calendar:
+              schema:
+                type: string
+                format: binary
+                description: "The generated .ics file content."
+          headers:
+            Content-Disposition:
+              description: "Provides a filename for the browser to suggest to the user."
+              schema:
+                type: string
+                example: 'attachment; filename="event.ics"'
+        '400':
+          description: "Invalid input payload. Check the request body for errors."
+        '500':
+          description: "Internal server error. An unexpected error occurred while processing the request."
+
 components:
   responses:
     UnauthorizedError:
@@ -569,3 +603,37 @@ components:
           type: string
         newPassword:
           type: string
+    EventPayload:
+      type: object
+      required:
+        - eventName
+        - startDateTime
+        - endDateTime
+      properties:
+        eventName:
+          type: string
+          description: "The name/summary of the event."
+          example: "Team Meeting"
+        startDateTime:
+          type: string
+          format: date-time
+          description: "The start date and time of the event in ISO 8601 format (e.g., 2023-12-25T10:00:00Z)."
+          example: "2023-12-25T10:00:00Z"
+        endDateTime:
+          type: string
+          format: date-time
+          description: "The end date and time of the event in ISO 8601 format (e.g., 2023-12-25T11:00:00Z)."
+          example: "2023-12-25T11:00:00Z"
+        location:
+          type: string
+          description: "The physical or virtual location of the event."
+          example: "Conference Room 4B"
+        description:
+          type: string
+          description: "A more detailed description of the event."
+          example: "Discussion of Q4 results and planning for Q1."
+        reminderMinutesBefore:
+          type: integer
+          format: int32
+          description: "Number of minutes before the event to set a reminder."
+          example: 15
