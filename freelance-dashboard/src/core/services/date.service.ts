@@ -15,11 +15,12 @@ export class DateService {
     return moment().format(format);
   }
 
-  public todayWithTime() {
-    return moment();
-  }
-
   public format(date: string , format: string) {
     return moment(date).format(format);
   }
+
+  public formatLocalDateTime = (date: Date): string => {
+    const pad = (n: number) => n < 10 ? '0' + n : n;
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+  };
 }
