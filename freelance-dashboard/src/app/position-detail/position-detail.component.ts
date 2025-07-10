@@ -13,7 +13,7 @@ import {Fieldset} from 'primeng/fieldset';
 import {InputText} from 'primeng/inputtext';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FloatLabel} from 'primeng/floatlabel';
-import {DatePicker} from 'primeng/datepicker';
+import {DatePickerModule} from 'primeng/datepicker';
 import {Select} from 'primeng/select';
 import {SelectOption} from './select-option.interface';
 import * as PositionActions from '../../core/store/actions/position.actions';
@@ -41,7 +41,6 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     InputText,
     TranslatePipe,
     FloatLabel,
-    DatePicker,
     Select,
     ConfirmDialog,
     Dialog,
@@ -51,6 +50,7 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     Divider,
     Timeline,
     ButtonDirective,
+    DatePickerModule
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',

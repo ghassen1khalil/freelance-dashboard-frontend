@@ -103,3 +103,73 @@
 .empty-positions-message span {
   color: #555;
 }
+
+/* Calendar Event Form Styles */
+:host ::ng-deep .p-dialog {
+  .p-dialog-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .p-dialog-content {
+    overflow: visible;
+  }
+
+  .field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .p-calendar {
+    width: 100%;
+  }
+
+  .p-inputnumber {
+    width: 100%;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-inputtextarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+:host ::ng-deep .p-select-panel {
+  overflow: visible;
+}
+
+:host ::ng-deep .p-select-items-wrapper {
+  overflow: visible !important;
+}
+
+/* Animation styles */
+.p-dialog-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.p-dialog-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+}
+
+.p-dialog-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.p-dialog-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+}

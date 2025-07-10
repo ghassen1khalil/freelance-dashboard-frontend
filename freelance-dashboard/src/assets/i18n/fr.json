@@ -218,5 +218,20 @@
   "rejected": "Refusé",
   "positionDetail": "Détail du positionnement chez ",
   "generateCalendarEventHeader": "Calendrier",
-  "generateCalendarEventMessage": "Voulez-vous générer un événement dans votre calendrier pour cet entretien ?"
+  "generateCalendarEventMessage": "Voulez-vous générer un événement dans votre calendrier pour cet entretien ?",
+  "calendarEvent": {
+    "title": "Créer un événement calendrier",
+    "eventName": "Nom de l'événement*",
+    "startDateTime": "Date et heure de début*",
+    "endDateTime": "Date et heure de fin*",
+    "location": "Lieu",
+    "description": "Description",
+    "reminder": "Rappel",
+    "reminderValue": "Temps avant rappel",
+    "reminderUnit": "Unité de temps",
+    "minutes": "Minute(s)",
+    "hours": "Heure(s)",
+    "days": "Jour(s)",
+    "createEvent": "Créer l'événement"
+  }
 }
