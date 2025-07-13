@@ -235,6 +235,31 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   }
 
   /**
+   * Get notes sorted by addedOn in descending order (newest first)
+   * @returns Sorted notes array
+   */
+  public getSortedNotes(): Note[] {
+    const notesCopy = [...this.notes()];
+    return notesCopy.sort((a, b) => {
+      if (!a.addedOn || !b.addedOn) return 0;
+      return new Date(b.addedOn).getTime() - new Date(a.addedOn).getTime();
+    });
+  }
+
+  /**
+   * Get position notes sorted by addedOn in descending order (newest first)
+   * @returns Sorted position notes array
+   */
+  public getSortedPositionNotes(): Note[] {
+    if (!this.position.notes) return [];
+    const notesCopy = [...this.position.notes];
+    return notesCopy.sort((a, b) => {
+      if (!a.addedOn || !b.addedOn) return 0;
+      return new Date(b.addedOn).getTime() - new Date(a.addedOn).getTime();
+    });
+  }
+
+  /**
    * Delete a note from the position
    * @param index The index of the note to delete
    */
