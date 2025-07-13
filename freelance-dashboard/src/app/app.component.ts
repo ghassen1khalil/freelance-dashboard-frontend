@@ -6,6 +6,7 @@ import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
+import {AppRoutes} from '../core/utils/app-routes.util';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sidebarVisible: boolean = true;
   isMobile: boolean = false;
 
-  public isLoginOrSignup: boolean;
+  public isLoginOrSignupOrPasswordReset: boolean;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -38,7 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private checkIfHeaderAndNavigationAreShown(): void {
     this.router.events.subscribe(value => {
-      this.isLoginOrSignup = this.router.url === '/' || this.router.url.includes('/login') ||  this.router.url.includes('/signup');
+      this.isLoginOrSignupOrPasswordReset = this.router.url === '/' || this.router.url.includes(AppRoutes.LOGIN)
+        || this.router.url.includes(AppRoutes.SIGNUP)
+        || this.router.url.includes(AppRoutes.PASSWORD_RESET);
     });
   }
 
