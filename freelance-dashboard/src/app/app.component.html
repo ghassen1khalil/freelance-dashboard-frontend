@@ -3,15 +3,16 @@
 <!-- Layout container -->
 <div class="flex relative min-h-screen w-full">
   <!-- Sidebar -->
-  <aside *ngIf="!isLoginOrSignup" class="fixed top-0 bottom-0 w-64 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0 z-50"
+  <aside *ngIf="!isLoginOrSignupOrPasswordReset"
+         class="fixed top-0 bottom-0 w-64 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0 z-50"
          [ngClass]="{'translate-x-[-100%]': !sidebarVisible}">
     <app-navigation-menu></app-navigation-menu>
   </aside>
 
   <!-- Main content area -->
-  <div class="flex flex-col flex-1 min-h-screen" [ngClass]="{'lg:ml-64': !isLoginOrSignup}">
+  <div [ngClass]="{'lg:ml-64': !isLoginOrSignupOrPasswordReset}" class="flex flex-col flex-1 min-h-screen">
     <!-- Header -->
-    <header *ngIf="!isLoginOrSignup" class="w-full top-0">
+    <header *ngIf="!isLoginOrSignupOrPasswordReset" class="w-full top-0">
       <!-- Mobile menu button - only visible on small screens -->
       <div class="block lg:hidden p-4">
         <button class="flex items-center" (click)="toggleSidebar()">
@@ -28,7 +29,7 @@
     </main>
 
     <!-- Footer -->
-    <footer *ngIf="!isLoginOrSignup" class="w-full shadow-sm mt-auto">
+    <footer *ngIf="!isLoginOrSignupOrPasswordReset" class="w-full shadow-sm mt-auto">
       <app-footer></app-footer>
     </footer>
   </div>
