@@ -4,26 +4,27 @@
       <form [formGroup]="personalInformationForm" (ngSubmit)="submitFreelancerDataUpdate(UpdateType.PERSONAL_INFO)">
         <div class="grid">
           <div class="field col-12 first-line-top-margin">
-            <span class="p-float-label">
-              <input formControlName="email" type="text" id="email" pInputText>
+            <p-floatlabel variant="on">
+              <input formControlName="email" id="email" pInputText type="email">
               <label for="email">{{ 'email' | translate }}</label>
-            </span>
+            </p-floatlabel>
           </div>
 
           <div class="field lg:col-6 xl:col-6 col-12">
-            <span class="p-float-label">
+            <p-floatlabel variant="on">
               <input formControlName="firstname" type="text" id="firstname" pInputText>
               <label for="firstname">{{ 'firstname' | translate }}</label>
-            </span>
+            </p-floatlabel>
           </div>
           <div class="field lg:col-6 xl:col-6 col-12">
-            <span class="p-float-label">
+            <p-floatlabel variant="on">
               <input formControlName="lastname" type="text" id="lastname" pInputText>
               <label for="lastname">{{ 'lastname' | translate }}</label>
-            </span>
+            </p-floatlabel>
           </div>
           <div class="col-12">
-            <button type="submit" pButton pRipple label="{{'modifyInformations' | translate}}" [disabled]="!personalInformationForm.dirty"></button>
+            <button [disabled]="!personalInformationForm.valid" label="{{'modifyInformations' | translate}}" pButton pRipple
+                    type="submit"></button>
           </div>
         </div>
       </form>
@@ -34,10 +35,10 @@
       <form [formGroup]="passwordModificationForm" (ngSubmit)="submitFreelancerDataUpdate(UpdateType.PASSWORD)">
         <div class="grid">
           <div class="col-12 field">
-            <span class="p-float-label">
+            <p-floatlabel variant="on">
               <p-password id="password"
                           [toggleMask]="true"
-                          class="fd-full-width"
+                          class="fd-half-width"
                           formControlName="newPassword"
                           styleClass="p-password p-component p-inputwrapper p-input-icon-right">
                 <ng-template pTemplate="header">
@@ -56,20 +57,20 @@
                 </ng-template>
               </p-password>
               <label for="password">{{ 'password' | translate }}</label>
-            </span>
+            </p-floatlabel>
           </div>
-          <div class="col-12 field">
-          <span class="p-float-label">
-            <p-password id="confirmPassword"
-                        [toggleMask]="true"
-                        [feedback]="false"
-                        class="fd-full-width ng-invalid ng-dirty"
-                        formControlName="confirmPassword"
-                        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-                        [ngClass]="{'ng-invalid ng-dirty' : passwordModificationForm.hasError('notSame')}">
-            </p-password>
-            <label for="confirmPassword">{{ 'confirmPassword' | translate }}</label>
-          </span>
+          <div class="col-12 fd-flex fd-flex-column">
+            <p-floatlabel variant="on">
+              <p-password [feedback]="false"
+                          [ngClass]="{'ng-invalid ng-dirty' : passwordModificationForm.hasError('notSame')}"
+                          [toggleMask]="true"
+                          class="fd-half-width"
+                          formControlName="confirmPassword"
+                          id="confirmPassword"
+                          styleClass="p-password p-component p-inputwrapper p-input-icon-right">
+              </p-password>
+              <label for="confirmPassword">{{ 'confirmPassword' | translate }}</label>
+            </p-floatlabel>
           </div>
           <div class="col-12">
             <button type="submit" [disabled]="!passwordModificationForm.valid" pButton pRipple
