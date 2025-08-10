@@ -7,6 +7,7 @@ import {ConfirmationService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
 import {Subject} from 'rxjs';
 import {CalendarEvent} from '../../core/domain/calendar-event';
+import {DateService} from '../../core/services/date.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class StatusBoardService {
   constructor(private store: Store,
               private confirmationService: ConfirmationService,
               private calendarEventService: CalendarEventService,
+              private dateService: DateService,
               private translate: TranslateService) {}
 
   public handlePositionWhenStatusChanged(positions: PositionsByStatus, draggedPosition: Position, targetedStatusLiteralValue: string): PositionsByStatus {
@@ -60,7 +62,7 @@ export class StatusBoardService {
 
   private buildTargetStatus(status: string): Status {
     return {
-      label: this.findStatusLabelFromValue(status), date: new Date().toISOString()
+      label: this.findStatusLabelFromValue(status), date: this.dateService.today(undefined)
     };
   }
 
