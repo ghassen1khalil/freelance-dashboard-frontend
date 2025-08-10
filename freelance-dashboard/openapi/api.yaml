@@ -501,7 +501,7 @@ components:
           enum: [ 'COMMERCIAL_SUGGESTION','POSITIONED','INTERVIEW_PLANNED','WAITING_FOR_RESPONSE','RESPONSE_RECEIVED' ]
         date:
           type: string
-          format: date
+          format: date-time
     DailyRate:
       type: object
       properties:

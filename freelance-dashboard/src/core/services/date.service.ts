@@ -4,6 +4,7 @@ import moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
+//TODO refactor this service
 export class DateService {
 
   static readonly YYYY_MM_DD_FORMAT: string = "YYYY-MM-DD";
@@ -11,10 +12,12 @@ export class DateService {
 
   constructor() { }
 
-  public today(format: string) {
+  public today(format: string | undefined) {
+    if (!format) {
+      return moment().format();
+    }
     return moment().format(format);
   }
-
   public format(date: string , format: string) {
     return moment(date).format(format);
   }
