@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private buildPersonalInformationForm(freelancer: Freelancer) {
     this.personalInformationForm = new FormGroup<any>({
-      email: new FormControl(freelancer.email),
+      email: new FormControl(freelancer.email, [Validators.required, Validators.email]),
       firstname: new FormControl(freelancer.firstname, [Validators.required]),
       lastname: new FormControl(freelancer.lastname, [Validators.required])
     });
