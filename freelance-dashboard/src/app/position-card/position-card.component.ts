@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConfirmationService, MenuItem, PrimeIcons} from 'primeng/api';
-import {Position, PositionState} from '../../../generated';
+import {ConfirmationService, MenuItem} from 'primeng/api';
+import {Position, PositionState, StatusLabelEnum} from '../../../generated';
 import {UpdatePosition} from '../../core/store/actions/position.actions';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {Store} from '@ngrx/store';
@@ -11,6 +11,8 @@ import {DragDropModule} from 'primeng/dragdrop';
 import {ButtonModule} from 'primeng/button';
 import {OpenPositionDetailsDrawer} from '../../core/store/actions/position-details-drawer.actions';
 import {Tooltip} from 'primeng/tooltip';
+import {Tag} from 'primeng/tag';
+import {PositionCardUtilsService} from './position-card-utils.service';
 
 @Component({
   selector: 'app-position-card',
@@ -23,7 +25,8 @@ import {Tooltip} from 'primeng/tooltip';
     DragDropModule,
     TranslateModule,
     ButtonModule,
-    Tooltip
+    Tooltip,
+    Tag
   ]
 })
 export class PositionCardComponent implements OnInit {
@@ -32,12 +35,7 @@ export class PositionCardComponent implements OnInit {
 
   public menuActions: MenuItem[];
 
-  constructor(private translate: TranslateService,
-              private store: Store,
-              private confirmationService: ConfirmationService,
-              private router: Router,
-              private positionUtils: PositionDetailUtilService) {
-  }
+  protected readonly StatusLabelEnum = StatusLabelEnum;
 
   ngOnInit(): void {
     //this.initializeActionsMenu(this.position.state!);
@@ -126,4 +124,12 @@ export class PositionCardComponent implements OnInit {
   }
 
   protected readonly PositionState = PositionState;
+
+  constructor(private translate: TranslateService,
+              private store: Store,
+              private confirmationService: ConfirmationService,
+              private router: Router,
+              private positionUtils: PositionDetailUtilService,
+              protected positionCardUtils: PositionCardUtilsService) {
+  }
 }
