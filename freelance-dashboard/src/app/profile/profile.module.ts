@@ -11,6 +11,7 @@ import {RippleModule} from 'primeng/ripple';
 import {DividerModule} from 'primeng/divider';
 import {PasswordModule} from 'primeng/password';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {FloatLabelModule} from 'primeng/floatlabel';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
         RippleModule,
         DividerModule,
         PasswordModule,
+      FloatLabelModule,
         ConfirmDialogModule
     ]
 })
