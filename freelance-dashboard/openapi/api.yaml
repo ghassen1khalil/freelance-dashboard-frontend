@@ -437,10 +437,10 @@ components:
           type: number
         creationDate:
           type: string
-          format: date
+          format: date-time
         updateDate:
           type: string
-          format: date
+          format: date-time
         startingDate:
           type: string
           format: date
@@ -466,8 +466,6 @@ components:
         content:
           type: string
         addedOn:
-          x-field-extra-annotation: |-
-            @com.fasterxml.jackson.annotation.JsonFormat(pattern = "yyyy-MM-dd HH:mm")
           type: string
           format: date-time
     Mission:

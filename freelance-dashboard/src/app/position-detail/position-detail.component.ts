@@ -231,7 +231,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
    */
   public formatDate(dateString: string | undefined): string {
     if (!dateString) return '';
-    return this.dateService.format(dateString, 'MMM D, YYYY HH:mm');
+    return this.dateService.toDisplayDateTime(dateString)!.toString();
   }
 
   /**
@@ -261,7 +261,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
 
   /**
    * Delete a note from the position
-   * @param index The index of the note to delete
+   * @param note
    */
   public deleteNote(note: Note): void {
     if (!this.position.notes || this.position.notes.length === 0) return;
@@ -287,7 +287,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   private createNoteFromForm(): Note {
     return {
       content: this.positionForm.get('note')?.value,
-      addedOn: this.dateService.today(DateService.YYYY_MM_DD_HH_MM_FORMAT)
+      addedOn: this.dateService.toApiDateTime(new Date())?.toString()
     };
   }
 
