@@ -48,9 +48,9 @@ export class PositionDetailUtilService {
 
   public createPositionFromForm(isEditMode: boolean, form: FormGroup, position: Position | undefined): Position {
     return {
-      startingDate: this.dateService.format(form.controls['startingDate'].value, DateService.YYYY_MM_DD_FORMAT),
-      creationDate: isEditMode ? position?.creationDate : this.dateService.today(DateService.YYYY_MM_DD_FORMAT),
-      updateDate: isEditMode ? this.dateService.today(DateService.YYYY_MM_DD_FORMAT) : undefined,
+      startingDate: this.dateService.toApiDateOnly(form.controls['startingDate'].value)!.toString(),
+      creationDate: isEditMode ? position?.creationDate : this.dateService.toApiDateTime(new Date())?.toString(),
+      updateDate: isEditMode ? this.dateService.toApiDateTime(new Date())?.toString() : undefined,
       client: form.controls['client'].value,
       address: form.controls['address'].value,
       remoteDays: form.controls['remoteDays'].value,
@@ -73,7 +73,12 @@ export class PositionDetailUtilService {
       },
       //notes: isEditMode ? [...(position?.notes ?? []), form.get('notes')?.value] : form.controls['notes'].value,
       statuses: isEditMode ? position?.statuses :
-        [{'label': StatusLabelEnum.CommercialSuggestion, 'date': this.dateService.today(DateService.YYYY_MM_DD_FORMAT)}],
+        [
+          {
+            'label': StatusLabelEnum.CommercialSuggestion,
+            'date': this.dateService.toApiDateTime(new Date())?.toString()
+          }
+        ],
       state: PositionState.Active
     };
   }
@@ -105,7 +110,7 @@ export class PositionDetailUtilService {
   public updatePositionState(position: Position, state: PositionState | undefined): Position {
     return {
       ...position,
-      updateDate: this.dateService.today(DateService.YYYY_MM_DD_FORMAT),
+      updateDate: this.dateService.toApiDateTime(new Date())?.toString(),
       state: state === undefined ? (position.state === PositionState.Active ? PositionState.Archived : PositionState.Active) : state
     };
   }

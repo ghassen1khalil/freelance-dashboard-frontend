@@ -62,7 +62,8 @@ export class StatusBoardService {
 
   private buildTargetStatus(status: string): Status {
     return {
-      label: this.findStatusLabelFromValue(status), date: this.dateService.today(undefined)
+      label: this.findStatusLabelFromValue(status),
+      date: this.dateService.toApiDateTime(new Date())?.toString()
     };
   }
 

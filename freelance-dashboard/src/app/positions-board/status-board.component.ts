@@ -166,10 +166,8 @@ export class StatusBoardComponent implements OnInit, OnDestroy {
 
       const calendarEvent = {
         eventName: formValue.eventName,
-        startDateTime: this.dateService.formatLocalDateTime(formValue.startDateTime),
-        endDateTime: this.dateService.formatLocalDateTime(formValue.endDateTime),
-        //startDateTime: formValue.startDateTime.toISOString(),
-        //endDateTime: formValue.endDateTime.toISOString(),
+        startDateTime: this.dateService.toApiDateTime(formValue.startDateTime)!.toString(),
+        endDateTime: this.dateService.toApiDateTime(formValue.endDateTime)!.toString(),
         location: formValue.location || undefined,
         description: formValue.description || undefined,
         reminderMinutesBefore: reminderMinutes
