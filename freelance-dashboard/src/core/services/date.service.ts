@@ -4,26 +4,35 @@ import moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
-//TODO refactor this service
+// Centralized Date Service for API/Display conversions
 export class DateService {
 
-  static readonly YYYY_MM_DD_FORMAT: string = "YYYY-MM-DD";
-  static readonly YYYY_MM_DD_HH_MM_FORMAT: string = "YYYY-MM-DD HH:mm";
+  static readonly YYYY_MM_DD_FORMAT: string = 'YYYY-MM-DD';
+  static readonly YYYY_MM_DD_HH_MM_FORMAT: string = 'YYYY-MM-DD HH:mm';
 
-  constructor() { }
+  constructor() {}
 
-  public today(format: string | undefined) {
-    if (!format) {
-      return moment().format();
-    }
-    return moment().format(format);
-  }
-  public format(date: string , format: string) {
-    return moment(date).format(format);
+  // Date-time to API (ISO 8601 UTC with milliseconds)
+  public toApiDateTime(d: Date | string | moment.Moment | null | undefined): string | null {
+    if (!d) return null;
+    return moment(d).utc().milliseconds(0).toISOString(); // e.g., 2025-08-13T12:45:00.000Z
   }
 
-  public formatLocalDateTime = (date: Date): string => {
-    const pad = (n: number) => n < 10 ? '0' + n : n;
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
-  };
+  // API (ISO UTC) to display local 'YYYY-MM-DD HH:mm'
+  public toDisplayDateTime(isoUtc: string | null | undefined): string | null {
+    if (!isoUtc) return null;
+    return moment.utc(isoUtc).local().format(DateService.YYYY_MM_DD_HH_MM_FORMAT);
+  }
+
+  // Date-only to API (YYYY-MM-DD)
+  public toApiDateOnly(d: Date | string | moment.Moment | null | undefined): string | null {
+    if (!d) return null;
+    return moment(d).format(DateService.YYYY_MM_DD_FORMAT);
+  }
+
+  // Date-only from API to UI (normalize)
+  public toDisplayDateOnly(apiDate: string | null | undefined): string | null {
+    if (!apiDate) return null;
+    return moment(apiDate, DateService.YYYY_MM_DD_FORMAT).format(DateService.YYYY_MM_DD_FORMAT);
+  }
 }

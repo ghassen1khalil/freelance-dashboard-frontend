@@ -14,6 +14,7 @@ import {ResetPasswordComponent} from './reset-password/reset-password.component'
 import {MessageModule} from 'primeng/message';
 import {NewPasswordFormComponent} from './reset-password/new-password-form/new-password-form.component';
 import {ResetPasswordFormComponent} from './reset-password/reset-password-form/reset-password-form.component';
+import {FloatLabel} from 'primeng/floatlabel';
 
 
 @NgModule({
@@ -24,19 +25,20 @@ import {ResetPasswordFormComponent} from './reset-password/reset-password-form/r
     NewPasswordFormComponent,
     ResetPasswordFormComponent
   ],
-    imports: [
-        CommonModule,
-        LogInSignUpRoutingModule,
-        TranslateModule,
-        DividerModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        FormsModule,
-        PasswordModule,
-        ButtonModule,
-        RippleModule,
-        MessageModule
-    ]
+  imports: [
+    CommonModule,
+    LogInSignUpRoutingModule,
+    TranslateModule,
+    DividerModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    FormsModule,
+    PasswordModule,
+    ButtonModule,
+    RippleModule,
+    MessageModule,
+    FloatLabel
+  ]
 })
 export class LogInSignUpModule {
 }
