@@ -25,6 +25,7 @@ import {FilterEffects} from '../core/store/effects/filter.effects';
 import {FooterModule} from '../partials/components/footer/footer.module';
 import {FreelancerEffects} from '../core/store/effects/freelancer.effects';
 import {PasswordResetTokenEffects} from '../core/store/effects/password-reset-token.effects';
+import {SkillsEffects} from '../core/store/effects/skills.effects';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import Material from '@primeng/themes/material';
@@ -100,7 +101,7 @@ const MyPreset = definePreset(Material, {
       defaultLanguage: 'fr'
     }),
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects /*HydrationEffects*/]),
+    EffectsModule.forRoot([PositionEffects, AuthEffects, FilterEffects, FreelancerEffects, PasswordResetTokenEffects, SkillsEffects /*HydrationEffects*/]),
     AuthModule.forRoot({
       domain: env.auth.domain,
       clientId: env.auth.clientId,
