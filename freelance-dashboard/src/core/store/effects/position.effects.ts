@@ -161,7 +161,7 @@ export class PositionEffects {
     this.action$.pipe(
       ofType(PositionActions.GenerateFollowupMail),
       switchMap(action =>
-        this.positionService.generateFollowupMail(action.positionId).pipe(
+        this.positionService.generateFollowupMail(action.position).pipe(
           switchMap(() => this.translate.get(['success', 'generateFollowupMailSuccessMessage']).pipe(
             map((res) => LaunchEvent({
               event: this.eventService.createEventFromLocalizedMessage(res, 'success', 'generateFollowupMailSuccessMessage', EventType.SUCCESS)

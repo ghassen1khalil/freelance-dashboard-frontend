@@ -28,13 +28,14 @@ export class PositionDetailUtilService {
       project: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.project : ''),
       team: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.team : ''),
       manager: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.manager : ''),
+     // Skills controls
+     skills: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? (position?.skills ?? []) : []),
+     skillInput: new FormControl(''),
       intermediaryCorporation: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.corporation : '', [Validators.required]),
       intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.name : '', [Validators.required]),
       intermediaryPhones: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.phones : ''),
       intermediaryEmail: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.email : '', [Validators.email]),
-     //notes: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.notes : ''),
      note: new FormControl(''),
-     //initialStatus: new FormControl('', this.nullityUtilService.isNotNullOrUndefined(position) ? [] : [Validators.required]),
     });
    this.handleFormDisable(positionForm, position);
    return positionForm;
@@ -65,6 +66,7 @@ export class PositionDetailUtilService {
         team: form.controls['team'].value,
         manager: form.controls['manager'].value,
       },
+      skills: form.controls['skills'].value,
       intermediary: {
         corporation: form.controls['intermediaryCorporation'].value,
         name: form.controls['intermediaryName'].value,
@@ -97,12 +99,14 @@ export class PositionDetailUtilService {
         project: '',
         team: '',
         manager: '',
+        // Skills
+        skills: [],
+        skillInput: '',
         intermediaryCorporation: '',
         intermediaryName: '',
         intermediaryPhones: '',
         intermediaryEmail: '',
-        notes: '',
-        initialStatus: '',
+        note: ''
       });
     }
   }

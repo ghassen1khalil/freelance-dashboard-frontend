@@ -77,17 +77,15 @@
         <!--Currency-->
         <div class="col-4 fd-flex fd-flex-column">
           <p-floatlabel variant="on" class="w-full md:w-56">
-            <p-floatlabel variant="on" class="w-full md:w-56">
-              <p-select styleClass="w-full"
-                        [options]="currencies"
-                        inputId="currency"
-                        formControlName="currency">
-                <ng-template let-currency pTemplate="item">
-                  <span [innerHTML]="currency"></span>
-                </ng-template>
-              </p-select>
-              <label for="currency">{{ 'currency' | translate }}</label>
-            </p-floatlabel>
+            <p-select [options]="currencies"
+                      formControlName="currency"
+                      inputId="currency"
+                      styleClass="w-full">
+              <ng-template let-currency pTemplate="item">
+                <span [innerHTML]="currency"></span>
+              </ng-template>
+            </p-select>
+            <label for="currency">{{ 'currency' | translate }}</label>
           </p-floatlabel>
         </div>
 
@@ -121,6 +119,35 @@
                 <input pInputText id="manager" formControlName="manager" autocomplete="off"/>
                 <label for="manager">{{ 'manager' | translate }}</label>
               </p-floatlabel>
+            </div>
+
+            <!--Skills (AutoComplete + Tags)-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel class="w-full md:w-56" variant="on">
+                <p-autocomplete
+                  (completeMethod)="filterSkills($event)"
+                  (keyup.enter)="onSkillEnter()"
+                  (onSelect)="onSkillSelect($event)"
+                  [dropdown]="false"
+                  [forceSelection]="false"
+                  [minLength]="0"
+                  [suggestions]="filteredSkills"
+                  formControlName="skillInput"
+                  inputId="skills"
+                  placeholder=""
+                  styleClass="w-full"
+                ></p-autocomplete>
+                <label for="skills">{{ 'skills' | translate }}</label>
+              </p-floatlabel>
+
+              <!-- Selected skills displayed as tags -->
+              <div class="fd-flex fd-flex-row fd-flex-wrap gap-2 mt-2">
+                <ng-container *ngIf="positionForm!.get('skills')?.value as selectedSkills">
+                  <span *ngFor="let skill of selectedSkills">
+                    <p-tag [value]="skill"></p-tag>
+                  </span>
+                </ng-container>
+              </div>
             </div>
           </p-fieldset>
         </div>
@@ -235,17 +262,17 @@
   <ng-template #footer>
     <div class="grid">
       @if (isButtonShown('generate')) {
-      <ng-container>
-        <div class="col-12">
-          <p-button rounded="true"
-                    label="{{'generate-followup-mail' | translate}}"
-                    [style]="{'width':'100%','min-width':'100%'}"
-                    [disabled]="!positionForm.valid"
-                    (click)="generateFollowupMail()"
-                    icon="pi pi-sparkles" iconPos="right">
-          </p-button>
-        </div>
-      </ng-container>
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'generate-followup-mail' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="generateFollowupMail(false)"
+                      icon="pi pi-sparkles" iconPos="right">
+            </p-button>
+          </div>
+        </ng-container>
       }
 
       @if (isButtonShown('save')) {
@@ -312,7 +339,6 @@
 </p-drawer>
 
 
-
 <div class="card flex justify-center">
   <p-dialog header="{{'followupMail' | translate}}" [modal]="true" [(visible)]="isFollowupEmailEditorVisible">
     <div class="card">
@@ -326,5 +352,18 @@
         </ng-template>
       </p-editor>
     </div>
+    <ng-template pTemplate="footer">
+      <div class="grid">
+        <div class="col-12">
+          <p-button (click)="generateFollowupMail(true)"
+                    [disabled]="followupRegenerationsLeft === 0"
+                    [label]="'regenerate-followup-mail-remaining' | translate:{count: followupRegenerationsLeft}"
+                    [style]="{'width':'100%','min-width':'100%'}"
+                    icon="pi pi-refresh"
+                    iconPos="right" rounded="true">
+          </p-button>
+        </div>
+      </div>
+    </ng-template>
   </p-dialog>
 </div>

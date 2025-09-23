@@ -212,6 +212,8 @@
   "generateFollowupMailSuccessMessage": "Mail de relance généré avec succès",
   "generateFollowupMailErrorMessage": "Erreur lors de la génération du mail de relance",
   "followupMail": "Mail de relance",
+  "regenerate-followup-mail": "Régénérer le mail",
+  "regenerate-followup-mail-remaining": "Régénérer le mail (restant: {{count}})",
   "positionsByStatus": "Positionnements par statut",
   "freelancerAcceptance": "Taux d'acceptation",
   "accepted": "Accepté",
@@ -233,5 +235,6 @@
     "hours": "Heure(s)",
     "days": "Jour(s)",
     "createEvent": "Créer l'événement"
-  }
+  },
+  "skills": "Compétences"
 }

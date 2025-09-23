@@ -9,6 +9,7 @@ export interface AppState {
   filterState: FilterState;
   passwordResetTokenState: PasswordResetTokenState;
   positionDetailsDrawerState: PositionDetailsDrawerState;
+  skillsState: SkillsState;
 }
 
 export interface PositionState {
@@ -43,4 +44,10 @@ export interface PositionDetailsDrawerState {
   isDrawerShown: boolean;
   position: Position | undefined;
   isCreation: boolean;
+}
+
+export interface SkillsState {
+  allSkills: string[];
+  loading: boolean;
+  error?: any;
 }

@@ -7,6 +7,7 @@ import {Drawer} from 'primeng/drawer';
 import {select, Store} from '@ngrx/store';
 import {getPositionDetailsDrawer} from '../../core/store/reducers/position-details-drawer.reducers';
 import {getAuth} from '../../core/store/reducers/auth.reducers';
+import {getAllSkills} from '../../core/store/reducers/skills.reducers';
 import {Button, ButtonDirective} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {Fieldset} from 'primeng/fieldset';
@@ -18,15 +19,18 @@ import {Select} from 'primeng/select';
 import {SelectOption} from './select-option.interface';
 import * as PositionActions from '../../core/store/actions/position.actions';
 import {UpdatePosition} from '../../core/store/actions/position.actions';
+import * as SkillsActions from '../../core/store/actions/skills.actions';
 import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {Dialog} from 'primeng/dialog';
 import {Editor} from 'primeng/editor';
-import {NgIf} from '@angular/common';
+import {NgFor, NgIf} from '@angular/common';
 import {Divider} from 'primeng/divider';
 import {DateService} from '../../core/services/date.service';
 import {Timeline} from 'primeng/timeline';
 import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-details-drawer.actions';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {TagModule} from 'primeng/tag';
 
 //TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
@@ -47,16 +51,19 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
     Editor,
     FormsModule,
     NgIf,
+    NgFor,
     Divider,
     Timeline,
     ButtonDirective,
-    DatePickerModule
+    DatePickerModule,
+    AutoCompleteModule,
+    TagModule
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
   providers: [PositionDetailUtilService, ConfirmationService]
 })
-export class PositionDetailComponent implements OnInit, OnDestroy{
+export class PositionDetailComponent implements OnInit, OnDestroy {
 
   public position: Position;
   public positionForm: FormGroup;
@@ -67,15 +74,19 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
   public remoteDaysOptions: SelectOption[] = [];
   public remoteDaysSelectedOption: SelectOption;
 
+  // Skills autocomplete data
+  public allSkills: string[] = [];
+  public filteredSkills: string[] = [];
+
   public isFollowupEmailEditorVisible: boolean = false;
   public emailBody: string | undefined;
   public notes = signal<Note[]>([]);
-
-  private freelancerId: string | undefined;
-
+  public followupRegenerationsLeft = 0;
   protected readonly PositionState = PositionState;
-
+  private freelancerId: string | undefined;
   private unsubscribe$ = new Subject<void>();
+  // Follow-up email generation limits
+  private maxFollowupRegenerations = 5;
 
   constructor(private store: Store,
               protected positionDetailUtil: PositionDetailUtilService,
@@ -97,9 +108,25 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
         this.isDrawerVisible = state.isDrawerShown;
         this.position = state.position!;
         this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+        const mission = this.position?.mission;
+        if (mission) {
+          this.store.dispatch(SkillsActions.LoadSkills({
+            role: mission.role,
+            project: mission.project,
+            team: mission.team
+          }));
+        }
       });
     }
 
+
+    // Subscribe to skills from store
+    this.store.pipe(
+      select(getAllSkills),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(skills => {
+      this.allSkills = skills ?? [];
+    });
 
     this.store.pipe(
       select(getAuth),
@@ -121,7 +148,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       return this.isCreation;
     }
     if (button === 'update') {
-      return !this.isCreation  && !this.positionForm.pristine;
+      return !this.isCreation && !this.positionForm.pristine;
     }
     if (button === 'delete') {
       return !this.isCreation;
@@ -156,7 +183,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.closeDrawer();
   }
 
-
   public confirmDeletion() {
     this.translate.get([
       'delete-modal.position.areYouSure',
@@ -181,23 +207,64 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     });
   }
 
-  private closeDrawer() {
-    this.isDrawerVisible = false
-  }
+  public generateFollowupMail(isRegeneration: boolean = false) {
+    // Persist remaining regenerations per position across the whole app using localStorage
+    const positionId = this.position?.id;
+    const storageKey = positionId ? `followupRegenerationsLeft:${positionId}` : 'followupRegenerationsLeft:unknown';
 
-  public generateFollowupMail() {
-    //this.store.dispatch(GenerateFollowupMail({positionId: this.position.id!}));
+    if (isRegeneration) {
+      // Always sync from storage before deciding
+      const stored = localStorage.getItem(storageKey);
+      const parsed = stored !== null ? parseInt(stored, 10) : this.followupRegenerationsLeft;
+      this.followupRegenerationsLeft = Number.isNaN(parsed) ? 0 : parsed;
 
-    this.positionService.generateFollowupMail(this.position.id!).subscribe(
+      if (this.followupRegenerationsLeft <= 0) {
+        return;
+      }
+    } else {
+      // On first generation, load from storage if exists; otherwise initialize to max and persist
+      const stored = localStorage.getItem(storageKey);
+      const parsed = stored !== null ? parseInt(stored, 10) : NaN;
+      if (Number.isNaN(parsed)) {
+        this.followupRegenerationsLeft = this.maxFollowupRegenerations;
+        localStorage.setItem(storageKey, String(this.followupRegenerationsLeft));
+      } else {
+        this.followupRegenerationsLeft = parsed;
+      }
+    }
+
+    this.positionService.generateFollowupMail(this.position).subscribe(
       messageBody => {
         this.emailBody = messageBody;
         this.isFollowupEmailEditorVisible = true;
+        if (isRegeneration) {
+          this.followupRegenerationsLeft = Math.max(0, this.followupRegenerationsLeft - 1);
+          localStorage.setItem(storageKey, String(this.followupRegenerationsLeft));
+        }
       }
     );
+  }
 
-    /*this.emailBody = "<p>Test<br>Test</p>";
-    this.isFollowupEmailEditorVisible = true;*/
+  // ===== Skills handlers =====
+  public filterSkills(event: any) {
+    const query = (event.query ?? '').toLowerCase();
+    this.filteredSkills = this.allSkills.filter(s => s.toLowerCase().includes(query));
+  }
 
+  public onSkillSelect(event: any) {
+    this.addSkill(event?.value ?? '');
+  }
+
+  public onSkillEnter() {
+    const value = this.positionForm.get('skillInput')?.value;
+    this.addSkill(value);
+  }
+
+  public removeSkill(skill: string) {
+    const current: string[] = this.positionForm.get('skills')?.value ?? [];
+    const updated = current.filter(s => s.toLowerCase() !== skill.toLowerCase());
+    this.positionForm.get('skills')?.setValue(updated);
+    this.positionForm.markAsDirty();
   }
 
   public onEnter() {
@@ -208,20 +275,6 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
       this.notes.update(notes => [...notes, this.createNoteFromForm()]);
     }
     this.resetNoteInput();
-  }
-
-  private addNoteToPosition(): Position {
-    return {
-      ...this.position,
-      notes: [
-        ...(this.position.notes ?? []),
-        this.createNoteFromForm()
-      ]
-    };
-  }
-
-  private resetNoteInput() {
-    this.positionForm.get('note')?.setValue('');
   }
 
   /**
@@ -284,16 +337,49 @@ export class PositionDetailComponent implements OnInit, OnDestroy{
     this.store.dispatch(UpdatePosition({position: updatedPosition}));
   }
 
+  public onDismiss() {
+    this.isDrawerVisible = false;
+    this.store.dispatch(ClosePositionDetailsDrawer())
+    this.notes.set([]);
+  }
+
+  private closeDrawer() {
+    this.isDrawerVisible = false
+  }
+
+  private addSkill(value: string) {
+    const v = (value ?? '').trim();
+    if (!v) return;
+    const current: string[] = this.positionForm.get('skills')?.value ?? [];
+    if (current.map(x => x.toLowerCase()).includes(v.toLowerCase())) {
+      // already exists, just clear input
+      this.positionForm.get('skillInput')?.setValue('');
+      return;
+    }
+    const updated = [...current, v];
+    this.positionForm.get('skills')?.setValue(updated);
+    this.positionForm.get('skillInput')?.setValue('');
+    this.positionForm.markAsDirty();
+  }
+
+  private addNoteToPosition(): Position {
+    return {
+      ...this.position,
+      notes: [
+        ...(this.position.notes ?? []),
+        this.createNoteFromForm()
+      ]
+    };
+  }
+
+  private resetNoteInput() {
+    this.positionForm.get('note')?.setValue('');
+  }
+
   private createNoteFromForm(): Note {
     return {
       content: this.positionForm.get('note')?.value,
       addedOn: this.dateService.toApiDateTime(new Date())?.toString()
     };
-  }
-
-  public onDismiss() {
-    this.isDrawerVisible = false;
-    this.store.dispatch(ClosePositionDetailsDrawer())
-    this.notes.set([]);
   }
 }

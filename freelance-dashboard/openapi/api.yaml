@@ -66,20 +66,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /position/{id}/followup-mail:
-    get:
+  /position/followup-mail:
+    post:
       summary: Generate a follow-up mail
       description: Generate a follow-up mail for a position
       operationId: generateFollowupMail
       tags:
         - positions
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of position to generate follow-up mail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Position'
       responses:
         200:
           description: OK
@@ -159,6 +158,28 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Position'
+  /position/skills:
+    post:
+      summary: Extract skills from a mission
+      description: Returns a list of skills based on the provided mission
+      operationId: getSkills
+      tags:
+        - positions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mission'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /freelancer/id/{id}:
     get:
       summary: Get a freelancer
@@ -460,6 +481,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Note'
+        skills:
+          type: array
+          items:
+            type: string
+          description: 'List of skills required for the position'
     Note:
       type: object
       properties:
