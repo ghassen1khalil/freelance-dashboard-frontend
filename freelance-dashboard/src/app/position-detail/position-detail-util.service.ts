@@ -17,7 +17,11 @@ export class PositionDetailUtilService {
   }
 
   public initPositionFormGroup(position: Position | undefined): FormGroup {
-   let positionForm =  new FormGroup({
+    const hasIntermediary = !!(position && position.intermediary && (
+      position.intermediary.corporation || position.intermediary.name || position.intermediary.phones || position.intermediary.email
+    ));
+
+    let positionForm = new FormGroup({
       startingDate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.startingDate : '', [Validators.required]),
       client: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.client : '', [Validators.required]),
       address: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.address : '', [Validators.required]),
@@ -28,26 +32,35 @@ export class PositionDetailUtilService {
       project: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.project : ''),
       team: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.team : ''),
       manager: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.mission?.manager : ''),
-     // Skills controls
-     skills: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? (position?.skills ?? []) : []),
-     skillInput: new FormControl(''),
-      intermediaryCorporation: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.corporation : '', [Validators.required]),
-      intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.name : '', [Validators.required]),
+      // Skills controls
+      skills: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? (position?.skills ?? []) : []),
+      skillInput: new FormControl(''),
+      // Intermediary toggle
+      hasIntermediary: new FormControl(hasIntermediary),
+      // Intermediary fields (validators applied conditionally)
+      intermediaryCorporation: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.corporation : ''),
+      intermediaryName: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.name : ''),
       intermediaryPhones: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.phones : ''),
       intermediaryEmail: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.intermediary?.email : '', [Validators.email]),
-     note: new FormControl(''),
+      note: new FormControl(''),
     });
-   this.handleFormDisable(positionForm, position);
-   return positionForm;
-  }
 
-  private handleFormDisable(positionForm: FormGroup, position: Position | undefined) {
-    if (position?.state === PositionState.Archived) {
-      positionForm.disable();
-    }
+    // Apply conditional validators for intermediary fields based on toggle
+    this.applyIntermediaryValidators(positionForm);
+
+    this.handleFormDisable(positionForm, position);
+    return positionForm;
   }
 
   public createPositionFromForm(isEditMode: boolean, form: FormGroup, position: Position | undefined): Position {
+    const hasIntermediary = !!form.controls['hasIntermediary']?.value;
+    const intermediary = hasIntermediary ? {
+      corporation: form.controls['intermediaryCorporation'].value,
+      name: form.controls['intermediaryName'].value,
+      phones: form.controls['intermediaryPhones'].value,
+      email: form.controls['intermediaryEmail'].value
+    } : undefined;
+
     return {
       startingDate: this.dateService.toApiDateOnly(form.controls['startingDate'].value)!.toString(),
       creationDate: isEditMode ? position?.creationDate : this.dateService.toApiDateTime(new Date())?.toString(),
@@ -67,12 +80,7 @@ export class PositionDetailUtilService {
         manager: form.controls['manager'].value,
       },
       skills: form.controls['skills'].value,
-      intermediary: {
-        corporation: form.controls['intermediaryCorporation'].value,
-        name: form.controls['intermediaryName'].value,
-        phones: form.controls['intermediaryPhones'].value,
-        email: form.controls['intermediaryEmail'].value
-      },
+      intermediary: intermediary,
       //notes: isEditMode ? [...(position?.notes ?? []), form.get('notes')?.value] : form.controls['notes'].value,
       statuses: isEditMode ? position?.statuses :
         [
@@ -125,7 +133,7 @@ export class PositionDetailUtilService {
       const filledIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-fill.png\">".repeat(i);
       const outlineIcons = "<img alt=\"dropdown icon\" src=\"/assets/icons/home-9-line.png\">".repeat(5 - i);
       const label = `<div class="fd-flex fd-flex-row">${filledIcons}${outlineIcons}</div>`;
-      options.push({ label, value: i });
+      options.push({label, value: i});
     }
     return options;
   }
@@ -140,11 +148,35 @@ export class PositionDetailUtilService {
     }
   }
 
-
   public updatePosition(positionForm: FormGroup, position: Position) {
     let editedPosition = this.createPositionFromForm(true, positionForm, position);
     editedPosition.id = position?.id;
     editedPosition.freelancerId = position?.freelancerId;
     this.store.dispatch(PositionActions.UpdatePosition({position: editedPosition}))
+  }
+
+  public applyIntermediaryValidators(form: FormGroup): void {
+    const hasIntermediary = !!form.get('hasIntermediary')?.value;
+    const corpCtrl = form.get('intermediaryCorporation');
+    const nameCtrl = form.get('intermediaryName');
+
+    if (!corpCtrl || !nameCtrl) return;
+
+    if (hasIntermediary) {
+      corpCtrl.setValidators([Validators.required]);
+      nameCtrl.setValidators([Validators.required]);
+    } else {
+      corpCtrl.clearValidators();
+      nameCtrl.clearValidators();
+    }
+
+    corpCtrl.updateValueAndValidity({emitEvent: false});
+    nameCtrl.updateValueAndValidity({emitEvent: false});
+  }
+
+  private handleFormDisable(positionForm: FormGroup, position: Position | undefined) {
+    if (position?.state === PositionState.Archived) {
+      positionForm.disable();
+    }
   }
 }
