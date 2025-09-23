@@ -21,8 +21,12 @@ export class PositionDetailUtilService {
       position.intermediary.corporation || position.intermediary.name || position.intermediary.phones || position.intermediary.email
     ));
 
+    const hasPlannedStartingDate = !!(position && position.startingDate);
+
     let positionForm = new FormGroup({
-      startingDate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.startingDate : '', [Validators.required]),
+      // Toggle to control planned starting date visibility/requirement
+      hasPlannedStartingDate: new FormControl(hasPlannedStartingDate),
+      startingDate: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.startingDate : ''),
       client: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.client : '', [Validators.required]),
       address: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.address : '', [Validators.required]),
       remoteDays: new FormControl(this.nullityUtilService.isNotNullOrUndefined(position) ? position?.remoteDays : ''),
@@ -47,6 +51,8 @@ export class PositionDetailUtilService {
 
     // Apply conditional validators for intermediary fields based on toggle
     this.applyIntermediaryValidators(positionForm);
+    // Apply conditional validators for starting date based on toggle
+    this.applyStartingDateValidators(positionForm);
 
     this.handleFormDisable(positionForm, position);
     return positionForm;
@@ -61,8 +67,13 @@ export class PositionDetailUtilService {
       email: form.controls['intermediaryEmail'].value
     } : undefined;
 
+    const hasPlannedStartingDate = !!form.controls['hasPlannedStartingDate']?.value;
+    const startingDate = hasPlannedStartingDate && form.controls['startingDate'].value
+      ? this.dateService.toApiDateOnly(form.controls['startingDate'].value)!.toString()
+      : undefined;
+
     return {
-      startingDate: this.dateService.toApiDateOnly(form.controls['startingDate'].value)!.toString(),
+      startingDate: startingDate,
       creationDate: isEditMode ? position?.creationDate : this.dateService.toApiDateTime(new Date())?.toString(),
       updateDate: isEditMode ? this.dateService.toApiDateTime(new Date())?.toString() : undefined,
       client: form.controls['client'].value,
@@ -97,6 +108,7 @@ export class PositionDetailUtilService {
     if (this.nullityUtilService.isNotNullOrUndefined(position)) {
       this.store.dispatch(PositionActions.ResetPositionToEdit())
       form.setValue({
+        hasPlannedStartingDate: false,
         startingDate: '',
         client: '',
         address: '',
@@ -172,6 +184,24 @@ export class PositionDetailUtilService {
 
     corpCtrl.updateValueAndValidity({emitEvent: false});
     nameCtrl.updateValueAndValidity({emitEvent: false});
+  }
+
+  public applyStartingDateValidators(form: FormGroup): void {
+    const hasPlanned = !!form.get('hasPlannedStartingDate')?.value;
+    const startingCtrl = form.get('startingDate');
+    if (!startingCtrl) return;
+
+    if (hasPlanned) {
+      startingCtrl.setValidators([Validators.required]);
+    } else {
+      startingCtrl.clearValidators();
+      // Also clear the value when disabled to avoid accidental submission
+      if (startingCtrl.enabled && startingCtrl.value) {
+        // don't emit event to avoid loops; just clear if toggle is off
+        startingCtrl.setValue('');
+      }
+    }
+    startingCtrl.updateValueAndValidity({emitEvent: false});
   }
 
   private handleFormDisable(positionForm: FormGroup, position: Position | undefined) {
