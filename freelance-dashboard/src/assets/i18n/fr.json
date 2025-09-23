@@ -236,5 +236,6 @@
     "days": "Jour(s)",
     "createEvent": "Créer l'événement"
   },
-  "skills": "Compétences"
+  "skills": "Compétences",
+  "useIntermediary": "Je passe par un intermédiaire"
 }
