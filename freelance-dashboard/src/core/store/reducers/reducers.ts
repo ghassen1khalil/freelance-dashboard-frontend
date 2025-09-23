@@ -8,6 +8,7 @@ import {loaderReducer} from './loader.reducers';
 import {filterReducer} from './filter.reducer';
 import {passwordResetTokenReducer} from './password-reset-token.reducers';
 import {positionDetailsDrawerReducer} from './position-details-drawer.reducers';
+import {skillsReducer} from './skills.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   positionState: positionReducer,
@@ -17,6 +18,7 @@ export const reducers: ActionReducerMap<AppState> = {
   filterState: filterReducer,
   passwordResetTokenState: passwordResetTokenReducer,
   positionDetailsDrawerState: positionDetailsDrawerReducer,
+  skillsState: skillsReducer,
 }
 
 export const metaReducers: MetaReducer[] = [
