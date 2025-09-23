@@ -31,6 +31,7 @@ import {Timeline} from 'primeng/timeline';
 import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-details-drawer.actions';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {TagModule} from 'primeng/tag';
+import {ToggleSwitch} from 'primeng/toggleswitch';
 
 //TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
@@ -57,7 +58,8 @@ import {TagModule} from 'primeng/tag';
     ButtonDirective,
     DatePickerModule,
     AutoCompleteModule,
-    TagModule
+    TagModule,
+    ToggleSwitch
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
@@ -108,6 +110,13 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
         this.isDrawerVisible = state.isDrawerShown;
         this.position = state.position!;
         this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+
+        // Apply and react to intermediary toggle validators
+        this.positionDetailUtil.applyIntermediaryValidators(this.positionForm);
+        this.positionForm.get('hasIntermediary')?.valueChanges
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(() => this.positionDetailUtil.applyIntermediaryValidators(this.positionForm));
+
         const mission = this.position?.mission;
         if (mission) {
           this.store.dispatch(SkillsActions.LoadSkills({

@@ -152,43 +152,51 @@
           </p-fieldset>
         </div>
 
-        <!--Intermediary-->
-        <div class="col-12 fd-flex fd-flex-row ">
-          <p-fieldset legend="{{'intermediary' | translate}}" class="fd-flex fd-flex-row fd-full-width">
-            <!--Corporation-->
-            <div class="col-12 fd-flex fd-flex-column">
-              <p-floatlabel variant="on">
-                <input pInputText id="intermediaryCorporation" formControlName="intermediaryCorporation"
-                       autocomplete="off"/>
-                <label for="intermediaryCorporation">{{ 'corporation' | translate }}</label>
-              </p-floatlabel>
-            </div>
-
-            <!--Name-->
-            <div class="col-12 fd-flex fd-flex-column">
-              <p-floatlabel variant="on">
-                <input pInputText id="intermediaryName" formControlName="intermediaryName" autocomplete="off"/>
-                <label for="intermediaryName">{{ 'name' | translate }}</label>
-              </p-floatlabel>
-            </div>
-
-            <!--Phones-->
-            <div class="col-12 fd-flex fd-flex-column">
-              <p-floatlabel variant="on">
-                <input pInputText id="intermediaryPhones" formControlName="intermediaryPhones" autocomplete="off"/>
-                <label for="intermediaryPhones">{{ 'phones' | translate }}</label>
-              </p-floatlabel>
-            </div>
-
-            <!--Email-->
-            <div class="col-12 fd-flex fd-flex-column">
-              <p-floatlabel variant="on">
-                <input pInputText id="intermediaryEmail" formControlName="intermediaryEmail" autocomplete="off"/>
-                <label for="intermediaryEmail">{{ 'email' | translate }}</label>
-              </p-floatlabel>
-            </div>
-          </p-fieldset>
+        <!--Intermediary toggle-->
+        <div class="col-12 fd-flex fd-flex-row items-center gap-2">
+          <p-toggleSwitch formControlName="hasIntermediary" inputId="hasIntermediary"></p-toggleSwitch>
+          <label for="hasIntermediary">{{ 'useIntermediary' | translate }}</label>
         </div>
+
+        <!--Intermediary-->
+        @if (positionForm?.get('hasIntermediary')?.value) {
+          <div class="col-12 fd-flex fd-flex-row ">
+            <p-fieldset legend="{{'intermediary' | translate}}" class="fd-flex fd-flex-row fd-full-width">
+              <!--Corporation-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryCorporation" formControlName="intermediaryCorporation"
+                         autocomplete="off"/>
+                  <label for="intermediaryCorporation">{{ 'corporation' | translate }}</label>
+                </p-floatlabel>
+              </div>
+
+              <!--Name-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryName" formControlName="intermediaryName" autocomplete="off"/>
+                  <label for="intermediaryName">{{ 'name' | translate }}</label>
+                </p-floatlabel>
+              </div>
+
+              <!--Phones-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryPhones" formControlName="intermediaryPhones" autocomplete="off"/>
+                  <label for="intermediaryPhones">{{ 'phones' | translate }}</label>
+                </p-floatlabel>
+              </div>
+
+              <!--Email-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryEmail" formControlName="intermediaryEmail" autocomplete="off"/>
+                  <label for="intermediaryEmail">{{ 'email' | translate }}</label>
+                </p-floatlabel>
+              </div>
+            </p-fieldset>
+          </div>
+        }
 
         <!--Notes-->
         <div class="col-12 fd-flex fd-flex-column">
