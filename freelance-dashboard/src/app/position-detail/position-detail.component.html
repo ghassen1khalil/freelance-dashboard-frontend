@@ -16,17 +16,26 @@
   <ng-template #content>
     <form [formGroup]="positionForm" style="padding: 8px 0">
       <div class="grid">
-        <div class="col-12 fd-flex fd-flex-column">
-          <p-floatlabel variant="on">
-            <p-datepicker formControlName="startingDate"
-                          dateFormat="yy-mm-dd"
-                          inputId="startingDate"
-                          showIcon
-                          iconDisplay="input">
-            </p-datepicker>
-            <label for="startingDate">{{ 'startingDate' | translate }}</label>
-          </p-floatlabel>
+        <!-- Planned Starting Date Toggle -->
+        <div class="col-12 fd-flex fd-flex-row items-center gap-2">
+          <p-toggleSwitch formControlName="hasPlannedStartingDate" inputId="hasPlannedStartingDate"></p-toggleSwitch>
+          <label for="hasPlannedStartingDate" style="padding-bottom: 4px">Une date de démarrage est prévue ?</label>
         </div>
+
+        <!--Starting Date-->
+        @if (positionForm?.get('hasPlannedStartingDate')?.value) {
+          <div class="col-12 fd-flex fd-flex-column">
+            <p-floatlabel variant="on">
+              <p-datepicker formControlName="startingDate"
+                            dateFormat="yy-mm-dd"
+                            inputId="startingDate"
+                            showIcon
+                            iconDisplay="input">
+              </p-datepicker>
+              <label for="startingDate">{{ 'startingDate' | translate }}</label>
+            </p-floatlabel>
+          </div>
+        }
 
         <!--Client-->
         <div class="col-12 fd-flex fd-flex-column">
@@ -153,7 +162,7 @@
         <!--Intermediary toggle-->
         <div class="col-12 fd-flex fd-flex-row items-center gap-2">
           <p-toggleSwitch formControlName="hasIntermediary" inputId="hasIntermediary"></p-toggleSwitch>
-          <label for="hasIntermediary">{{ 'useIntermediary' | translate }}</label>
+          <label for="hasIntermediary" style="padding-bottom: 4px">{{ 'useIntermediary' | translate }}</label>
         </div>
 
         <!--Intermediary-->

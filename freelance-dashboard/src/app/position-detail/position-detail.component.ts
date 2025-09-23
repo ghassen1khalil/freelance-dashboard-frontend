@@ -117,6 +117,12 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(() => this.positionDetailUtil.applyIntermediaryValidators(this.positionForm));
 
+        // Apply and react to planned starting date toggle validators
+        this.positionDetailUtil.applyStartingDateValidators(this.positionForm);
+        this.positionForm.get('hasPlannedStartingDate')?.valueChanges
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(() => this.positionDetailUtil.applyStartingDateValidators(this.positionForm));
+
         const mission = this.position?.mission;
         if (mission) {
           this.store.dispatch(SkillsActions.LoadSkills({
