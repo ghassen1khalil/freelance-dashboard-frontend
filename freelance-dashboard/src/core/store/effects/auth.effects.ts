@@ -161,4 +161,22 @@ export class AuthEffects {
       })
     ))
   ));
+
+  SignupFailureEvent$: Observable<Action> = createEffect(() => this.action$.pipe(
+    ofType(SignupFailure),
+    switchMap(({ error }) => {
+      const code = (error as any)?.error?.code ?? (error as any)?.code;
+      const key = code === 'F003' ? 'emailAlreadyUsed' : 'signupError';
+      return this.translate.get(['error', key]).pipe(
+        map((res) => LaunchEvent({
+          event: this.eventService.createEventFromLocalizedMessage(
+            res,
+            'error',
+            key,
+            EventType.ERROR
+          )
+        }))
+      );
+    })
+  ));
 }
