@@ -32,6 +32,7 @@ import {ClosePositionDetailsDrawer,} from '../../core/store/actions/position-det
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {TagModule} from 'primeng/tag';
 import {ToggleSwitch} from 'primeng/toggleswitch';
+import {PrimePhoneInputComponent} from '../components/phone/prime-phone-input.component';
 
 //TODO this component should be refactored because it is too big and has too many responsibilities (CREATION, EDITING, DELETION, GENERATION of followup email, NOTES management, etc.)
 @Component({
@@ -59,7 +60,8 @@ import {ToggleSwitch} from 'primeng/toggleswitch';
     DatePickerModule,
     AutoCompleteModule,
     TagModule,
-    ToggleSwitch
+    ToggleSwitch,
+    PrimePhoneInputComponent
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',

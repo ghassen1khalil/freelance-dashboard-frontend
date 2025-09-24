@@ -1,0 +1,71 @@
+import {Country} from './country.model';
+
+/**
+ * Subset of world countries with focus on Europe and a few extras.
+ * FR and CH are listed first for the UX requirement, then alphabetical by name.
+ * Names are in French by default.
+ */
+export const COUNTRIES: Country[] = [
+  {name: 'France', iso2: 'FR', dial: '+33', example: '06 12 34 56 78'},
+  {name: 'Suisse', iso2: 'CH', dial: '+41', example: '079 123 45 67'},
+  // -- Europe (alphabetical) --
+  {name: 'Albanie', iso2: 'AL', dial: '+355'},
+  {name: 'Allemagne', iso2: 'DE', dial: '+49'},
+  {name: 'Andorre', iso2: 'AD', dial: '+376'},
+  {name: 'Autriche', iso2: 'AT', dial: '+43'},
+  {name: 'Belgique', iso2: 'BE', dial: '+32', example: '0470 12 34 56'},
+  {name: 'Biélorussie', iso2: 'BY', dial: '+375'},
+  {name: 'Bosnie-Herzégovine', iso2: 'BA', dial: '+387'},
+  {name: 'Bulgarie', iso2: 'BG', dial: '+359'},
+  {name: 'Chypre', iso2: 'CY', dial: '+357'},
+  {name: 'Croatie', iso2: 'HR', dial: '+385'},
+  {name: 'Danemark', iso2: 'DK', dial: '+45'},
+  {name: 'Espagne', iso2: 'ES', dial: '+34'},
+  {name: 'Estonie', iso2: 'EE', dial: '+372'},
+  {name: 'Finlande', iso2: 'FI', dial: '+358'},
+  {name: 'Géorgie', iso2: 'GE', dial: '+995'},
+  {name: 'Gibraltar', iso2: 'GI', dial: '+350'},
+  {name: 'Grèce', iso2: 'GR', dial: '+30'},
+  {name: 'Hongrie', iso2: 'HU', dial: '+36'},
+  {name: 'Irlande', iso2: 'IE', dial: '+353'},
+  {name: 'Islande', iso2: 'IS', dial: '+354'},
+  {name: 'Italie', iso2: 'IT', dial: '+39'},
+  {name: 'Kazakhstan', iso2: 'KZ', dial: '+7'},
+  {name: 'Kosovo', iso2: 'XK', dial: '+383'},
+  {name: 'Lettonie', iso2: 'LV', dial: '+371'},
+  {name: 'Liechtenstein', iso2: 'LI', dial: '+423'},
+  {name: 'Lituanie', iso2: 'LT', dial: '+370'},
+  {name: 'Luxembourg', iso2: 'LU', dial: '+352'},
+  {name: 'Malte', iso2: 'MT', dial: '+356'},
+  {name: 'Moldavie', iso2: 'MD', dial: '+373'},
+  {name: 'Monaco', iso2: 'MC', dial: '+377'},
+  {name: 'Monténégro', iso2: 'ME', dial: '+382'},
+  {name: 'Norvège', iso2: 'NO', dial: '+47'},
+  {name: 'Pays-Bas', iso2: 'NL', dial: '+31'},
+  {name: 'Pologne', iso2: 'PL', dial: '+48'},
+  {name: 'Portugal', iso2: 'PT', dial: '+351'},
+  {name: 'République tchèque', iso2: 'CZ', dial: '+420'},
+  {name: 'Roumanie', iso2: 'RO', dial: '+40'},
+  {name: 'Royaume-Uni', iso2: 'GB', dial: '+44'},
+  {name: 'Russie', iso2: 'RU', dial: '+7'},
+  {name: 'Saint-Marin', iso2: 'SM', dial: '+378'},
+  {name: 'Serbie', iso2: 'RS', dial: '+381'},
+  {name: 'Slovaquie', iso2: 'SK', dial: '+421'},
+  {name: 'Slovénie', iso2: 'SI', dial: '+386'},
+  {name: 'Suède', iso2: 'SE', dial: '+46'},
+  {name: 'Turquie', iso2: 'TR', dial: '+90'},
+  {name: 'Ukraine', iso2: 'UA', dial: '+380'},
+  {name: 'Vatican', iso2: 'VA', dial: '+39'},
+  {name: 'Île de Man', iso2: 'IM', dial: '+44'},
+  {name: 'Îles Féroé', iso2: 'FO', dial: '+298'},
+  {name: 'Jersey', iso2: 'JE', dial: '+44'},
+  {name: 'Guernesey', iso2: 'GG', dial: '+44'},
+  {name: 'Îles Åland', iso2: 'AX', dial: '+358'},
+  // -- Extras (explicit requirement) --
+  {name: 'États-Unis', iso2: 'US', dial: '+1'},
+  {name: 'Canada', iso2: 'CA', dial: '+1'},
+  {name: 'Tunisie', iso2: 'TN', dial: '+216', example: '20 123 456'},
+  {name: 'Maroc', iso2: 'MA', dial: '+212'},
+];
+
+// TODO: To extend this list, add new entries following ISO 3166-1 alpha-2 codes (https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)

@@ -188,10 +188,10 @@
 
               <!--Phones-->
               <div class="col-12 fd-flex fd-flex-column">
-                <p-floatlabel variant="on">
-                  <input pInputText id="intermediaryPhones" formControlName="intermediaryPhones" autocomplete="off"/>
-                  <label for="intermediaryPhones">{{ 'phones' | translate }}</label>
-                </p-floatlabel>
+                <app-prime-phone-input
+                  [label]="('phone' | translate)"
+                  formControlName="intermediaryPhones">
+                </app-prime-phone-input>
               </div>
 
               <!--Email-->
