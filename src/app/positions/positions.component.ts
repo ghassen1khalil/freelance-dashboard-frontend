@@ -21,7 +21,8 @@ export class PositionsComponent  {
     this.store.dispatch(OpenPositionDetailsDrawer({
       position: position,
       isDrawerShown: true,
-      isCreation: true
+      isCreation: true,
+      isDuplication: false
     }));
   }
 }

@@ -19,7 +19,7 @@ import {UpdateType} from '../../core/domain/update-type.enum';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [ConfirmationService]
+  providers: []
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 

@@ -83,7 +83,8 @@
     "edit": "Éditer",
     "remove": "Supprimer",
     "archive": "Archiver",
-    "enable": "Activer"
+    "enable": "Activer",
+    "duplicate": "Dupliquer"
   },
   "positions": "Positionnements",
   "primeng": {

@@ -44,6 +44,7 @@ export interface PositionDetailsDrawerState {
   isDrawerShown: boolean;
   position: Position | undefined;
   isCreation: boolean;
+  isDuplication: boolean;
 }
 
 export interface SkillsState {

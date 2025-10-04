@@ -7,7 +7,8 @@ export const OpenPositionDetailsDrawer = createAction(
   props<{
     position: Position,
     isDrawerShown: boolean,
-    isCreation: boolean
+    isCreation: boolean,
+    isDuplication: boolean
   }>()
 );
 

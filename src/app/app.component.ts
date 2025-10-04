@@ -4,7 +4,7 @@ import {Event} from '../core/store/models/models';
 import {Subject, takeUntil} from 'rxjs';
 import * as eventReducer from '../core/store/reducers/event.reducer'
 import {TranslateService} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {AppRoutes} from '../core/utils/app-routes.util';
 
@@ -12,7 +12,7 @@ import {AppRoutes} from '../core/utils/app-routes.util';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class AppComponent implements OnInit, OnDestroy {
 

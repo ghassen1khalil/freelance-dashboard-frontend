@@ -13,7 +13,6 @@ import * as positionReducer from '../../core/store/reducers/position.reducer'
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {PositionCardComponent} from '../position-card/position-card.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
 import {StatusBoardService} from './status-board.service';
 import {ChipModule} from 'primeng/chip';
 import {DialogModule} from 'primeng/dialog';
@@ -36,7 +35,7 @@ import {DateService} from '../../core/services/date.service';
   templateUrl: './status-board.component.html',
   styleUrls: ['./status-board.component.scss'],
   standalone: true,
-  providers: [StatusBoardService, ConfirmationService],
+  providers: [StatusBoardService],
   imports: [
     NgFor, OrderListModule, CardModule, DragDropModule, CommonModule,
     TranslateModule, PositionCardComponent, ConfirmDialogModule, ChipModule,

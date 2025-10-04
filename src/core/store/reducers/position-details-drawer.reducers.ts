@@ -5,16 +5,17 @@ import * as PositionDetailsDrawerActions from '../actions/position-details-drawe
 export const initialPositionDetailsDrawerState: PositionDetailsDrawerState = {
   isDrawerShown: false,
   position: undefined,
-  isCreation: false
+  isCreation: false,
+  isDuplication: false
 }
 
 const _positionDetailsDrawerReducer = createReducer(
   initialPositionDetailsDrawerState,
-  on(PositionDetailsDrawerActions.OpenPositionDetailsDrawer, (state, {position, isCreation}) => {
-    return {...state, isDrawerShown: true, position: position, isCreation: isCreation}
+  on(PositionDetailsDrawerActions.OpenPositionDetailsDrawer, (state, {position, isCreation, isDuplication}) => {
+    return {...state, isDrawerShown: true, position: position, isCreation: isCreation, isDuplication: isDuplication}
   }),
   on(PositionDetailsDrawerActions.ClosePositionDetailsDrawer, (state) => {
-    return {...state, isDrawerShown: false, position: undefined}
+    return {...state, isDrawerShown: false, position: undefined, isDuplication: false, isCreation: false}
   })
 );
 

@@ -8,13 +8,20 @@
         <strong>{{ position?.client }}</strong>
       }
     </div>
-    <!--<div class="menu-button">
-      <p-menu #menu [popup]="true" [model]="menuActions"></p-menu>
-      <button pButton icon="pi pi-ellipsis-h" class="menu-icon p-button-outlined" (click)="menu.toggle($event)"></button>
-    </div>-->
-    <div class="menu-button">
-      <!--<button pButton icon="pi pi-ellipsis-h" class="menu-icon p-button-outlined" (click)="testABC()"></button>-->
+    <div class="menu-button fd-flex fd-flex-row gap-2">
+      <!-- Context menu for more actions -->
+      <p-menu #menu [model]="menuActions" [popup]="true" [appendTo]="'body'" styleClass="fd-position-menu-overlay"></p-menu>
       <p-button variant="outlined"
+                icon="pi pi-ellipsis-v"
+                (click)="onMenuButtonClick($event, menu)"
+                [rounded]="true"
+                [text]="true"
+                [pTooltip]="'position-contextual-menu.title' | translate"
+                showDelay="1000"
+                hideDelay="300"></p-button>
+
+      <!-- Existing archive/refresh button -->
+      <!--<p-button variant="outlined"
                 [icon]="position.state === PositionState.Archived ? 'pi pi-refresh' : 'pi pi-briefcase'"
                 (click)="switchPositionState()"
                 [rounded]="true"
@@ -24,9 +31,7 @@
                : 'archivePosition')
                | translate"
                 showDelay="1000"
-                hideDelay="300"/>
-
-      <!--<p-button icon="pi pi-check" [rounded]="true" [text]="true" />-->
+                hideDelay="300"/>-->
     </div>
   </div>
 
@@ -53,3 +58,14 @@
     </p-button>
   </div>
 </div>
+
+<!--
+<p-confirmDialog [style]="{ width: '50vw' }"
+                 [baseZIndex]="10000"
+                 key="confirmDeletion"
+                 acceptLabel="{{'no' | translate}}"
+                 rejectLabel="{{'no' | translate}}"
+                 rejectButtonStyleClass="p-button-text"
+                 acceptButtonStyleClass="p-button-danger">
+</p-confirmDialog>
+-->

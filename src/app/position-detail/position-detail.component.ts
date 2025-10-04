@@ -65,7 +65,7 @@ import {PrimePhoneInputComponent} from '../components/phone/prime-phone-input.co
   ],
   templateUrl: './position-detail.component.html',
   styleUrl: './position-detail.component.scss',
-  providers: [PositionDetailUtilService, ConfirmationService]
+  providers: [PositionDetailUtilService]
 })
 export class PositionDetailComponent implements OnInit, OnDestroy {
 
@@ -74,6 +74,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
   public isDrawerVisible = false;
   public currencies: string[] = Object.values(Currency);
   public isCreation: boolean;
+  public isDuplication: boolean = false;
 
   public remoteDaysOptions: SelectOption[] = [];
   public remoteDaysSelectedOption: SelectOption;
@@ -109,9 +110,15 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe(state => {
         this.isCreation = state.isCreation;
+        this.isDuplication = state.isDuplication;
         this.isDrawerVisible = state.isDrawerShown;
         this.position = state.position!;
         this.positionForm = this.positionDetailUtil.initPositionFormGroup(this.position);
+
+        if (this.isDuplication) {
+          // ensure fields are editable even if the source position is archived
+          this.positionForm.enable();
+        }
 
         // Apply and react to intermediary toggle validators
         this.positionDetailUtil.applyIntermediaryValidators(this.positionForm);
@@ -162,16 +169,16 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
 
   public isButtonShown(button: string): boolean {
     if (button === 'save') {
-      return this.isCreation;
+      return this.isCreation || this.isDuplication;
     }
     if (button === 'update') {
-      return !this.isCreation && !this.positionForm.pristine;
+      return !this.isCreation && !this.isDuplication && !this.positionForm.pristine;
     }
     if (button === 'delete') {
-      return !this.isCreation;
+      return !this.isCreation && !this.isDuplication;
     }
     if (button === 'generate') {
-      return !this.isCreation
+      return !this.isCreation && !this.isDuplication;
     }
     return false;
   }
@@ -219,7 +226,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
         },
         reject: () => {
           this.confirmationService.close();
-        },
+        }
       });
     });
   }
@@ -285,7 +292,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
   }
 
   public onEnter() {
-    if (!this.isCreation) {
+    if (!this.isCreation && !this.isDuplication) {
       this.position = this.addNoteToPosition();
       this.store.dispatch(UpdatePosition({position: this.position}));
     } else {
