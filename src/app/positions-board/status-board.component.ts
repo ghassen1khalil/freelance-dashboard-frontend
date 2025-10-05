@@ -12,7 +12,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import * as positionReducer from '../../core/store/reducers/position.reducer'
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {PositionCardComponent} from '../position-card/position-card.component';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {StatusBoardService} from './status-board.service';
 import {ChipModule} from 'primeng/chip';
 import {DialogModule} from 'primeng/dialog';
@@ -38,7 +37,7 @@ import {DateService} from '../../core/services/date.service';
   providers: [StatusBoardService],
   imports: [
     NgFor, OrderListModule, CardModule, DragDropModule, CommonModule,
-    TranslateModule, PositionCardComponent, ConfirmDialogModule, ChipModule,
+    TranslateModule, PositionCardComponent, ChipModule,
     DialogModule, ReactiveFormsModule, InputTextModule, InputNumberModule,
     DropdownModule, ButtonModule, FloatLabel, Select, DatePickerModule
   ],

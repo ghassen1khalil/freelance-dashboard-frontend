@@ -219,7 +219,7 @@ export class PositionDetailComponent implements OnInit, OnDestroy {
         message: res['delete-modal.position.areYouSure'],
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
-        key: 'confirmDeletion',
+        key: 'delete-confirmation',
         accept: () => {
           this.store.dispatch(UpdatePosition({position: this.positionDetailUtil.updatePositionState(this.position, PositionState.Deleted)}));
           this.closeDrawer();

@@ -32,6 +32,7 @@ import Material from '@primeng/themes/material';
 import {definePreset} from '@primeng/themes';
 import {NavigationMenuComponent} from './navigation-menu/navigation-menu.component';
 import {HeaderComponent} from './header/header.component';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -119,7 +120,8 @@ const MyPreset = definePreset(Material, {
     LoaderComponent,
     FooterModule,
     NavigationMenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConfirmDialog
   ],
   providers: [
     provideAnimationsAsync(),

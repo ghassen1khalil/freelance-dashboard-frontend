@@ -89,13 +89,6 @@ export class PositionCardComponent implements OnInit {
         label: res['position-contextual-menu.title'],
         items: [
           {
-            label: res['position-contextual-menu.edit'],
-            icon: PrimeIcons.PENCIL,
-            command: () => {
-              //this.editPosition();
-            }
-          },
-          {
             label: res['position-contextual-menu.duplicate'],
             icon: 'pi pi-copy',
             command: () => this.duplicatePosition()
@@ -123,12 +116,6 @@ export class PositionCardComponent implements OnInit {
     });
   }
 
-
-  /*public editPosition() {
-    this.store.dispatch(EditPosition({positionToEdit: this.position}));
-    //this.router.navigate(['/', 'position']);
-  }*/
-
   private confirmDeletion() {
     this.translate.get([
       'delete-modal.position.areYouSure',
@@ -141,6 +128,7 @@ export class PositionCardComponent implements OnInit {
         message: res['delete-modal.position.areYouSure'],
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
+        key: 'delete-confirmation',
         accept: () => {
           this.store.dispatch(UpdatePosition({position: this.positionUtils.updatePositionState(this.position, PositionState.Deleted)}));
         },

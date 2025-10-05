@@ -1,5 +1,23 @@
 <app-loader></app-loader>
 <p-toast></p-toast>
+<p-confirmDialog [style]="{width: '500px'}"
+                 [baseZIndex]="10000"
+                 acceptLabel="{{'yes' | translate}}"
+                 rejectLabel="{{'no' | translate}}"
+                 rejectButtonStyleClass="p-button-text"
+                 acceptButtonStyleClass="p-button-danger"
+                 key="delete-confirmation">
+</p-confirmDialog>
+
+<p-confirmDialog [style]="{width: '500px'}"
+                 [baseZIndex]="10000"
+                 acceptLabel="{{'yes' | translate}}"
+                 rejectLabel="{{'no' | translate}}"
+                 rejectButtonStyleClass="p-button-text"
+                 acceptButtonStyleClass="p-button"
+                 key="position-status-change-confirmation">
+</p-confirmDialog>
+
 <!-- Layout container -->
 <div class="flex relative min-h-screen w-full">
   <!-- Sidebar -->

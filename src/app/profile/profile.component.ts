@@ -98,6 +98,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         message: res['delete-modal.account.areYouSure'],
         header: res['delete-modal.confirmation'],
         icon: 'pi pi-info-circle',
+        key: 'delete-confirmation',
         accept: () => {
           this.store.dispatch(DeleteAccount({id: this.freelancer.id!}))
         }

@@ -88,7 +88,11 @@ export class StatusBoardService {
   private showIsFreelancerAcceptedConfirmationDialog = (updatedPosition: Position, status: string) => {
     this.translate.get(['areYouAccepted', 'areYouAcceptedHeader', 'yes', 'no']).subscribe(res => {
       this.confirmationService.confirm({
-        message: res['areYouAccepted'], header: res['areYouAcceptedHeader'], icon: 'pi pi-info-circle', accept: () => {
+        message: res['areYouAccepted'],
+        header: res['areYouAcceptedHeader'],
+        icon: 'pi pi-info-circle',
+        key: 'position-status-change-confirmation',
+        accept: () => {
           this.store.dispatch(UpdatePosition({
             position: this.setIsFreelancerAccepted(updatedPosition, true)
           }));
@@ -132,6 +136,7 @@ export class StatusBoardService {
         message: res['generateCalendarEventMessage'],
         header: res['generateCalendarEventHeader'],
         icon: 'pi pi-calendar',
+        key: 'position-status-change-confirmation',
         accept: () => {
           // Show calendar form dialog
           this.showCalendarForm.next(true);

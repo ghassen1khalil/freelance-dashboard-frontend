@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {SetFilteredPositions} from '../../core/store/actions/filter.actions';
 import {TranslateService} from '@ngx-translate/core';
 
+//TODO TO REFACTOR
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
