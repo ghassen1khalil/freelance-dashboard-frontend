@@ -1,0 +1,374 @@
+<p-drawer (onHide)="onDismiss()" [(visible)]="isDrawerVisible" position="right" showCloseIcon="false"
+          styleClass="!w-[600px]">
+  <ng-template #header>
+    <div class="w-full">
+      @if (isCreation) {
+        <p class="drawer-title">{{ ('addPosition' | translate) }}</p>
+      } @else {
+        <p class="drawer-title drawer-title-flex">
+          <span>{{ position?.client }}</span>
+        </p>
+      }
+      <p-divider styleClass="w-full"></p-divider>
+    </div>
+  </ng-template>
+
+  <ng-template #content>
+    <form [formGroup]="positionForm" style="padding: 8px 0">
+      <div class="grid">
+        <!-- Planned Starting Date Toggle -->
+        <div class="col-12 fd-flex fd-flex-row items-center gap-2">
+          <p-toggleSwitch formControlName="hasPlannedStartingDate" inputId="hasPlannedStartingDate"></p-toggleSwitch>
+          <label for="hasPlannedStartingDate" style="padding-bottom: 4px">Une date de démarrage est prévue ?</label>
+        </div>
+
+        <!--Starting Date-->
+        @if (positionForm?.get('hasPlannedStartingDate')?.value) {
+          <div class="col-12 fd-flex fd-flex-column">
+            <p-floatlabel variant="on">
+              <p-datepicker formControlName="startingDate"
+                            dateFormat="yy-mm-dd"
+                            inputId="startingDate"
+                            showIcon
+                            iconDisplay="input">
+              </p-datepicker>
+              <label for="startingDate">{{ 'startingDate' | translate }}</label>
+            </p-floatlabel>
+          </div>
+        }
+
+        <!--Client-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-floatlabel variant="on">
+            <input pInputText id="client" formControlName="client" autocomplete="off"/>
+            <label for="client">{{ 'client' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
+        <!--Address-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-floatlabel variant="on">
+            <input pInputText id="address" formControlName="address" autocomplete="off"/>
+            <label for="address">{{ 'address' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
+        <!--Remote-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-floatlabel variant="on" class="w-full md:w-56">
+            <p-select styleClass="w-full"
+                      [options]="remoteDaysOptions"
+                      inputId="remote"
+                      formControlName="remoteDays"
+                      (onChange)="onRemoteDaysSelectedOptionChange($event)">
+              <ng-template #selectedItem>
+                <span
+                  [innerHTML]="positionDetailUtil.handleSelectedRemoteDaysOptionDisplay(remoteDaysSelectedOption, remoteDaysOptions, position)"></span>
+              </ng-template>
+              <ng-template let-option pTemplate="item">
+                <span [innerHTML]="option.label"></span>
+              </ng-template>
+            </p-select>
+            <label for="remote">{{ 'remote' | translate }} {{ 'daysPerWeek' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
+        <!--Daily Rate-->
+        <div class="col-8 fd-flex fd-flex-column">
+          <p-floatlabel variant="on">
+            <input pInputText type="number" id="dailyRate" formControlName="dailyRate" autocomplete="off"/>
+            <label for="dailyRate">{{ 'dailyRate' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
+        <!--Currency-->
+        <div class="col-4 fd-flex fd-flex-column">
+          <p-floatlabel variant="on" class="w-full md:w-56">
+            <p-select [options]="currencies"
+                      formControlName="currency"
+                      inputId="currency"
+                      styleClass="w-full">
+              <ng-template let-currency pTemplate="item">
+                <span [innerHTML]="currency"></span>
+              </ng-template>
+            </p-select>
+            <label for="currency">{{ 'currency' | translate }}</label>
+          </p-floatlabel>
+        </div>
+
+        <!--Mission-->
+        <div class="col-12 fd-flex fd-flex-row ">
+          <p-fieldset legend="{{'mission' | translate}}" class="fd-flex fd-flex-row fd-full-width">
+            <!--Role-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel variant="on">
+                <input pInputText id="role" formControlName="role" autocomplete="off"/>
+                <label for="role">{{ 'role' | translate }}</label>
+              </p-floatlabel>
+            </div>
+            <!--Project-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel variant="on">
+                <input pInputText id="project" formControlName="project" autocomplete="off"/>
+                <label for="project">{{ 'project' | translate }}</label>
+              </p-floatlabel>
+            </div>
+            <!--Team-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel variant="on">
+                <input pInputText id="team" formControlName="team" autocomplete="off"/>
+                <label for="team">{{ 'team' | translate }}</label>
+              </p-floatlabel>
+            </div>
+            <!--Manager-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel variant="on">
+                <input pInputText id="manager" formControlName="manager" autocomplete="off"/>
+                <label for="manager">{{ 'manager' | translate }}</label>
+              </p-floatlabel>
+            </div>
+
+            <!--Skills (AutoComplete + Tags)-->
+            <div class="col-12 fd-flex fd-flex-column">
+              <p-floatlabel class="w-full md:w-56" variant="on">
+                <p-autocomplete
+                  (completeMethod)="filterSkills($event)"
+                  (keyup.enter)="onSkillEnter()"
+                  (onSelect)="onSkillSelect($event)"
+                  [dropdown]="false"
+                  [forceSelection]="false"
+                  [minLength]="0"
+                  [suggestions]="filteredSkills"
+                  formControlName="skillInput"
+                  inputId="skills"
+                  placeholder=""
+                  styleClass="w-full"
+                ></p-autocomplete>
+                <label for="skills">{{ 'skills' | translate }}</label>
+              </p-floatlabel>
+
+              <!-- Selected skills displayed as tags -->
+              <div class="fd-flex fd-flex-row fd-flex-wrap gap-2 mt-2">
+                <ng-container *ngIf="positionForm!.get('skills')?.value as selectedSkills">
+                  <span *ngFor="let skill of selectedSkills">
+                    <p-tag [value]="skill"></p-tag>
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+
+        <!--Intermediary toggle-->
+        <div class="col-12 fd-flex fd-flex-row items-center gap-2">
+          <p-toggleSwitch formControlName="hasIntermediary" inputId="hasIntermediary"></p-toggleSwitch>
+          <label for="hasIntermediary" style="padding-bottom: 4px">{{ 'useIntermediary' | translate }}</label>
+        </div>
+
+        <!--Intermediary-->
+        @if (positionForm?.get('hasIntermediary')?.value) {
+          <div class="col-12 fd-flex fd-flex-row ">
+            <p-fieldset legend="{{'intermediary' | translate}}" class="fd-flex fd-flex-row fd-full-width">
+              <!--Corporation-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryCorporation" formControlName="intermediaryCorporation"
+                         autocomplete="off"/>
+                  <label for="intermediaryCorporation">{{ 'corporation' | translate }}</label>
+                </p-floatlabel>
+              </div>
+
+              <!--Name-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryName" formControlName="intermediaryName" autocomplete="off"/>
+                  <label for="intermediaryName">{{ 'name' | translate }}</label>
+                </p-floatlabel>
+              </div>
+
+              <!--Phones-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <app-prime-phone-input
+                  [label]="('phone' | translate)"
+                  formControlName="intermediaryPhones">
+                </app-prime-phone-input>
+              </div>
+
+              <!--Email-->
+              <div class="col-12 fd-flex fd-flex-column">
+                <p-floatlabel variant="on">
+                  <input pInputText id="intermediaryEmail" formControlName="intermediaryEmail" autocomplete="off"/>
+                  <label for="intermediaryEmail">{{ 'email' | translate }}</label>
+                </p-floatlabel>
+              </div>
+            </p-fieldset>
+          </div>
+        }
+
+        <!--Notes-->
+        <div class="col-12 fd-flex fd-flex-column">
+          <p-fieldset class="fd-flex fd-flex-row fd-full-width" legend="{{'notes' | translate}}">
+            <p-floatlabel variant="on">
+              <input (keyup.enter)="onEnter()" autocomplete="off" formControlName="note" id="note" pInputText/>
+              <label for="note">{{ 'addNote' | translate }}</label>
+            </p-floatlabel>
+
+            <div class="flex flex-col w-full">
+              @if (isCreation) {
+                <p-timeline [value]="getSortedNotes()" align="left" styleClass="mt-3">
+                  <ng-template let-note pTemplate="marker">
+                    <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
+                      <i class="pi pi-comment-fill"></i>
+                    </span>
+                  </ng-template>
+                  <ng-template let-i="index" let-note pTemplate="content">
+                    <div class="p-3 bg-surface-100 rounded-lg shadow-sm mb-3 note-container">
+                      <p class="text-sm text-gray-500 mb-1">{{ formatDate(note.addedOn) }}</p>
+                      <p class="text-base note-content">{{ note.content }}</p>
+                      <button
+                        (click)="deleteNote(note)"
+                        *ngIf="position.state === PositionState.Active"
+                        [attr.aria-label]="'deleteNote' | translate"
+                        class="delete-note-btn"
+                        icon="pi pi-trash"
+                        pButton
+                        type="button">
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-timeline>
+              }
+              @if (position && position.notes && position.notes.length > 0) {
+                <p-timeline [value]="getSortedPositionNotes()" align="left" styleClass="mt-3">
+                  <ng-template let-note pTemplate="marker">
+                    <span class="flex w-8 h-8 items-center justify-center rounded-full bg-primary text-white shadow-md">
+                      <i class="pi pi-comment-fill"></i>
+                    </span>
+                  </ng-template>
+                  <ng-template let-i="index" let-note pTemplate="content">
+                    <div class="p-3 bg-surface-100 rounded-lg shadow-sm mb-3 note-container">
+                      <p class="text-sm text-gray-500 mb-1">{{ formatDate(note.addedOn) }}</p>
+                      <p class="text-base note-content">{{ note.content }}</p>
+                      <button
+                        (click)="deleteNote(note)"
+                        *ngIf="position.state === PositionState.Active"
+                        [attr.aria-label]="'deleteNote' | translate"
+                        class="delete-note-btn"
+                        icon="pi pi-trash"
+                        pButton
+                        type="button">
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-timeline>
+              } @else if ((!isCreation && (!position.notes || position.notes.length === 0)) || (isCreation && (!notes() || notes().length === 0))) {
+                <div class="text-center p-4 text-gray-500 italic">
+                  {{ 'noNotesYet' | translate }}
+                </div>
+              }
+
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footer>
+    <div class="grid">
+      @if (isButtonShown('generate')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'generate-followup-mail' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="generateFollowupMail(false)"
+                      icon="pi pi-sparkles" iconPos="right">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      @if (isButtonShown('save')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'save' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="savePosition()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      @if (isButtonShown('update')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      label="{{'update' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      [disabled]="!positionForm.valid"
+                      (click)="updatePosition()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      @if (isButtonShown('delete')) {
+        <ng-container>
+          <div class="col-12">
+            <p-button rounded="true"
+                      severity="danger"
+                      label="{{'position-contextual-menu.remove' | translate}}"
+                      [style]="{'width':'100%','min-width':'100%'}"
+                      (click)="confirmDeletion()">
+            </p-button>
+          </div>
+        </ng-container>
+      }
+
+      <ng-container>
+        <div class="col-12">
+          <p-button rounded="true"
+                    variant="outlined"
+                    label="{{'close' | translate}}"
+                    [style]="{'width':'100%','min-width':'100%'}"
+                    (click)="isDrawerVisible = false">
+          </p-button>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+</p-drawer>
+
+
+<div class="card flex justify-center">
+  <p-dialog header="{{'followupMail' | translate}}" [modal]="true" [(visible)]="isFollowupEmailEditorVisible">
+    <div class="card">
+      <p-editor [(ngModel)]="emailBody" [style]="{ height: '320px', width: '600px' }">
+        <ng-template #header>
+        <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+        </span>
+        </ng-template>
+      </p-editor>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="grid">
+        <div class="col-12">
+          <p-button (click)="generateFollowupMail(true)"
+                    [disabled]="followupRegenerationsLeft === 0"
+                    [label]="'regenerate-followup-mail-remaining' | translate:{count: followupRegenerationsLeft}"
+                    [style]="{'width':'100%','min-width':'100%'}"
+                    icon="pi pi-refresh"
+                    iconPos="right" rounded="true">
+          </p-button>
+        </div>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>
