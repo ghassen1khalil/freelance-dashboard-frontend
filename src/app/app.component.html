@@ -1,0 +1,54 @@
+<app-loader></app-loader>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '500px'}"
+                 [baseZIndex]="10000"
+                 acceptLabel="{{'yes' | translate}}"
+                 rejectLabel="{{'no' | translate}}"
+                 rejectButtonStyleClass="p-button-text"
+                 acceptButtonStyleClass="p-button-danger"
+                 key="delete-confirmation">
+</p-confirmDialog>
+
+<p-confirmDialog [style]="{width: '500px'}"
+                 [baseZIndex]="10000"
+                 acceptLabel="{{'yes' | translate}}"
+                 rejectLabel="{{'no' | translate}}"
+                 rejectButtonStyleClass="p-button-text"
+                 acceptButtonStyleClass="p-button"
+                 key="position-status-change-confirmation">
+</p-confirmDialog>
+
+<!-- Layout container -->
+<div class="flex relative min-h-screen w-full">
+  <!-- Sidebar -->
+  <aside *ngIf="!isLoginOrSignupOrPasswordReset"
+         class="fixed top-0 bottom-0 w-64 shadow-lg transition-transform duration-300 ease-in-out lg:translate-x-0 z-50"
+         [ngClass]="{'translate-x-[-100%]': !sidebarVisible}">
+    <app-navigation-menu></app-navigation-menu>
+  </aside>
+
+  <!-- Main content area -->
+  <div [ngClass]="{'lg:ml-64': !isLoginOrSignupOrPasswordReset}" class="flex flex-col flex-1 min-h-screen">
+    <!-- Header -->
+    <header *ngIf="!isLoginOrSignupOrPasswordReset" class="w-full top-0">
+      <!-- Mobile menu button - only visible on small screens -->
+      <div class="block lg:hidden p-4">
+        <button class="flex items-center" (click)="toggleSidebar()">
+          <i class="pi pi-bars text-xl"></i>
+          <span class="ml-2 font-semibold">Application Name</span>
+        </button>
+      </div>
+      <app-header></app-header>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 p-4 overflow-auto">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer *ngIf="!isLoginOrSignupOrPasswordReset" class="w-full shadow-sm mt-auto">
+      <app-footer></app-footer>
+    </footer>
+  </div>
+</div>
