@@ -5,13 +5,14 @@ import {ProfileRoutingModule} from './profile-routing.module';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TranslateModule} from '@ngx-translate/core';
 import {InputTextModule} from 'primeng/inputtext';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {RippleModule} from 'primeng/ripple';
 import {DividerModule} from 'primeng/divider';
 import {PasswordModule} from 'primeng/password';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {FloatLabelModule} from 'primeng/floatlabel';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 
 @NgModule({
@@ -25,13 +26,15 @@ import {FloatLabelModule} from 'primeng/floatlabel';
         FieldsetModule,
         TranslateModule,
         InputTextModule,
+        FormsModule,
         ReactiveFormsModule,
         ButtonModule,
         RippleModule,
         DividerModule,
         PasswordModule,
       FloatLabelModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        InputSwitchModule
     ]
 })
 export class ProfileModule {

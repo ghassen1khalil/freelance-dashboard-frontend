@@ -14,6 +14,7 @@ import {
 } from '../../core/store/actions/freelancer.actions';
 import {EncryptionService} from '../../core/services/encryption.service';
 import {UpdateType} from '../../core/domain/update-type.enum';
+import {ThemeService} from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public personalInformationForm: FormGroup;
   public passwordModificationForm: FormGroup;
+  public isDarkTheme = false;
 
   protected readonly UpdateType = UpdateType;
 
@@ -34,11 +36,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private translate: TranslateService,
               private store: Store,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private themeService: ThemeService) {
   }
 
   ngOnInit(): void {
     this.buildPasswordModificationForm();
+    this.themeService.theme$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(theme => this.isDarkTheme = theme === 'dark');
+    this.isDarkTheme = this.themeService.currentTheme === 'dark';
 
     this.store.pipe(
       select(getAuthState),
@@ -49,6 +56,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.freelancer = authState.freelancer;
       }
     });
+  }
+
+  public onThemeToggle(isDark: boolean): void {
+    this.themeService.setTheme(isDark ? 'dark' : 'light');
   }
 
   private buildPasswordModificationForm() {

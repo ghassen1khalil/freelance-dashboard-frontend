@@ -1,5 +1,22 @@
 <div class="grid nested-grid">
   <div class="col-12">
+    <p-fieldset legend="{{'appearance' | translate}}">
+      <div class="grid theme-switch-grid">
+        <div class="col-12 md:col-8">
+          <h3 class="theme-switch-title text-gray-800 dark:text-gray-100">{{'colorTheme' | translate}}</h3>
+          <p class="theme-switch-description text-gray-600 dark:text-gray-300">{{'colorThemeDescription' | translate}}</p>
+        </div>
+        <div class="col-12 md:col-4 flex md:justify-end items-center gap-3 theme-switch-control">
+          <p-inputSwitch inputId="theme-toggle" [ngModel]="isDarkTheme"
+                         (ngModelChange)="onThemeToggle($event)"></p-inputSwitch>
+          <label class="theme-switch-label text-gray-800 dark:text-gray-100" for="theme-toggle">
+            {{ isDarkTheme ? ('darkTheme' | translate) : ('lightTheme' | translate) }}
+          </label>
+        </div>
+      </div>
+    </p-fieldset>
+  </div>
+  <div class="col-12">
     <p-fieldset legend="{{'personalInformations' | translate}}">
       <form [formGroup]="personalInformationForm" (ngSubmit)="submitFreelancerDataUpdate(UpdateType.PERSONAL_INFO)">
         <div class="grid">
