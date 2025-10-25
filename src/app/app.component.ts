@@ -7,6 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {AppRoutes} from '../core/utils/app-routes.util';
+import {ThemeService} from '../core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,14 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private store: Store<{ event: Event }>,
               private translateService: TranslateService,
               private messageService: MessageService,
-              private router: Router) {
+              private router: Router,
+              private themeService: ThemeService) {
     this.translateService.use('fr'); // TODO to handle translations
     //this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
   }
 
   ngOnInit() {
+    this.themeService.initializeTheme();
     this.checkIfHeaderAndNavigationAreShown();
     this.listenToNotification();
 

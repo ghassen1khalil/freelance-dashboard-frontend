@@ -9,7 +9,7 @@
   font-size: 100%;
   padding: 0.8em;
   outline: none;
-  border: 2px solid rgb(200, 200, 200);
+  border: 2px solid var(--surface-border);
   background-color: transparent;
   border-radius: 20px;
   width: 100%;
@@ -23,7 +23,6 @@
   margin-left: 0.5em;
   pointer-events: none;
   transition: all 0.3s ease;
-  //color: rgb(100, 100, 100);
 }
 
 .inputGroup :is(input:focus, input:valid)~label {
@@ -31,11 +30,11 @@
   margin: 0em;
   margin-left: 1.3em;
   padding: 0.4em;
-  background-color: white;
+  background-color: var(--surface-card);
 }
 
 .inputGroup :is(input:focus, input:valid) {
-  border-color: rgb(150, 150, 200);
+  border-color: var(--primary-color);
 }
 
 .first-line-top-margin {
@@ -43,9 +42,50 @@
 }
 
 ::ng-deep .p-fieldset {
-  border-radius: 1rem!important;
+  border-radius: 1rem !important;
+  border-color: var(--surface-border);
+  background: var(--surface-card);
 }
 
 ::ng-deep .p-fieldset .p-fieldset-legend {
   border-radius: 1rem !important;
+  background: var(--surface-ground);
+  color: var(--text-color);
+}
+
+.theme-switch-grid {
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.theme-switch-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.theme-switch-description {
+  margin: 0;
+}
+
+.theme-switch-label {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+::ng-deep .theme-switch-control .p-inputswitch {
+  --switch-height: 1.75rem;
+  --switch-width: 3.5rem;
+  width: var(--switch-width);
+  height: var(--switch-height);
+}
+
+::ng-deep .theme-switch-control .p-inputswitch .p-inputswitch-slider {
+  background: var(--surface-border);
+  border: 1px solid var(--surface-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+::ng-deep .theme-switch-control .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
 }

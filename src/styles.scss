@@ -12,13 +12,28 @@
 }
 
 
+
+:root {
+  --app-background: #FAFBFC;
+  --app-card-shadow: 0 4px 6px rgba(15, 23, 42, 0.08);
+  --app-card-shadow-hover: 0 12px 24px rgba(15, 23, 42, 0.12);
+  --app-progress-background: rgba(15, 23, 42, 0.1);
+  --app-surface-container: #ffffff;
+}
+
+.dark {
+  --app-background: #0f172a;
+  --app-card-shadow: 0 10px 40px rgba(8, 15, 35, 0.65);
+  --app-card-shadow-hover: 0 18px 60px rgba(8, 15, 35, 0.75);
+  --app-progress-background: rgba(148, 163, 184, 0.35);
+  --app-surface-container: rgba(30, 41, 59, 0.65);
+}
+
 html,
 body {
   //font-family: 'Spoof', sans-serif;
-  //background: #EFF3F8;
-  //background: #F7F8FC;
-  background: #FAFBFC;
-  //color: var(--text-color);
+  background: var(--app-background);
+  color: var(--text-color);
   margin: 0 !important;
   //height: 100%;
   min-height: 100vh;
@@ -93,10 +108,10 @@ body {
 }
 
 .fd-rounded-edge {
-  border: 1px lightgray solid;
-  background-color: #fff;
+  border: 1px solid var(--surface-border);
+  background-color: var(--surface-card, var(--app-surface-container));
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, .15);
+  box-shadow: var(--app-card-shadow);
 }
 
 .fd-margin-auto {
