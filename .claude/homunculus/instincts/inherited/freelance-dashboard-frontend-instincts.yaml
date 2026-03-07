@@ -1,0 +1,676 @@
+# Instincts generated from https://github.com/ghassen1khalil/freelance-dashboard-frontend
+# Generated: 2026-03-07T14:07:00.217Z
+# Version: 2.0
+
+---
+id: freelance-dashboard-frontend-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Commit Length
+
+## Action
+
+Write moderate-length commit messages (~50 characters)
+
+## Evidence
+
+- Average commit message length: 64 chars
+- Based on 193 commits
+
+---
+id: freelance-dashboard-frontend-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: freelance-dashboard-frontend-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: freelance-dashboard-frontend-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: freelance-dashboard-frontend-test-colocate
+trigger: "when writing tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Test Colocate
+
+## Action
+
+Place test file next to the source file (e.g., Button.test.tsx next to Button.tsx)
+
+## Evidence
+
+- Colocated test pattern detected
+- Tests live alongside source files
+
+---
+id: freelance-dashboard-frontend-test-framework
+trigger: "when writing tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Test Framework
+
+## Action
+
+Use jest as the test framework
+
+## Evidence
+
+- Test framework detected: jest
+- File pattern: *.spec.ts
+
+---
+id: freelance-dashboard-frontend-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Test Naming
+
+## Action
+
+Name test files using the pattern: *.spec.ts
+
+## Evidence
+
+- File pattern: *.spec.ts
+- Consistent across test files
+
+---
+id: freelance-dashboard-frontend-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~22x per month
+- Files: freelance-dashboard/src/core/store/effects/*, freelance-dashboard/src/app/positions-board/*, freelance-dashboard/src/app/accordion/*
+
+---
+id: freelance-dashboard-frontend-workflow-refactoring
+trigger: "when refactoring code"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Refactoring
+
+## Action
+
+Follow the refactoring workflow:
+1. Ensure tests pass before refactor
+2. Refactor code structure
+3. Verify tests still pass
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/**/*
+
+---
+id: freelance-dashboard-frontend-workflow-feature-implementation-with-ui-enhancement
+trigger: "when doing feature implementation with ui enhancement"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Feature Implementation With Ui Enhancement
+
+## Action
+
+Follow the feature-implementation-with-ui-enhancement workflow:
+1. Update component HTML templates
+2. Modify component TypeScript files
+3. Add or update service files
+4. Update localization files (fr.json, en.json)
+5. Update OpenAPI specification if needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~8x per month
+- Files: src/app/*/**.component.html, src/app/*/**.component.ts, src/app/*/**.service.ts
+
+---
+id: freelance-dashboard-frontend-workflow-position-detail-enhancement
+trigger: "when doing position detail enhancement"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Position Detail Enhancement
+
+## Action
+
+Follow the position-detail-enhancement workflow:
+1. Update position-detail.component.html
+2. Modify position-detail.component.ts
+3. Update position-detail-util.service.ts
+4. Add translations to fr.json
+5. Update OpenAPI spec for new fields
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: src/app/position-detail/position-detail.component.html, src/app/position-detail/position-detail.component.ts, src/app/position-detail/position-detail-util.service.ts
+
+---
+id: freelance-dashboard-frontend-workflow-ui-component-styling-update
+trigger: "when doing ui component styling update"
+confidence: 0.75
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Ui Component Styling Update
+
+## Action
+
+Follow the ui-component-styling-update workflow:
+1. Modify component SCSS files
+2. Update component HTML templates
+3. Adjust component TypeScript for styling logic
+4. Update translations if UI text changes
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~5x per month
+- Files: src/app/*/**.component.scss, src/app/*/**.component.html, src/app/*/**.component.ts
+
+---
+id: freelance-dashboard-frontend-workflow-ngrx-state-management-update
+trigger: "when doing ngrx state management update"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Ngrx State Management Update
+
+## Action
+
+Follow the ngrx-state-management-update workflow:
+1. Create or update action files
+2. Implement or modify effects
+3. Update reducers
+4. Update app state interface
+5. Register new reducers in main reducers file
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: src/core/store/actions/*.actions.ts, src/core/store/effects/*.effects.ts, src/core/store/reducers/*.reducers.ts
+
+---
+id: freelance-dashboard-frontend-workflow-kanban-board-enhancement
+trigger: "when doing kanban board enhancement"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Workflow Kanban Board Enhancement
+
+## Action
+
+Follow the kanban-board-enhancement workflow:
+1. Update status-board.component.html
+2. Modify status-board.component.ts
+3. Update status-board.service.ts
+4. Enhance status-board.component.scss
+5. Add related translations
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: src/app/positions-board/status-board.component.html, src/app/positions-board/status-board.component.ts, src/app/positions-board/status-board.service.ts
+
+---
+id: freelance-dashboard-frontend-camelcase-files
+trigger: "When creating new files in the Angular project"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Camelcase Files
+
+## Action
+
+Name files using camelCase convention
+
+## Evidence
+
+- Pattern observed in src folder structure
+- Consistent across component and service files
+
+---
+id: freelance-dashboard-frontend-pascalcase-classes
+trigger: "When defining classes in TypeScript"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Pascalcase Classes
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Standard Angular component class naming
+- Observed in codeStyle.namingConventions
+
+---
+id: freelance-dashboard-frontend-screaming-snake-constants
+trigger: "When declaring constants"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Screaming Snake Constants
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Defined in codeStyle.namingConventions.constants
+
+---
+id: freelance-dashboard-frontend-relative-imports
+trigger: "When importing modules in TypeScript files"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Relative Imports
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- importStyle marked as 'relative' in analysis
+- Common Angular project pattern
+
+---
+id: freelance-dashboard-frontend-named-exports
+trigger: "When exporting from TypeScript modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Named Exports
+
+## Action
+
+Use named exports instead of default exports
+
+## Evidence
+
+- exportStyle marked as 'named' in analysis
+
+---
+id: freelance-dashboard-frontend-jest-unit-tests
+trigger: "When writing tests for components or services"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Jest Unit Tests
+
+## Action
+
+Create .spec.ts files using Jest framework for unit testing
+
+## Evidence
+
+- Jest framework configured
+- *.spec.ts file pattern
+- testTypes includes unit tests
+
+---
+id: freelance-dashboard-frontend-colocated-tests
+trigger: "When creating test files"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Colocated Tests
+
+## Action
+
+Place test files alongside the code they test (colocated)
+
+## Evidence
+
+- testLocation marked as 'colocated' in architecture
+
+---
+id: freelance-dashboard-frontend-try-catch-errors
+trigger: "When handling errors in TypeScript code"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Try Catch Errors
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- errorHandling.style marked as 'try-catch'
+
+---
+id: freelance-dashboard-frontend-feat-commits
+trigger: "When adding new features"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Feat Commits
+
+## Action
+
+Start commit message with 'feat' or 'feat(scope)'
+
+## Evidence
+
+- feat prefix appears in commit examples
+- feat(confirm-dialog), feat(ui) patterns observed
+
+---
+id: freelance-dashboard-frontend-fix-commits
+trigger: "When fixing bugs"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Fix Commits
+
+## Action
+
+Start commit message with 'fix' or 'fix(scope)'
+
+## Evidence
+
+- fix prefix in commits.prefixes
+- fix(ui) example in commit patterns
+
+---
+id: freelance-dashboard-frontend-scoped-commits
+trigger: "When committing changes to specific components or areas"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Scoped Commits
+
+## Action
+
+Include scope in parentheses after commit type (e.g., feat(ui):, feat(confirm-dialog):)
+
+## Evidence
+
+- Multiple examples with scopes: feat(confirm-dialog), feat(ui), fix(ui)
+
+---
+id: freelance-dashboard-frontend-feature-ui-enhancement
+trigger: "When implementing new features with UI components"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Feature Ui Enhancement
+
+## Action
+
+Update component templates, TypeScript files, services, and localization files in sequence
+
+## Evidence
+
+- Most frequent workflow (8x/month)
+- Consistent pattern across HTML, TS, service, and i18n files
+
+---
+id: freelance-dashboard-frontend-position-detail-workflow
+trigger: "When modifying position management features"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Position Detail Workflow
+
+## Action
+
+Update position-detail component files, utility service, translations, and OpenAPI spec
+
+## Evidence
+
+- 6x/month frequency
+- Clear pattern in position-detail folder modifications
+
+---
+id: freelance-dashboard-frontend-ui-styling-workflow
+trigger: "When improving visual appearance of components"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Ui Styling Workflow
+
+## Action
+
+Modify SCSS files first, then HTML templates, then TypeScript for styling logic
+
+## Evidence
+
+- 5x/month frequency
+- Consistent SCSS → HTML → TS pattern
+
+---
+id: freelance-dashboard-frontend-ngrx-workflow
+trigger: "When adding new state management functionality"
+confidence: 0.88
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Ngrx Workflow
+
+## Action
+
+Create actions, implement effects, update reducers, then update app state interface
+
+## Evidence
+
+- 4x/month frequency
+- Clear NgRx store file organization pattern
+
+---
+id: freelance-dashboard-frontend-kanban-enhancement
+trigger: "When enhancing kanban board features"
+confidence: 0.92
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Kanban Enhancement
+
+## Action
+
+Update status-board component files (HTML, TS, service, SCSS) and add translations
+
+## Evidence
+
+- 4x/month frequency
+- Specific status-board component modification pattern
+
+---
+id: freelance-dashboard-frontend-localization-update
+trigger: "When adding or modifying user-facing text"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Localization Update
+
+## Action
+
+Update French localization file (src/assets/i18n/fr.json)
+
+## Evidence
+
+- fr.json appears in multiple workflows
+- French documentation and localization priority
+
+---
+id: freelance-dashboard-frontend-openapi-sync
+trigger: "When adding new API fields or endpoints"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: ghassen1khalil/freelance-dashboard-frontend
+---
+
+# Freelance Dashboard Frontend Openapi Sync
+
+## Action
+
+Update OpenAPI specification file (openapi/api.yaml)
+
+## Evidence
+
+- openapi/api.yaml appears in feature and position-detail workflows
+
